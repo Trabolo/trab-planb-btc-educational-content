@@ -109,7 +109,7 @@ A tribe with no division of labor, no specialization, where each individual is r
 That's why I think it's interesting to start our exploration in the Neolithic period. We'll see how sedentarization gradually gave rise to villages, then cities and finally great civilizations. It was this sedentarization and the production of food surpluses that made labor specialization possible, creating the fertile ground essential to the emergence and evolution of the first monetary concepts.
 
 
-Just as human interaction gives rise to language, we can consider that money appears naturally, or not (Incas, Spartans), in the course of the formation and organization of civilizations. In my opinion, the appearance or non-appearance of money has everything to do with the form of social and economic organization of each society.
+Just as human interactions give rise to language, we can consider that money appears naturally, or not (Incas, Spartans), in the course of the formation and organization of civilizations. In my opinion, the appearance or non-appearance of money has everything to do with the form of social and economic organization of each society.
 
 
 ### Chronology of human evolution
