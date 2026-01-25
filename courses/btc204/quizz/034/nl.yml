@@ -5,5 +5,5 @@ wrong_answers:
   - Die van 47.500 sats.
   - Geen van allen.
 explanation: |
-  Als er een voldoende groot verschil is tussen twee outputs in een transactie op een eenvoudig betalingsmodel, kan worden vermoed dat de grotere output waarschijnlijk het wisselgeld is.
+  Als er een voldoende groot verschil is tussen twee outputs in een transactie met een eenvoudig betalingsmodel, kan worden vermoed dat de grotere output waarschijnlijk het wisselgeld is.
 reviewed: false
