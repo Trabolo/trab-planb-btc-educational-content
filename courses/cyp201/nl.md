@@ -31,7 +31,7 @@ Met een duidelijke pedagogische opbouw, meer dan 60 verklarende diagrammen en co
 <partId>32960669-d13a-592f-a053-37f70b997cbf</partId>
 
 
-## Cursus Introductie
+## Cursus introductie
 
 
 <chapterId>fb4e8857-ea35-5a8a-ae8a-5300234e0104</chapterId>
@@ -39,48 +39,48 @@ Met een duidelijke pedagogische opbouw, meer dan 60 verklarende diagrammen en co
 :::video id=8028e727-cd5d-4593-a946-a89bfa26f617:::
 
 
-Welkom bij de CYP201 cursus, waarin we dieper ingaan op de werking van HD Bitcoin-wallets. Deze cursus is bedoeld voor iedereen die de technische basisbeginselen van het gebruik van Bitcoin wil begrijpen, of het nu gaat om gelegenheidsgebruikers, verlichte enthousiastelingen of toekomstige experts.
+Welkom bij de CYP201-cursus, waarin we dieper ingaan op de werking van HD Bitcoin-wallets. Deze cursus is bedoeld voor iedereen die de technische basisbeginselen van het gebruik van Bitcoin wil begrijpen, of het nu gaat om gelegenheidsgebruikers, verlichte enthousiastelingen of toekomstige experts.
 
 
-Het doel van deze training is om je de sleutels te geven om de tools die je dagelijks gebruikt onder de knie te krijgen. HD Bitcoin-wallets, die het hart vormen van jouw gebruikerservaring, zijn gebaseerd op soms complexe concepten die we toegankelijk proberen te maken. Samen zullen we ze demystificeren!
+Het doel van deze training is om je de sleutels te geven om de tools die je dagelijks gebruikt onder de knie te krijgen. HD Bitcoin-wallets, die het hart vormen van jouw gebruikerservaring, zijn gebaseerd op soms complexe concepten die we toegankelijk proberen te maken. We zullen ze samen demystificeren!
 
 
-Voordat we in de details duiken van de constructie en werking van Bitcoin-wallets, beginnen we met een paar hoofdstukken over de cryptografische primitieven die we moeten kennen voor wat volgt.
+Voordat we dieper ingaan op de constructie en werking van Bitcoin-wallets, besteden we eerst een paar hoofdstukken aan de cryptografische primitieven die we hiervoor moeten kennen.
 
-We zullen beginnen met cryptografische hashfuncties, fundamenteel voor zowel wallets als het Bitcoin protocol zelf. Je zult hun belangrijkste kenmerken ontdekken, de specifieke functies die gebruikt worden in Bitcoin, en in een meer technisch hoofdstuk zul je in detail leren over de werking van de koningin van de hashfuncties: [SHA256](https://planb.academy/resources/glossary/sha256).
+We beginnen met cryptografische hashfuncties, een fundamenteel concept voor zowel wallets als het Bitcoin-protocol zelf. Je ontdekt hun belangrijkste kenmerken en de specifieke functies die in Bitcoin gebruikt worden. In een technischer hoofdstuk duiken we diep in de werking van de koningin onder de hashfuncties: [SHA256](https://planb.academy/resources/glossary/sha256).
 
 
 ![CYP201](assets/en/001.webp)
 
 
-Vervolgens bespreken we de werking van algoritmen voor digitale handtekeningen die je elke dag gebruikt om je UTXO's te beveiligen. Bitcoin gebruikt er twee: ECDSA en het Schnorr protocol. Je leert welke wiskundige primitieven ten grondslag liggen aan deze algoritmen en hoe ze de veiligheid van transacties garanderen.
+Vervolgens bespreken we de werking van algoritmen voor digitale handtekeningen die je elke dag gebruikt om je UTXO's te beveiligen. Bitcoin gebruikt er twee: ECDSA en het Schnorr-protocol. Je leert welke wiskundige primitieven aan deze algoritmen ten grondslag liggen en hoe ze de veiligheid van transacties garanderen.
 
 
 ![CYP201](assets/en/002.webp)
 
 
-Als we eenmaal een goed begrip hebben van deze Elements van cryptografie, gaan we eindelijk verder met het hart van de training: deterministische en hiërarchische wallets! Eerst is er een sectie gewijd aan mnemonische zinnen, deze reeksen van 12 of 24 woorden waarmee je je wallets kunt maken en herstellen. Je zult ontdekken hoe deze woorden worden gegenereerd uit een bron van entropie en hoe ze het gebruik van Bitcoin vergemakkelijken.
+Als we eenmaal een goed begrip hebben van deze cryptografische elementen, duiken we in het hart van de training: deterministische en hiërarchische wallets! Eerst is er een sectie gewijd aan mnemonische zinnen, deze reeksen van 12 of 24 woorden waarmee je je wallets kunt maken en herstellen. Je zult ontdekken hoe deze woorden worden gegenereerd uit een entropiebron en hoe ze het gebruik van Bitcoin vergemakkelijken.
 
 
 ![CYP201](assets/en/003.webp)
 
 
-De training gaat verder met de studie van de [BIP39](https://planb.academy/resources/glossary/bip0039) passphrase, de seed (niet te verwarren met de Mnemonic frase), de master chain code en de master key. We zullen in detail zien wat deze Elements zijn, hun respectievelijke rollen en hoe ze berekend worden.
+De training gaat verder met de studie van de [BIP39](https://planb.academy/resources/glossary/bip0039) passphrase, de seed (niet te verwarren met de mnemonische zin), de master chain code en de master key. We zullen in detail zien wat deze elementen zijn, hun respectievelijke rollen en hoe ze berekend worden.
 
 
 ![CYP201](assets/en/004.webp)
 
 
-Tenslotte zullen we vanuit de hoofdsleutel ontdekken hoe cryptografische sleutelparen op een deterministische en hiërarchische manier worden afgeleid tot aan de ontvangende adressen.
+Tenslotte zullen we vanuit de hoofdsleutel (master key) ontdekken hoe cryptografische sleutelparen op een deterministische en hiërarchische manier worden afgeleid tot de ontvangstadressen.
 
 
 ![CYP201](assets/en/005.webp)
 
 
-Deze training stelt je in staat om de wallet software met vertrouwen te gebruiken, terwijl je vaardigheden om risico's te identificeren en te beperken worden verbeterd. Bereid u voor om een echte expert in Bitcoin-wallets te worden!
+Deze training stelt je in staat om de wallet-software met vertrouwen te gebruiken, terwijl je je vaardigheden om risico's te identificeren en te beperken verbetert. Bereid je voor om een echte expert in Bitcoin-wallets te worden!
 
 
-Deze tabel biedt u een vertaling van de belangrijkste gebruikte Engelse termen, om u te helpen de schema’s en technische documenten die in de cursus CYP 201 worden gebruikt beter te begrijpen.
+Deze tabel biedt een vertaling van de belangrijkste gebruikte Engelse termen die in de CYP-201-cursus gebruikt worden, om de schema’s en technische documenten beter te begrijpen.
 
 | Engels          | Vertaling / Uitleg                                                                                 |
 | --------------- | -------------------------------------------------------------------------------------------------- |
@@ -1007,7 +1007,7 @@ In cryptografie werken we echter met eindige verzamelingen getallen. Meer specif
 
 **Definitie**: Een priemgetal is een natuurlijk geheel getal groter dan of gelijk aan 2 dat slechts twee verschillende positieve gehele delers heeft: 1 en zichzelf. Bijvoorbeeld, het getal 7 is een priemgetal omdat het alleen door 1 en 7 gedeeld kan worden. Aan de andere kant is het getal 8 geen priemgetal omdat het kan worden gedeeld door 1, 2, 4 en 8.
 
-In Bitcoin is het priemgetal $p$ dat gebruikt wordt om het eindige veld te definiëren erg groot. Het is zo gekozen dat de orde van het veld (d.w.z. het aantal Elements in $\mathbb{F}_p$) groot genoeg is om cryptografische veiligheid te garanderen.
+In Bitcoin is het priemgetal $p$ dat gebruikt wordt om het eindige veld te definiëren erg groot. Het is zo gekozen dat de orde van het veld (d.w.z. het aantal elementen in $\mathbb{F}_p$) groot genoeg is om cryptografische veiligheid te garanderen.
 
 
 Het gebruikte priemgetal $p$ is:
@@ -1579,7 +1579,7 @@ De "sighash flag" is dus een parameter die aan elke ingang wordt toegevoegd, zod
 Het is duidelijk dat zodra de transactie bevestigd is op de Blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash vlaggen. De mogelijkheid van wijziging via de sighash vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
 
 
-Over het algemeen biedt de wallet software u niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer u een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
+Over het algemeen biedt de wallet-software u niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer u een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
 
 
 ### Wat zijn de bestaande sighash-vlaggen in Bitcoin?
@@ -1595,7 +1595,7 @@ In Bitcoin zijn er eerst en vooral 3 basis sighash-vlaggen:
 ![CYP201](assets/en/031.webp)
 
 
-In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de Elements die onder de signatuur valt, terwijl de zwarte kleur aangeeft welke dat niet zijn.
+In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de elementen die onder de signatuur valt, terwijl de zwarte kleur aangeeft welke dat niet zijn.
 
 
 
@@ -1721,7 +1721,7 @@ Om Address de beperking van JBOK wallets op te heffen, werd vervolgens een nieuw
 ![CYP201](assets/en/039.webp)
 
 
-In HD-wallets wordt de sleutelafleiding uitgevoerd volgens een hiërarchische structuur die het mogelijk maakt om sleutels te organiseren in afleidingsdeelruimten, waarbij elke deelruimte verder onderverdeeld kan worden, om het beheer van fondsen en de interoperabiliteit tussen verschillende wallet software te vergemakkelijken. Tegenwoordig wordt deze standaard aangenomen door de overgrote meerderheid van de Bitcoin gebruikers. Daarom zullen we het in detail onderzoeken in de volgende hoofdstukken.
+In HD-wallets wordt de sleutelafleiding uitgevoerd volgens een hiërarchische structuur die het mogelijk maakt om sleutels te organiseren in afleidingsdeelruimten, waarbij elke deelruimte verder onderverdeeld kan worden, om het beheer van fondsen en de interoperabiliteit tussen verschillende wallet-software te vergemakkelijken. Tegenwoordig wordt deze standaard aangenomen door de overgrote meerderheid van de Bitcoin gebruikers. Daarom zullen we het in detail onderzoeken in de volgende hoofdstukken.
 
 
 ### De BIP39-standaard: De Mnemonic zin
@@ -1766,7 +1766,7 @@ De initiële entropie die gebruikt wordt voor een HD wallet is over het algemeen
 - 256 bits entropie komen overeen met een Mnemonic zin van **24 woorden**.
 
 
-In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door de wallet software met behulp van een PRNG (_Pseudo-Random Number Generator_). PRNGs zijn een categorie algoritmes die gebruikt worden om generate getallenreeksen te genereren vanuit een initiële toestand, die kenmerken hebben die lijken op die van een willekeurig getal, zonder er daadwerkelijk één te zijn. Een goede PRNG moet eigenschappen hebben zoals eenvormige uitvoer, onvoorspelbaarheid en weerstand tegen voorspellende aanvallen. In tegenstelling tot True Random Number Generators (TRNGs), zijn PRNGs deterministisch en reproduceerbaar.
+In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door de wallet-software met behulp van een PRNG (_Pseudo-Random Number Generator_). PRNGs zijn een categorie algoritmes die gebruikt worden om generate getallenreeksen te genereren vanuit een initiële toestand, die kenmerken hebben die lijken op die van een willekeurig getal, zonder er daadwerkelijk één te zijn. Een goede PRNG moet eigenschappen hebben zoals eenvormige uitvoer, onvoorspelbaarheid en weerstand tegen voorspellende aanvallen. In tegenstelling tot True Random Number Generators (TRNGs), zijn PRNGs deterministisch en reproduceerbaar.
 
 
 ![CYP201](assets/en/040.webp)
@@ -1974,7 +1974,7 @@ Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier al
 ![CYP201](assets/en/047.webp)
 
 
-In de volgende paragraaf zullen we ontdekken hoe deze twee Elements aan de basis van je wallet - de Mnemonic frase en de passphrase - gebruikt worden om de sleutelparen af te leiden die gebruikt worden in de _scriptPubKey_ die je UTXO's vergrendelen.
+In de volgende paragraaf zullen we ontdekken hoe deze twee elementen aan de basis van je wallet - de Mnemonic frase en de passphrase - gebruikt worden om de sleutelparen af te leiden die gebruikt worden in de _scriptPubKey_ die je UTXO's vergrendelen.
 
 
 # Creatie van Bitcoin-wallets
@@ -2519,7 +2519,7 @@ K_{\text{PAR}} \rightarrow K_{\text{CHD}} & K_{\text{PAR}} & K_{\text{CHD}}^n & 
 $$
 
 
-Tot nu toe heb je geleerd om de basis Elements van een HD wallet te maken: de Mnemonic frase, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangende adressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
+Tot nu toe heb je geleerd om de basis elementen van een HD wallet te maken: de Mnemonic frase, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangstadressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
 
 
 ## Wallet Structuur en afleidingstrajecten
@@ -2666,7 +2666,7 @@ In het volgende hoofdstuk zullen we ontdekken wat "*output script descriptors*" 
 Er wordt vaak gezegd dat de Mnemonic zin alleen voldoende is om toegang te krijgen tot een Wallet. In werkelijkheid liggen de zaken iets ingewikkelder. In het vorige hoofdstuk hebben we gekeken naar de afleidingsstructuur van de HD Wallet, en het is je misschien opgevallen dat dit proces behoorlijk complex is. Afleidingspaden vertellen software welke richting ze moet volgen om de sleutels van de gebruiker af te leiden. Echter, bij het herstellen van een Bitcoin Wallet, als men deze paden niet kent, is de Mnemonic zin alleen niet genoeg. Het maakt het mogelijk om de hoofdsleutel en de hoofd chain code te verkrijgen, maar dan is het nodig om de indexen te kennen die gebruikt zijn om de kind sleutels te bereiken.
 
 
-Theoretisch zou het nodig zijn om niet alleen de Mnemonic zinsnede van onze wallet op te slaan, maar ook de paden naar de accounts die we gebruiken. In de praktijk is het vaak mogelijk om zonder deze informatie weer toegang te krijgen tot de kind sleutels, mits de standaarden zijn gevolgd. Door elke standaard één voor één te testen, is het over het algemeen mogelijk om weer toegang te krijgen tot de bitcoins. Dit is echter niet gegarandeerd en het is vooral ingewikkeld voor beginners. Met de diversificatie van scripttypen en de opkomst van complexere configuraties kan deze informatie bovendien moeilijk te extrapoleren zijn, waardoor deze gegevens privé-informatie worden en moeilijk te achterhalen zijn met brute kracht. Daarom is er onlangs een innovatie geïntroduceerd die nu in uw favoriete wallet software geïntegreerd begint te worden: de *output script descriptors*.
+Theoretisch zou het nodig zijn om niet alleen de Mnemonic zinsnede van onze wallet op te slaan, maar ook de paden naar de accounts die we gebruiken. In de praktijk is het vaak mogelijk om zonder deze informatie weer toegang te krijgen tot de kind sleutels, mits de standaarden zijn gevolgd. Door elke standaard één voor één te testen, is het over het algemeen mogelijk om weer toegang te krijgen tot de bitcoins. Dit is echter niet gegarandeerd en het is vooral ingewikkeld voor beginners. Met de diversificatie van scripttypen en de opkomst van complexere configuraties kan deze informatie bovendien moeilijk te extrapoleren zijn, waardoor deze gegevens privé-informatie worden en moeilijk te achterhalen zijn met brute kracht. Daarom is er onlangs een innovatie geïntroduceerd die nu in uw favoriete wallet-software geïntegreerd begint te worden: de *output script descriptors*.
 
 
 ### Wat is een "descriptor"?
@@ -2746,7 +2746,7 @@ Wanneer een gebruiker bitcoins ontvangt, maakt de verzender een UTXO aan en verg
 ![CYP201](assets/en/059.webp)
 
 
-Het is precies in de *scriptPubKey* dat de ontvangende adressen te vinden zijn. Het gebruik ervan varieert echter afhankelijk van de gebruikte scriptstandaard. Hier is een samenvattende tabel van de informatie in de *scriptPubKey* volgens de gebruikte standaard, evenals de informatie die verwacht wordt in de *scriptSig* om de *scriptPubKey* te ontgrendelen.
+Het is precies in de *scriptPubKey* dat de ontvangstadressen te vinden zijn. Het gebruik ervan varieert echter afhankelijk van de gebruikte scriptstandaard. Hier is een samenvattende tabel van de informatie in de *scriptPubKey* volgens de gebruikte standaard, evenals de informatie die verwacht wordt in de *scriptSig* om de *scriptPubKey* te ontgrendelen.
 
 
 
@@ -2782,7 +2782,7 @@ Zoals we in dit hoofdstuk zullen zien, vertegenwoordigt `<pubKeyHash>` eigenlijk
 ```
 
 
-In scripttaal is de stack een *LIFO* ("*Last In, First Out*") datastructuur die wordt gebruikt om Elements tijdelijk op te slaan tijdens de uitvoering van het script. Elke scriptbewerking manipuleert deze stack, waar Elements kan worden toegevoegd (*push*) of verwijderd (*pop*). Scripts gebruiken de stack om expressies te evalueren, tijdelijke variabelen op te slaan en voorwaarden te beheren.
+In scripttaal is de stack een *LIFO* ("*Last In, First Out*") datastructuur die wordt gebruikt om elementen tijdelijk op te slaan tijdens de uitvoering van het script. Elke scriptbewerking manipuleert deze stack, waar elementen kan worden toegevoegd (*push*) of verwijderd (*pop*). Scripts gebruiken de stack om expressies te evalueren, tijdelijke variabelen op te slaan en voorwaarden te beheren.
 
 
 De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
@@ -2920,7 +2920,7 @@ Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgend
 :::video id=1517c0fd-d31b-426b-b99e-e4eb19635415:::
 
 
-Laten we samen onderzoeken hoe we generate een ontvangende Address kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD wallet bevinden. Deze Address kan dan gebruikt worden in een wallet software om een UTXO te vergrendelen.
+Laten we samen onderzoeken hoe we generate een ontvangende Address kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD wallet bevinden. Deze Address kan dan gebruikt worden in een wallet-software om een UTXO te vergrendelen.
 
 
 Aangezien het genereren van een Address afhankelijk is van het gebruikte scriptmodel, concentreren we ons op twee specifieke gevallen: het genereren van een SegWit v0 Address in P2WPKH en een SegWit v1 Address in P2TR. Deze twee soorten adressen dekken de overgrote meerderheid van het huidige gebruik.
@@ -3070,10 +3070,10 @@ Nadat de Hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de A
 Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address Hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
 
 
-In de context van Bitcoin bieden BCH-codes een beter compromis tussen grootte en foutdetectiecapaciteit vergeleken met de eenvoudige hashfuncties die gebruikt worden voor *Legacy* adressen. In Bitcoin worden BCH-codes echter alleen gebruikt voor foutdetectie, niet voor correctie. Dus, wallet software zal een onjuist ontvangen Address signaleren, maar niet automatisch corrigeren. Deze beperking is opzettelijk: het toestaan van automatische correctie zou de foutdetectiecapaciteit verminderen.
+In de context van Bitcoin bieden BCH-codes een beter compromis tussen grootte en foutdetectiecapaciteit vergeleken met de eenvoudige hashfuncties die gebruikt worden voor *Legacy* adressen. In Bitcoin worden BCH-codes echter alleen gebruikt voor foutdetectie, niet voor correctie. Dus, wallet-software zal een onjuist ontvangen Address signaleren, maar niet automatisch corrigeren. Deze beperking is opzettelijk: het toestaan van automatische correctie zou de foutdetectiecapaciteit verminderen.
 
 
-Om de checksum met BCH-codes te berekenen, moeten we verschillende Elements voorbereiden.
+Om de checksum met BCH-codes te berekenen, moeten we verschillende elementen voorbereiden.
 
 
 - De HRP (**Human Readable Part**): Voor de Bitcoin Mainnet is de HRP `bc`;
@@ -3133,7 +3133,7 @@ De berekening van de checksum is behoorlijk complex. Er komt polynomiale eindige
 ```
 
 
-We kunnen nu de ontvangende Address construeren door de volgende Elements in volgorde aan elkaar te rijgen:
+We kunnen nu de ontvangende Address construeren door de volgende elementen in volgorde aan elkaar te rijgen:
 
 
 - De SegWit versie: `00`
