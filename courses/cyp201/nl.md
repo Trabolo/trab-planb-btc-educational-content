@@ -95,7 +95,7 @@ Deze tabel biedt een vertaling van de belangrijkste gebruikte Engelse termen die
 | *transaction*   | Bitcoin-transactie (set van inputs en outputs die een overdracht valideren).                        |
 | *XOR*           | Logische operator "exclusief OF", gebruikt in sommige cryptografische schema's.                    |
 | *HMAC*          | Berichtauthenticatiecode gebaseerd op een hash en een geheime sleutel.                              |
-| *ECDSA*         | Digitale handtekening algoritme met elliptische krommen.                                            |
+| *ECDSA*         | Algoritme voor digitale handtekening  met elliptische krommen.                                            |
 | *hash*          | Hash (unieke en vaste vingerafdruk van gegevens).                                                   |
 | *SigHash*       | Type handtekening-hash (definieert welke delen van een transactie worden ondertekend).              |
 | *HD Wallet*     | Hiërarchische deterministische wallet (genereert meerdere sleutels uit één seed).                   |
@@ -108,7 +108,7 @@ Deze tabel biedt een vertaling van de belangrijkste gebruikte Engelse termen die
 | *Address*       | Bitcoin-adres (leesbare identificatie voor het ontvangen van fondsen, afgeleid van de publieke sleutel). |
 | *Leaf*          | Blad (eindknooppunt in een afgeleide boom).                                                         |
 
-# Hash Functies
+# Hashfuncties
 
 
 <partId>3713fee1-2ec2-512e-9e97-b6da9e4d2f17</partId>
