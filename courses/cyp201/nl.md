@@ -122,18 +122,18 @@ Deze tabel biedt een vertaling van de belangrijkste gebruikte Engelse termen die
 :::video id=f36528c9-9ab0-4037-a413-b16c204d5cc8:::
 
 
-Het eerste type cryptografische algoritmen dat gebruikt wordt in Bitcoin omvat hashfuncties. Ze spelen een essentiële rol op verschillende niveaus van het protocol, maar ook binnen Bitcoin-wallets. Laten we samen ontdekken wat een Hash functie is en waar deze voor wordt gebruikt in Bitcoin.
+Het eerste type cryptografische algoritmen die in Bitcoin worden gebruikt, zijn hashfuncties. Ze spelen een essentiële rol in het protocol, maar ook in Bitcoin-wallets. Laten we samen ontdekken wat een hashfunctie is en waar deze in Bitcoin wordt toegepast.
 
 
-### Definitie en Principe van Hashing
+### Definitie en principe van hashing
 
 
-Hashing is een proces dat informatie van willekeurige lengte omzet in een ander stuk informatie van vaste lengte door middel van een cryptografische Hash functie. Met andere woorden, een Hash functie neemt een invoer van willekeurige grootte en zet deze om in een vingerafdruk van vaste grootte, een "Hash" genaamd.
+Hashing is een proces dat informatie van willekeurige lengte omzet in een ander stuk informatie van vaste lengte door middel van een cryptografische hashfunctie. Met andere woorden, een hashfunctie neemt een invoer van willekeurige grootte en zet deze om in een vingerafdruk van vaste grootte, een "Hash" genaamd.
 
-De Hash wordt soms ook "digest", "condensate", "condensed" of "hashed" genoemd.
+De hash wordt soms ook "digest", "condensate", "condensed" of "hashed" genoemd.
 
 
-De SHA256 Hash functie produceert bijvoorbeeld een Hash met een vaste lengte van 256 bits. Als we dus de invoer "_PlanB_" gebruiken, een bericht van willekeurige lengte, zal de gegenereerde Hash de volgende 256-bit vingerafdruk zijn:
+De SHA256-hashfunctie produceert bijvoorbeeld een hash met een vaste lengte van 256 bits. Als we dus de invoer "_PlanB_" gebruiken, een bericht van willekeurige lengte, is de gegenereerde hash de volgende 256-bit vingerafdruk:
 
 
 ```text
@@ -144,14 +144,14 @@ De SHA256 Hash functie produceert bijvoorbeeld een Hash met een vaste lengte van
 ![CYP201](assets/en/006.webp)
 
 
-### Kenmerken van Hash Functies
+### Kenmerken van hashfuncties
 
 
 Deze cryptografische hashfuncties hebben een aantal essentiële kenmerken die ze bijzonder nuttig maken in de context van Bitcoin en andere computersystemen:
 
 
 
-- Onomkeerbaarheid (of voorbeeldweerstand)
+- Onomkeerbaarheid (of preimage-bestendigheid)
 - Sabotagebestendigheid (lawine-effect)
 - Weerstand tegen botsingen
 - Tweede preimage weerstand
@@ -160,25 +160,25 @@ Deze cryptografische hashfuncties hebben een aantal essentiële kenmerken die ze
 #### 1. Onomkeerbaarheid (preimage-bestendigheid):
 
 
-Onomkeerbaarheid betekent dat het eenvoudig is om de Hash uit de invoerinformatie te berekenen, maar de omgekeerde berekening, dat wil zeggen, het vinden van de invoer uit de Hash, is praktisch onmogelijk. Deze eigenschap maakt hashfuncties perfect voor het maken van unieke digitale vingerafdrukken zonder de originele informatie aan te tasten. Deze eigenschap wordt vaak een eenrichtingsfunctie genoemd.
+Onomkeerbaarheid betekent dat het eenvoudig is om de hash uit de invoer te berekenen, maar de omgekeerde berekening — het vinden van de invoer aan de hand van de hash — is praktisch onmogelijk. Deze eigenschap maakt hashfuncties perfect voor het maken van unieke digitale vingerafdrukken, zonder de originele informatie prijs te geven. Deze eigenschap wordt vaak een eenrichtingsfunctie genoemd.
 
 
-In het gegeven voorbeeld is het verkrijgen van de Hash `24f1b9...` door de invoer "_PlanB_" te kennen eenvoudig en snel. Het bericht "_PlanB_" vinden door alleen `24f1b9...` te kennen is echter onmogelijk.
+In het gegeven voorbeeld is het verkrijgen van de hash `24f1b9...` uit de invoer "_PlanB_" eenvoudig en snel. Het bericht "_PlanB_" vinden door alleen `24f1b9...` te kennen is echter onmogelijk.
 
 
 ![CYP201](assets/en/007.webp)
 
 
-Daarom is het onmogelijk om een preimage $m$ te vinden voor een Hash $h$ zodat $h = \text{Hash}(m)$, waarbij $\text{Hash}$ een cryptografische Hash functie is.
+Daarom is het onmogelijk om een preimage $m$ te vinden voor een hash $h$ zodat $h = \text{Hash}(m)$, waarbij $\text{Hash}$ een cryptografische hashfunctie is.
 
 
 #### 2. Sabotagebestendigheid (lawine-effect)
 
 
-De tweede eigenschap is de sabotageweerstand, ook bekend als het **avalanche-effect**. Deze eigenschap wordt waargenomen in een Hash functie als een kleine verandering in het ingangsbericht resulteert in een radicale verandering in de Hash uitgang.
+De tweede eigenschap is de sabotageweerstand (tamper resistance), ook bekend als het **lawine-effect**. Deze eigenschap wordt waargenomen in een hashfunctie wanneer een kleine verandering in het ingangsbericht resulteert in een radicale verandering in de hash-uitvoer.
 
 
-Als we teruggaan naar ons voorbeeld met de invoer "_PlanB_" en de SHA256 functie, dan hebben we gezien dat de gegenereerde Hash als volgt is:
+Terugkerend naar ons voorbeeld met de invoer "_PlanB_" en de SHA256 functie, hadden we de volgende hash:
 
 
 ```text
@@ -186,7 +186,7 @@ Als we teruggaan naar ons voorbeeld met de invoer "_PlanB_" en de SHA256 functie
 ```
 
 
-Als we een heel kleine verandering aanbrengen in de invoer door deze keer "_Planb_" te gebruiken, dan verandert alleen al het veranderen van een hoofdletter "B" naar een kleine letter "b" de SHA256 uitvoer Hash volledig:
+Als we een heel kleine verandering aanbrengen in de invoer door ditmaal "_Planb_" te gebruiken, verandert zelfs de aanpassing van hoofdletter "B" naar kleine letter "b" de SHA256-hash-uitvoer volledig:
 
 
 ```text
@@ -197,13 +197,13 @@ bb038b4503ac5d90e1205788b00f8f314583c5e22f72bec84b8735ba5a36df3f
 ![CYP201](assets/en/008.webp)
 
 
-Deze eigenschap zorgt ervoor dat zelfs een kleine wijziging van het originele bericht onmiddellijk detecteerbaar is, omdat het niet alleen een klein deel van de Hash verandert, maar de hele Hash. Dit kan op verschillende gebieden van belang zijn om de integriteit van berichten, software of zelfs Bitcoin transacties te verifiëren.
+Deze eigenschap zorgt ervoor dat zelfs een kleine wijziging van het originele bericht onmiddellijk detecteerbaar is, omdat het niet slechts een klein deel van de hash verandert, maar de gehele hash. Dit is van belang op verschillende gebieden om de integriteit van berichten, software of zelfs Bitcoin-transacties te verifiëren.
 
 
 #### 3. Weerstand tegen botsingen
 
 
-Het derde kenmerk is botsingsbestendigheid. Een Hash functie is botsingsbestendig als het rekenkundig onmogelijk is om 2 verschillende berichten te vinden die dezelfde Hash uitvoer van de functie opleveren. Formeel is het moeilijk om twee verschillende berichten $m_1$ en $m_2$ te vinden zodat:
+Het derde kenmerk is botsingsbestendigheid. Een hashfunctie is botsingsbestendig als het rekenkundig onmogelijk is om 2 verschillende berichten te vinden die dezelfde hash-output opleveren. Formeel is het moeilijk om twee verschillende berichten $m_1$ en $m_2$ te vinden zodat:
 
 
 $$
@@ -214,18 +214,18 @@ $$
 ![CYP201](assets/en/009.webp)
 
 
-In werkelijkheid is het wiskundig onvermijdelijk dat er botsingen bestaan voor hashfuncties, omdat de grootte van de ingangen groter kan zijn dan de grootte van de uitgangen. Dit staat bekend als het Dirichlet-lade principe: als $n$ objecten verdeeld zijn over $m$ laden, met $m < n$, dan zal minstens één lade noodzakelijkerwijs twee of meer objecten bevatten. Voor een Hash functie geldt dit principe omdat het aantal mogelijke berichten (bijna) oneindig is, terwijl het aantal mogelijke hashes eindig is ($2^{256}$ in het geval van SHA256).
+In werkelijkheid is het wiskundig onvermijdelijk dat er botsingen bestaan voor hashfuncties, omdat de grootte van de inputs groter kan zijn dan de grootte van de outputs. Dit staat bekend als het Dirichlet-ladeprincipe: als $n$ objecten verdeeld zijn over $m$ laden, met $m < n$, dan zal minstens één lade noodzakelijkerwijs twee of meer objecten bevatten. Voor een hashfunctie geldt dit principe omdat het aantal mogelijke berichten (bijna) oneindig is, terwijl het aantal mogelijke hashes eindig is ($2^{256}$ in het geval van SHA256).
 
 
-Deze eigenschap betekent dus niet dat er geen botsingen zijn voor hashfuncties, maar eerder dat een goede Hash functie de kans op het vinden van een botsing verwaarloosbaar klein maakt. Deze eigenschap wordt bijvoorbeeld niet meer gecontroleerd op de SHA-0 en SHA-1 algoritmen, voorgangers van SHA-2, waarvoor botsingen zijn gevonden. Deze functies worden daarom nu afgeraden en vaak als verouderd beschouwd.
+Deze eigenschap betekent dus niet dat er geen botsingen zijn voor hashfuncties, maar eerder dat een goede hashfunctie de kans op het vinden van een botsing verwaarloosbaar klein maakt. Deze eigenschap wordt bijvoorbeeld niet meer gecontroleerd op de SHA-0 en SHA-1 algoritmen, voorgangers van SHA-2, waarvoor botsingen zijn gevonden. Deze functies worden daarom nu afgeraden en vaak als verouderd beschouwd.
 
-Voor een Hash functie van $n$ bits is de botsingsweerstand van de orde van $2^{frac{n}{2}}$, in overeenstemming met de verjaardagsaanval. Bijvoorbeeld, voor SHA256 ($n = 256$) is de complexiteit van het vinden van een botsing van de orde van $2^{128}$ pogingen. In praktische termen betekent dit dat als men $2^{128}$ verschillende berichten door de functie stuurt, men waarschijnlijk een botsing zal vinden.
-
-
-#### 4. Weerstand tegen Tweede Prebeeld
+Voor een hashfunctie van $n$ bits is de botsingsweerstand van de orde van $2^{frac{n}{2}}$, in overeenstemming met de verjaardagsaanval. Bijvoorbeeld, voor SHA256 ($n = 256$) is de complexiteit van het vinden van een botsing van de orde van $2^{128}$ pogingen. In praktische termen betekent dit dat als men $2^{128}$ verschillende berichten door de functie stuurt, men waarschijnlijk een botsing zal vinden.
 
 
-Weerstand tegen tweede nabeeld is een ander belangrijk kenmerk van hashfuncties. Het stelt dat gegeven een bericht $m_1$ en zijn Hash $h$, het computationeel onuitvoerbaar is om een ander bericht $m_2 \neq m_1$ te vinden zodanig dat:
+#### 4. Tweede preimage weerstand
+
+
+Weerstand tegen het tweede preimage is een ander belangrijk kenmerk van hashfuncties. Het stelt dat gegeven een bericht $m_1$ en diens hash $h$, het computationeel onuitvoerbaar is om een ander bericht $m_2 \neq m_1$ te vinden zodanig dat:
 
 
 $$
@@ -233,16 +233,16 @@ $$
 $$
 
 
-Daarom is de weerstand tegen het tweede preimage enigszins vergelijkbaar met botsingsweerstand, behalve dat de aanval hier moeilijker is omdat de aanvaller $m_1$ niet vrij kan kiezen.
+Daarom is de weerstand tegen het tweede preimage enigszins vergelijkbaar met botsingsweerstand, hoewel de aanval hier moeilijker is omdat de aanvaller $m_1$ niet vrij kan kiezen.
 
 
 ![CYP201](assets/en/010.webp)
 
 
-### Toepassingen van Hash Functies in Bitcoin
+### Toepassingen van hashfuncties in Bitcoin
 
 
-De meest gebruikte Hash functie in Bitcoin is **SHA256** ("_Secure Hash Algorithm 256 bits"_). Ontworpen in de vroege jaren 2000 door de NSA en gestandaardiseerd door het NIST, produceert het een 256-bit Hash uitvoer.
+De meest gebruikte hashfunctie in Bitcoin is **SHA256** ("_Secure hash Algorithm 256 bits"_). Ontworpen in de vroege jaren 2000 door de NSA en gestandaardiseerd door het NIST, produceert het een 256-bit hash uitvoer.
 
 
 Deze functie wordt in veel aspecten van Bitcoin gebruikt. Op protocolniveau is het betrokken bij het Proof-of-Work mechanisme, waar het wordt toegepast in dubbele hashing om te zoeken naar een gedeeltelijke botsing tussen de header van een kandidaatblok, aangemaakt door een Miner, en het moeilijkheidsdoel. Als deze gedeeltelijke botsing wordt gevonden, wordt het kandidaat-blok geldig en kan het worden toegevoegd aan Blockchain.
@@ -251,7 +251,7 @@ Deze functie wordt in veel aspecten van Bitcoin gebruikt. Op protocolniveau is h
 SHA256 wordt ook gebruikt bij de opbouw van een Merkle Tree, wat met name de accumulator is die gebruikt wordt om transacties in blokken op te slaan. Deze structuur wordt ook gevonden in het Utreexo protocol, dat het mogelijk maakt om de grootte van de UTXO set te verkleinen. Daarnaast, met de introductie van Taproot in 2021, wordt SHA256 gebruikt in MAST (_Merkelised Alternative Script Tree_), wat het mogelijk maakt om alleen de bestedingsvoorwaarden te onthullen die daadwerkelijk gebruikt worden in een script, zonder de andere mogelijke opties te onthullen. Het wordt ook gebruikt bij het berekenen van transactie identifiers, bij het verzenden van pakketten over het P2P netwerk, bij elektronische handtekeningen... Tot slot, en dit is van bijzonder belang in deze training, wordt SHA256 gebruikt op applicatieniveau voor de constructie van Bitcoin-wallets en de afleiding van adressen.
 
 
-Meestal, wanneer je het gebruik van SHA256 in Bitcoin tegenkomt, zal het eigenlijk een dubbele Hash SHA256 zijn, genoteerd "**HASH256**", die simpelweg bestaat uit het twee keer achter elkaar toepassen van SHA256:
+Meestal, wanneer je het gebruik van SHA256 in Bitcoin tegenkomt, zal het eigenlijk een dubbele hash SHA256 zijn, genoteerd "**HASH256**", die simpelweg bestaat uit het twee keer achter elkaar toepassen van SHA256:
 
 
 $$
@@ -262,7 +262,7 @@ $$
 Deze praktijk van dubbel hashen voegt een extra Layer aan beveiliging toe tegen bepaalde potentiële aanvallen, ook al wordt een enkele SHA256 tegenwoordig als cryptografisch veilig beschouwd.
 
 
-Een andere hashingfunctie die beschikbaar is in de Scripttaal en gebruikt wordt voor het afleiden van ontvangstadressen is de functie RIPEMD160. Deze functie produceert een Hash van 160 bits (dus korter dan SHA256). Deze wordt meestal gecombineerd met SHA256 om de functie HASH160 te vormen:
+Een andere hashingfunctie die beschikbaar is in de Scripttaal en gebruikt wordt voor het afleiden van ontvangstadressen is de functie RIPEMD160. Deze functie produceert een hash van 160 bits (dus korter dan SHA256). Deze wordt meestal gecombineerd met SHA256 om de functie HASH160 te vormen:
 
 
 $$
@@ -293,7 +293,7 @@ We hebben eerder gezien dat hashingfuncties belangrijke eigenschappen bezitten d
 De SHA256- en SHA512-functies behoren tot dezelfde SHA2-familie. Hun mechanisme is gebaseerd op een specifieke constructie genaamd **Merkle-Damgård constructie**. RIPEMD160 gebruikt ook ditzelfde type constructie.
 
 
-Ter herinnering, we hebben een bericht van willekeurige grootte als invoer voor SHA256, en we zullen het door de functie sturen om een 256-bits Hash als uitvoer te verkrijgen.
+Ter herinnering, we hebben een bericht van willekeurige grootte als invoer voor SHA256, en we zullen het door de functie sturen om een 256-bits hash als uitvoer te verkrijgen.
 
 
 ### Voorbewerking van de invoer
@@ -351,7 +351,7 @@ We zouden dus 9 `0`s hebben naast het scheidingsteken `1`. Onze opvulbits die di
 ```
 
 
-Na het toevoegen van de opvulbits aan ons bericht $M$, voegen we ook een 64-bits representatie van de oorspronkelijke lengte van het bericht $M$ toe, uitgedrukt in binair. Hierdoor is de Hash functie gevoelig voor de volgorde van bits en de lengte van het bericht.
+Na het toevoegen van de opvulbits aan ons bericht $M$, voegen we ook een 64-bits representatie van de oorspronkelijke lengte van het bericht $M$ toe, uitgedrukt in binair. Hierdoor is de hashfunctie gevoelig voor de volgorde van bits en de lengte van het bericht.
 
 
 Als we teruggaan naar ons voorbeeld met een initiële boodschap van 950 bits, converteren we het decimale getal `950` naar binair, wat ons `1110 1101 10` oplevert. We vullen dit getal aan met nullen aan de basis om een totaal van 64 bits te maken. In ons voorbeeld geeft dit:
@@ -419,7 +419,7 @@ $$
 ### Verdeling van de invoer
 
 
-Nu we een geëgaliseerde invoer hebben, gaan we verder met de belangrijkste verwerkingsfase van het SHA256 algoritme: de compressiefunctie. Deze stap is erg belangrijk, omdat het voornamelijk de Hash functie zijn cryptografische eigenschappen geeft die we in het vorige hoofdstuk bestudeerden.
+Nu we een geëgaliseerde invoer hebben, gaan we verder met de belangrijkste verwerkingsfase van het SHA256 algoritme: de compressiefunctie. Deze stap is erg belangrijk, omdat het voornamelijk de hashfunctie zijn cryptografische eigenschappen geeft die we in het vorige hoofdstuk bestudeerden.
 
 
 Eerst verdelen we ons geëgaliseerde bericht (resultaat van de voorbewerkingsstappen) in verschillende blokken $P$ van elk 512 bits. Als ons geëgaliseerde bericht een totale grootte heeft van $n maal 512$ bits, dan hebben we dus $n$ blokken van elk 512 bits. Elk blok van 512 bits wordt afzonderlijk verwerkt door de compressiefunctie, die bestaat uit 64 ronden van opeenvolgende bewerkingen. Laten we deze blokken $P_1$, $P_2$, $P_3$ ... noemen.
@@ -701,7 +701,7 @@ $$
 Deze nieuwe waarden van $A$, $B$, $C$, $D$, $E$, $F$, $G$ en $H$ dienen als beginwaarden voor het volgende blok, $P_2$. Voor dit blok $P_2$ herhalen we hetzelfde compressieproces met 64 rondes, dan updaten we de variabelen voor blok $P_3$, enzovoort tot het laatste blok van onze geëgaliseerde invoer.
 
 
-Na het verwerken van alle berichtblokken, voegen we de uiteindelijke waarden van de variabelen $A$, $B$, $C$, $D$, $E$, $F$, $G$ en $H$ samen om de uiteindelijke 256-bit Hash van onze hashingfunctie te vormen:
+Na het verwerken van alle berichtblokken, voegen we de uiteindelijke waarden van de variabelen $A$, $B$, $C$, $D$, $E$, $F$, $G$ en $H$ samen om de uiteindelijke 256-bit hash van onze hashingfunctie te vormen:
 
 
 $$
@@ -721,9 +721,9 @@ Elke variabele is een geheel getal van 32 bits, dus hun aaneenschakeling levert 
 Maar hoe is deze functie dan onomkeerbaar, botsingsbestendig en bestand tegen knoeien?
 
 
-Voor de sabotageweerstand is het vrij eenvoudig te begrijpen. Er worden zoveel berekeningen uitgevoerd in cascade, die zowel afhankelijk zijn van de invoer als van de constanten, dat de kleinste wijziging van de initiële boodschap het afgelegde pad volledig verandert, en dus de uitvoer Hash volledig verandert. Dit wordt het lawine-effect genoemd. Deze eigenschap wordt gedeeltelijk gegarandeerd door de menging van de tussentoestanden met de begintoestanden voor elk stuk.
+Voor de sabotageweerstand is het vrij eenvoudig te begrijpen. Er worden zoveel berekeningen uitgevoerd in cascade, die zowel afhankelijk zijn van de invoer als van de constanten, dat de kleinste wijziging van de initiële boodschap het afgelegde pad volledig verandert, en dus de uitvoer hash volledig verandert. Dit wordt het lawine-effect genoemd. Deze eigenschap wordt gedeeltelijk gegarandeerd door de menging van de tussentoestanden met de begintoestanden voor elk stuk.
 
-Wanneer we het hebben over een cryptografische Hash functie, wordt de term "onomkeerbaarheid" over het algemeen niet gebruikt. In plaats daarvan hebben we het over "preimage-resistentie", die specificeert dat het voor elke gegeven $y$ moeilijk is om een $x$ te vinden zodat $h(x) = y$. Deze preimage-resistentie wordt gegarandeerd door de algebraïsche complexiteit en de sterke niet-lineariteit van de bewerkingen die in de compressiefunctie worden uitgevoerd, evenals door het verlies van bepaalde informatie in het proces. Bijvoorbeeld, voor een gegeven resultaat van een optelling modulo, zijn er verschillende mogelijke operanden:
+Wanneer we het hebben over een cryptografische hashfunctie, wordt de term "onomkeerbaarheid" over het algemeen niet gebruikt. In plaats daarvan hebben we het over "preimage-resistentie", die specificeert dat het voor elke gegeven $y$ moeilijk is om een $x$ te vinden zodat $h(x) = y$. Deze preimage-resistentie wordt gegarandeerd door de algebraïsche complexiteit en de sterke niet-lineariteit van de bewerkingen die in de compressiefunctie worden uitgevoerd, evenals door het verlies van bepaalde informatie in het proces. Bijvoorbeeld, voor een gegeven resultaat van een optelling modulo, zijn er verschillende mogelijke operanden:
 
 
 $$
@@ -745,15 +745,15 @@ Voor de XOR-bewerking hebben we te maken met hetzelfde probleem. Denk aan de waa
 De compressiefunctie gebruikt ook de bewerking $text{ShR}$. Deze bewerking verwijdert een deel van de basisinformatie, die later niet meer terug te halen is. Nogmaals, er is geen algebraïsche manier om deze bewerking terug te draaien. Al deze eenrichtings- en informatieverliesoperaties worden zeer vaak gebruikt in compressiefuncties. Het aantal mogelijke inputs voor een gegeven output is dus bijna oneindig, en elke poging tot omgekeerde berekening zou leiden tot vergelijkingen met een zeer groot aantal onbekenden, die bij elke stap exponentieel zouden toenemen.
 
 
-Tenslotte spelen voor de eigenschap botsingsbestendigheid verschillende parameters een rol. De voorbewerking van het originele bericht speelt een essentiële rol. Zonder deze voorbewerking zou het gemakkelijker kunnen zijn om botsingen op de functie te vinden. Hoewel botsingen theoretisch bestaan (vanwege het "pigeonhole" principe), maakt de structuur van de Hash functie, gecombineerd met de eerder genoemde eigenschappen, de kans op het vinden van een botsing extreem laag.
+Tenslotte spelen voor de eigenschap botsingsbestendigheid verschillende parameters een rol. De voorbewerking van het originele bericht speelt een essentiële rol. Zonder deze voorbewerking zou het gemakkelijker kunnen zijn om botsingen op de functie te vinden. Hoewel botsingen theoretisch bestaan (vanwege het "pigeonhole" principe), maakt de structuur van de hashfunctie, gecombineerd met de eerder genoemde eigenschappen, de kans op het vinden van een botsing extreem laag.
 
-Om een Hash functie botsingsbestendig te maken, is het essentieel dat:
+Om een hashfunctie botsingsbestendig te maken, is het essentieel dat:
 
 
 
 - De uitvoer is onvoorspelbaar: Elke voorspelbaarheid kan worden uitgebuit om sneller botsingen te vinden dan met een brute force aanval. De functie zorgt ervoor dat elke bit van de uitvoer op een niet-triviale manier afhangt van de invoer. Met andere woorden, de functie is zo ontworpen dat elke bit van het eindresultaat een onafhankelijke kans heeft om 0 of 1 te zijn, zelfs als deze onafhankelijkheid in de praktijk niet absoluut is.
 - De verdeling van hashes is pseudo-willekeurig: Dit zorgt ervoor dat de hashes uniform verdeeld zijn.
-- De grootte van de Hash is aanzienlijk: hoe groter de mogelijke ruimte voor resultaten, hoe moeilijker het is om een botsing te vinden.
+- De grootte van de hash is aanzienlijk: hoe groter de mogelijke ruimte voor resultaten, hoe moeilijker het is om een botsing te vinden.
 
 
 Cryptografen ontwerpen deze functies door de best mogelijke aanvallen te evalueren om botsingen te vinden en vervolgens de parameters aan te passen om deze aanvallen ineffectief te maken.
@@ -762,10 +762,10 @@ Cryptografen ontwerpen deze functies door de best mogelijke aanvallen te evaluer
 ### Merkle-Damgård Bouw
 
 
-De structuur van SHA256 is gebaseerd op de Merkle-Damgård constructie, die het mogelijk maakt om een compressiefunctie om te zetten in een Hash functie die berichten van willekeurige lengte kan verwerken. Dit is precies wat we in dit hoofdstuk hebben gezien.
+De structuur van SHA256 is gebaseerd op de Merkle-Damgård constructie, die het mogelijk maakt om een compressiefunctie om te zetten in een hashfunctie die berichten van willekeurige lengte kan verwerken. Dit is precies wat we in dit hoofdstuk hebben gezien.
 
 
-Sommige oude hashfuncties zoals SHA1 of MD5, die deze specifieke constructie gebruiken, zijn echter kwetsbaar voor lengte-uitbreidingsaanvallen. Dit is een techniek waarmee een aanvaller die de Hash van een bericht $M$ en de lengte van $M$ kent (zonder het bericht zelf te kennen), de Hash van een bericht $M'$ kan berekenen dat gevormd is door $M$ aan elkaar te rijgen met extra inhoud.
+Sommige oude hashfuncties zoals SHA1 of MD5, die deze specifieke constructie gebruiken, zijn echter kwetsbaar voor lengte-uitbreidingsaanvallen. Dit is een techniek waarmee een aanvaller die de hash van een bericht $M$ en de lengte van $M$ kent (zonder het bericht zelf te kennen), de hash van een bericht $M'$ kan berekenen dat gevormd is door $M$ aan elkaar te rijgen met extra inhoud.
 
 
 SHA256, hoewel het hetzelfde type constructie gebruikt, is theoretisch bestand tegen dit type aanval, in tegenstelling tot SHA1 en MD5. Dit verklaart misschien het mysterie van de dubbele hashing die Satoshi Nakamoto in Bitcoin implementeerde. Om dit type aanval te vermijden, gebruikte Satoshi misschien liever een dubbele SHA256:
@@ -779,7 +779,7 @@ $$
 $$
 
 
-Dit verhoogt de veiligheid tegen mogelijke aanvallen gerelateerd aan de Merkle-Damgård constructie, maar het verhoogt de veiligheid van het hashingproces niet in termen van botsingsbestendigheid. Bovendien, zelfs als SHA256 kwetsbaar was geweest voor dit type aanval, zou het geen ernstige impact hebben gehad, aangezien alle gebruikssituaties van hashfuncties in Bitcoin betrekking hebben op openbare gegevens. De aanval voor lengteverlenging zou echter alleen nuttig kunnen zijn voor een aanvaller als de gehashte gegevens privé zijn en de gebruiker de Hash functie heeft gebruikt als authenticatiemechanisme voor deze gegevens, vergelijkbaar met een MAC. De implementatie van dubbel hashing blijft dus een mysterie in het ontwerp van Bitcoin.
+Dit verhoogt de veiligheid tegen mogelijke aanvallen gerelateerd aan de Merkle-Damgård constructie, maar het verhoogt de veiligheid van het hashingproces niet in termen van botsingsbestendigheid. Bovendien, zelfs als SHA256 kwetsbaar was geweest voor dit type aanval, zou het geen ernstige impact hebben gehad, aangezien alle gebruikssituaties van hashfuncties in Bitcoin betrekking hebben op openbare gegevens. De aanval voor lengteverlenging zou echter alleen nuttig kunnen zijn voor een aanvaller als de gehashte gegevens privé zijn en de gebruiker de hashfunctie heeft gebruikt als authenticatiemechanisme voor deze gegevens, vergelijkbaar met een MAC. De implementatie van dubbel hashing blijft dus een mysterie in het ontwerp van Bitcoin.
 
 Nu we in detail hebben gekeken naar de werking van hashfuncties, in het bijzonder SHA256, dat uitgebreid gebruikt wordt in Bitcoin, zullen we ons meer specifiek richten op de cryptografische afleidingsalgoritmen die gebruikt worden op applicatieniveau, in het bijzonder voor het afleiden van de sleutels voor je Wallet.
 
@@ -809,7 +809,7 @@ We zullen samen de werking en de rol van elk van hen onderzoeken.
 ### HMAC-SHA512
 
 
-HMAC is een cryptografisch algoritme dat een authenticatiecode berekent op basis van een combinatie van een Hash functie en een geheime sleutel. Bitcoin gebruikt HMAC-SHA512, de variant van HMAC die de SHA512 Hash functie gebruikt. We hebben in het vorige hoofdstuk al gezien dat SHA512 deel uitmaakt van dezelfde familie van hashfuncties als SHA256, maar het produceert een 512-bit uitvoer.
+HMAC is een cryptografisch algoritme dat een authenticatiecode berekent op basis van een combinatie van een hashfunctie en een geheime sleutel. Bitcoin gebruikt HMAC-SHA512, de variant van HMAC die de SHA512 hashfunctie gebruikt. We hebben in het vorige hoofdstuk al gezien dat SHA512 deel uitmaakt van dezelfde familie van hashfuncties als SHA256, maar het produceert een 512-bit uitvoer.
 
 
 Hier is het algemene werkingsschema met $m$ als invoerbericht en $K$ als geheime sleutel:
@@ -824,8 +824,8 @@ Laten we in meer detail bestuderen wat er gebeurt in deze HMAC-SHA512 zwarte doo
 
 - $m$: het willekeurig grote bericht gekozen door de gebruiker (eerste invoer);
 - $K$: de willekeurige geheime sleutel gekozen door de gebruiker (tweede invoer);
-- $K'$: de sleutel $K$ aangepast aan de grootte $B$ van de Hash functieblokken (1024 bits voor SHA512, of 128 bytes);
-- ${SHA512}$: de SHA512 Hash functie;
+- $K'$: de sleutel $K$ aangepast aan de grootte $B$ van de hashfunctieblokken (1024 bits voor SHA512, of 128 bytes);
+- ${SHA512}$: de SHA512 hashfunctie;
 - $oplus$: de XOR (exclusive or) bewerking;
 - $Vert$: de aaneenschakelingsoperator, die bitreeksen van begin tot eind aan elkaar koppelt;
 - $\text{opad}$: constante samengesteld uit de byte $0x5c$ 128 keer herhaald
@@ -861,7 +861,7 @@ Deze vergelijking is onderverdeeld in de volgende stappen:
 - XOR de aangepaste sleutel $K'$ met $\text{ipad}$ om $\text{iKpad}$ te verkrijgen;
 - XOR de aangepaste sleutel $K'$ met $\text{opad}$ om $\text{oKpad}$ te verkrijgen;
 - Voeg $tekst{iKpad}$ samen met het bericht $m$.
-- Hash dit resultaat met SHA512 om een tussenproduct Hash $H_1$ te verkrijgen.
+- Hash dit resultaat met SHA512 om een tussenproduct hash $H_1$ te verkrijgen.
 - Voeg ${oKpad}$ samen met $H_1$.
 - Hash dit resultaat met SHA512 om het uiteindelijke resultaat $H_2$ te verkrijgen.
 
@@ -940,7 +940,7 @@ Het Bitcoin protocol is gedistribueerd en werkt zonder centrale autoriteit. Daar
 
 De initiële werking van Bitcoin met P2PK scripts houdt in dat er een publieke sleutel gebruikt wordt om geld te blokkeren, waarbij in een _scriptPubKey_ gespecificeerd wordt dat de persoon die deze UTXO wil uitgeven een geldige handtekening moet leveren met de private sleutel die overeenkomt met deze publieke sleutel. Om deze UTXO te ontgrendelen, is het dus nodig om een geldige handtekening te leveren in het _scriptSig_. Zoals de namen al suggereren, is de publieke sleutel bij iedereen bekend, omdat deze wordt uitgezonden op de Blockchain, terwijl de privésleutel alleen bekend is bij de rechtmatige eigenaar van het geld.
 
-Dit is de basiswerking van Bitcoin, maar in de loop der tijd is deze werking complexer geworden. Eerst introduceerde Satoshi ook P2PKH scripts, die een ontvangende Address gebruiken in de _scriptPubKey_, die de Hash van de publieke sleutel voorstelt. Daarna werd het systeem nog complexer met de komst van SegWit en daarna Taproot. Het algemene principe blijft echter fundamenteel hetzelfde: een publieke sleutel of een representatie van deze sleutel wordt gebruikt om UTXO's te vergrendelen, en een corresponderende private sleutel is nodig om ze te ontgrendelen en dus uit te geven.
+Dit is de basiswerking van Bitcoin, maar in de loop der tijd is deze werking complexer geworden. Eerst introduceerde Satoshi ook P2PKH scripts, die een ontvangende Address gebruiken in de _scriptPubKey_, die de hash van de publieke sleutel voorstelt. Daarna werd het systeem nog complexer met de komst van SegWit en daarna Taproot. Het algemene principe blijft echter fundamenteel hetzelfde: een publieke sleutel of een representatie van deze sleutel wordt gebruikt om UTXO's te vergrendelen, en een corresponderende private sleutel is nodig om ze te ontgrendelen en dus uit te geven.
 
 
 Een gebruiker die een Bitcoin transactie wil doen, moet daarom een digitale handtekening zetten met zijn privé-sleutel op de transactie. De handtekening kan worden geverifieerd door andere netwerkdeelnemers. Als deze geldig is, betekent dit dat de gebruiker die de transactie initieert inderdaad de eigenaar is van de private sleutel, en dus de eigenaar van de bitcoins die hij/zij wil uitgeven. Andere gebruikers kunnen de transactie dan accepteren en verspreiden.
@@ -1329,7 +1329,7 @@ Met het ECDSA-algoritme kan een gebruiker een bericht ondertekenen met zijn priv
 Hier zijn de stappen om generate een ECDSA handtekening te geven:
 
 
-Eerst berekenen we de Hash ($e$) van het bericht dat ondertekend moet worden. Het bericht $m$ wordt dus door een cryptografische Hash functie gehaald, meestal SHA256 of dubbel SHA256 in het geval van Bitcoin:
+Eerst berekenen we de hash ($e$) van het bericht dat ondertekend moet worden. Het bericht $m$ wordt dus door een cryptografische hashfunctie gehaald, meestal SHA256 of dubbel SHA256 in het geval van Bitcoin:
 
 
 $$
@@ -1362,7 +1362,7 @@ waar:
 
 - $r^{-1}$ is de modulaire inverse van $r$ modulo $n$, dat wil zeggen, een geheel getal zo dat $r \dot r^{-1} \equiv 1 mod n$;
 - $k$ is de privésleutel van de gebruiker;
-- $e$ is de Hash van het bericht;
+- $e$ is de hash van het bericht;
 - $n$ is de orde van het generator punt $G$ van de elliptische kromme.
 
 
@@ -1383,7 +1383,7 @@ Om een handtekening $(x_R, s)$ te verifiëren, kan iedereen die de openbare sleu
 Controleer eerst of $x_R$ en $s$ binnen het interval $[1, n-1]$ liggen. Dit zorgt ervoor dat de handtekening de wiskundige beperkingen van de elliptische groep respecteert. Als dit niet het geval is, verwerpt de verificateur de handtekening onmiddellijk als ongeldig.
 
 
-Bereken dan de Hash van het bericht:
+Bereken dan de hash van het bericht:
 
 
 $$
@@ -1436,7 +1436,7 @@ $$
 $$
 
 
-De eerste stap naar generate een handtekening is Hash het bericht. Maar in tegenstelling tot ECDSA wordt dit gedaan met andere waarden en wordt een gelabelde Hash functie gebruikt om botsingen in verschillende contexten te voorkomen. Bij een gelabelde Hash functie wordt eenvoudigweg een willekeurig label toegevoegd aan de Hash functieingangen naast de berichtgegevens.
+De eerste stap naar generate een handtekening is hash het bericht. Maar in tegenstelling tot ECDSA wordt dit gedaan met andere waarden en wordt een gelabelde hashfunctie gebruikt om botsingen in verschillende contexten te voorkomen. Bij een gelabelde hashfunctie wordt eenvoudigweg een willekeurig label toegevoegd aan de hashfunctieingangen naast de berichtgegevens.
 
 
 ![CYP201](assets/en/028.webp)
@@ -1453,7 +1453,7 @@ e = \text{HASH}(\text{``BIP0340/challenge''}, R_x \Vert K_x \Vert m) \mod n
 $$
 
 
-Hier is $\text{Hash}$ de SHA256 Hash functie en $\text{`BIP0340/challenge''}$ de specifieke tag voor het hashen.
+Hier is $\text{Hash}$ de SHA256-hashfunctie en $\text{`BIP0340/challenge''}$ de specifieke tag voor het hashen.
 
 
 Tenslotte wordt de parameter $s$ als volgt berekend uit de privésleutel $k$, de Nonce $r$ en de uitdaging $e$:
@@ -1797,7 +1797,7 @@ Laten we samen ontdekken hoe we van entropie naar een Mnemonic zin kunnen gaan.
 Om entropie om te zetten in een Mnemonic zin, moet men eerst een controlesom (of "controlesom") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
 
 
-Om de controlesom te berekenen wordt de SHA256 Hash functie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 Hash wordt gebruikt in plaats van een dubbele Hash). Deze bewerking produceert een 256-bit Hash. De controlesom bestaat uit de eerste bits van deze Hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
+Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 hash wordt gebruikt in plaats van een dubbele Hash). Deze bewerking produceert een 256-bit Hash. De controlesom bestaat uit de eerste bits van deze Hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
 
 
 $$
@@ -1808,7 +1808,7 @@ $$
 waarbij ${ENT}$ staat voor de lengte van de entropie in bits en ${CS}$ voor de lengte van de controlesom in bits.
 
 
-Bijvoorbeeld, voor een entropie van 256 bits, worden de eerste 8 bits van de Hash genomen om de controlesom te vormen:
+Bijvoorbeeld, voor een entropie van 256 bits, worden de eerste 8 bits van de hash genomen om de controlesom te vormen:
 
 
 $$
@@ -2149,7 +2149,7 @@ Een uitgebreide sleutel is als volgt opgebouwd:
 
 - **Versie**: Versiecode om de aard van de sleutel te identificeren (`xprv`, `xpub`, `yprv`, `ypub`...). We zullen aan het eind van dit hoofdstuk zien waar de letters `x`, `y` en `z` mee corresponderen.
 - **Depth**: Hiërarchisch niveau in de HD wallet ten opzichte van de hoofdsleutel (0 voor de hoofdsleutel).
-- **Parent Fingerprint**: De eerste 4 bytes van de HASH160 Hash van de openbare sleutel die gebruikt is om de sleutel in de payload af te leiden.
+- **Parent Fingerprint**: De eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebruikt is om de sleutel in de payload af te leiden.
 - **Indexnummer**: Identificatiecode van het kind onder sibling-sleutels, dat wil zeggen, onder alle sleutels op hetzelfde afleidingsniveau die dezelfde oudersleutel hebben.
 - **chain code**: Een unieke code van 32 bytes voor het afleiden van kindsleutels.
 - **Sleutel**: De privésleutel (voorafgegaan door 1 byte voor de grootte) of de openbare sleutel.
@@ -2237,7 +2237,7 @@ Dit veld geeft het hiërarchische niveau van de sleutel binnen de HD wallet aan.
 3.**Vaderlijke vingerafdruk**: `6D5601AD`
 
 
-Dit zijn de eerste 4 bytes van de HASH160 Hash van de openbare sleutel die gebruikt is om deze `xpub` af te leiden.
+Dit zijn de eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebruikt is om deze `xpub` af te leiden.
 
 
 4.**Indexnummer**: `80000000`
@@ -2255,7 +2255,7 @@ Deze index geeft de positie van de sleutel aan tussen de kinderen van zijn ouder
 7.**Checksum**: `1F067C3A`
 
 
-De controlesom komt overeen met de eerste 4 bytes van de Hash (dubbele SHA256) van al het andere.
+De controlesom komt overeen met de eerste 4 bytes van de hash (dubbele SHA256) van al het andere.
 
 
 In dit hoofdstuk ontdekten we dat er twee verschillende soorten kind sleutels zijn. We hebben ook geleerd dat voor het afleiden van deze kindsleutels een sleutel (privé of publiek) en zijn chain code nodig zijn. In het volgende hoofdstuk zullen we in detail ingaan op de aard van deze verschillende typen sleutels en hoe we ze kunnen afleiden van hun oudersleutel en chain code.
@@ -2687,7 +2687,7 @@ Een descriptor bestaat uit verschillende Elements:
 - Script functies zoals `pk` (*Pay-to-PubKey*), `pkh` (*Pay-to-PubKey-Hash*), `wpkh` (*Pay-to-Witness-PubKey-Hash*), `sh` (*Pay-to-Script-Hash*), `wsh` (*Pay-to-Witness-Script-Hash*), `tr` (*Pay-to-Taproot*), `multi` (*Multisignature*) en `sortedmulti` (*Multisignature met gesorteerde sleutels*);
 - Afgeleide paden, bijvoorbeeld `[d34db33f/44h/0h/0h]` die een afgeleid accountpad en een specifieke vingersleutelafdruk aangeeft;
 - Sleutels in verschillende formaten zoals hexadecimale openbare sleutels of uitgebreide openbare sleutels (`xpub`);
-- Een controlesom, voorafgegaan door een Hash teken, om de integriteit van het descriptor te verifiëren.
+- Een controlesom, voorafgegaan door een hash teken, om de integriteit van het descriptor te verifiëren.
 
 
 Een descriptor voor een P2WPKH (SegWit v0) wallet zou er bijvoorbeeld zo uit kunnen zien:
@@ -2810,7 +2810,7 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 
 
 
-- `OP_HASH160` geeft de Hash van de openbare sleutel terug die zojuist gedupliceerd is:
+- `OP_HASH160` geeft de hash van de openbare sleutel terug die zojuist gedupliceerd is:
 
 
 ![CYP201](assets/en/063.webp)
@@ -2862,19 +2862,19 @@ Dit scriptmodel werd geïntroduceerd in de eerste versie van Bitcoin door Satosh
 **P2PKH (*Pay-to-PubKey-Hash*)**:
 
 
-Net als P2PK werd het P2PKH-script geïntroduceerd bij de lancering van Bitcoin. In tegenstelling tot zijn voorganger, vergrendelt het de bitcoins door gebruik te maken van de Hash van de publieke sleutel, in plaats van direct gebruik te maken van de ruwe publieke sleutel. Het *scriptSig* moet dan de publieke sleutel leveren die geassocieerd is met de ontvangende Address, evenals een geldige handtekening. De adressen die overeenkomen met dit model beginnen met `1` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
+Net als P2PK werd het P2PKH-script geïntroduceerd bij de lancering van Bitcoin. In tegenstelling tot zijn voorganger, vergrendelt het de bitcoins door gebruik te maken van de hash van de publieke sleutel, in plaats van direct gebruik te maken van de ruwe publieke sleutel. Het *scriptSig* moet dan de publieke sleutel leveren die geassocieerd is met de ontvangende Address, evenals een geldige handtekening. De adressen die overeenkomen met dit model beginnen met `1` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
 
 
 **P2SH (*Pay-to-Script-Hash*)**:
 
 
-Het P2SH model, geïntroduceerd in 2012 met BIP16, maakt het mogelijk om de Hash van een willekeurig script te gebruiken in de *scriptPubKey*. Dit gehashte script, genaamd "*redeemscript*", bevat de voorwaarden voor het ontgrendelen van het geld. Om een UTXO uit te geven die vergrendeld is met P2SH, is het nodig om een *scriptSig* aan te leveren die de originele *redeemscript* bevat, evenals de benodigde gegevens om het te valideren. Dit model wordt met name gebruikt voor oude multisigs. De adressen geassocieerd met P2SH beginnen met `3` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
+Het P2SH model, geïntroduceerd in 2012 met BIP16, maakt het mogelijk om de hash van een willekeurig script te gebruiken in de *scriptPubKey*. Dit gehashte script, genaamd "*redeemscript*", bevat de voorwaarden voor het ontgrendelen van het geld. Om een UTXO uit te geven die vergrendeld is met P2SH, is het nodig om een *scriptSig* aan te leveren die de originele *redeemscript* bevat, evenals de benodigde gegevens om het te valideren. Dit model wordt met name gebruikt voor oude multisigs. De adressen geassocieerd met P2SH beginnen met `3` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
 
 
 **P2WPKH (*Pay-to-Witness-PubKey-Hash*)**:
 
 
-Dit script lijkt op P2PKH, omdat het ook bitcoins vergrendelt met behulp van de Hash van een publieke sleutel. Echter, in tegenstelling tot P2PKH, is het *scriptSig* verplaatst naar een aparte sectie genaamd "*Witness*". Dit wordt soms "*scriptWitness*" genoemd om de set aan te duiden die bestaat uit de handtekening en de publieke sleutel. Elke SegWit invoer heeft zijn eigen *scriptWitness* en de verzameling *scriptWitnesses* vormt het *Witness* veld van de transactie. Deze verplaatsing van handtekeninggegevens is een innovatie die is geïntroduceerd door de SegWit update, met name gericht op het voorkomen van de vervormbaarheid van transacties door ECDSA handtekeningen.
+Dit script lijkt op P2PKH, omdat het ook bitcoins vergrendelt met behulp van de hash van een publieke sleutel. Echter, in tegenstelling tot P2PKH, is het *scriptSig* verplaatst naar een aparte sectie genaamd "*Witness*". Dit wordt soms "*scriptWitness*" genoemd om de set aan te duiden die bestaat uit de handtekening en de publieke sleutel. Elke SegWit invoer heeft zijn eigen *scriptWitness* en de verzameling *scriptWitnesses* vormt het *Witness* veld van de transactie. Deze verplaatsing van handtekeninggegevens is een innovatie die is geïntroduceerd door de SegWit update, met name gericht op het voorkomen van de vervormbaarheid van transacties door ECDSA handtekeningen.
 
 P2WPKH adressen gebruiken *bech32* codering en beginnen altijd met `bc1q`. Dit type script komt overeen met versie 0 SegWit uitgangen.
 
@@ -2882,7 +2882,7 @@ P2WPKH adressen gebruiken *bech32* codering en beginnen altijd met `bc1q`. Dit t
 **P2WSH (*Pay-to-Witness-Script-Hash*)**:
 
 
-Het P2WSH-model werd ook geïntroduceerd met de SegWit update in augustus 2017. Vergelijkbaar met het P2SH model, vergrendelt het bitcoins met behulp van de Hash van een script. Het belangrijkste verschil zit in de manier waarop handtekeningen en scripts in de transactie worden opgenomen. Om bitcoins te vergrendelen met dit type script, moet de ontvanger het originele script leveren, genaamd *witnessScript* (gelijk aan *redeemscript* in P2SH), samen met de benodigde gegevens om dit *witnessScript* te valideren. Dit mechanisme maakt de implementatie van complexere bestedingsvoorwaarden mogelijk, zoals multisigs.
+Het P2WSH-model werd ook geïntroduceerd met de SegWit update in augustus 2017. Vergelijkbaar met het P2SH model, vergrendelt het bitcoins met behulp van de hash van een script. Het belangrijkste verschil zit in de manier waarop handtekeningen en scripts in de transactie worden opgenomen. Om bitcoins te vergrendelen met dit type script, moet de ontvanger het originele script leveren, genaamd *witnessScript* (gelijk aan *redeemscript* in P2SH), samen met de benodigde gegevens om dit *witnessScript* te valideren. Dit mechanisme maakt de implementatie van complexere bestedingsvoorwaarden mogelijk, zoals multisigs.
 
 
 P2WSH adressen gebruiken *bech32* codering en beginnen altijd met `bc1q`. Dit script komt ook overeen met versie 0 SegWit uitvoer.
@@ -2907,7 +2907,7 @@ P2TR biedt dus een grote flexibiliteit, omdat bitcoins kunnen worden vergrendeld
 ![CYP201](assets/en/068.webp)
 
 
-P2TR komt overeen met versie 1 SegWit uitgangen, wat betekent dat de handtekeningen voor P2TR ingangen worden opgeslagen in de *Witness* sectie van de transactie, en niet in de *scriptSig*. P2TR adressen gebruiken de *bech32m* codering en beginnen met `bc1p`, maar ze zijn vrij uniek omdat ze geen Hash functie gebruiken voor hun constructie. Ze vertegenwoordigen namelijk direct de publieke sleutel $Q$ die eenvoudigweg geformatteerd is met metadata. Het is daarom een scriptmodel dat dicht in de buurt komt van P2PK.
+P2TR komt overeen met versie 1 SegWit uitgangen, wat betekent dat de handtekeningen voor P2TR ingangen worden opgeslagen in de *Witness* sectie van de transactie, en niet in de *scriptSig*. P2TR adressen gebruiken de *bech32m* codering en beginnen met `bc1p`, maar ze zijn vrij uniek omdat ze geen hashfunctie gebruiken voor hun constructie. Ze vertegenwoordigen namelijk direct de publieke sleutel $Q$ die eenvoudigweg geformatteerd is met metadata. Het is daarom een scriptmodel dat dicht in de buurt komt van P2PK.
 
 
 Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgende hoofdstuk stel ik voor om zowel een SegWit v0 Address als een SegWit v1 Address af te leiden uit een paar sleutels.
@@ -2979,7 +2979,7 @@ Deze bewerking geldt voor alle scriptmodellen die gebaseerd zijn op ECDSA, dat w
 Nu we onze gecomprimeerde publieke sleutel hebben, kunnen we hieruit een SegWit v0 afleiden die Address ontvangt.
 
 
-De eerste stap is het toepassen van de HASH160 Hash functie op de gecomprimeerde openbare sleutel. HASH160 is een samenstelling van twee opeenvolgende hashfuncties: SHA256, gevolgd door RIPEMD160:
+De eerste stap is het toepassen van de HASH160 hashfunctie op de gecomprimeerde openbare sleutel. HASH160 is een samenstelling van twee opeenvolgende hashfuncties: SHA256, gevolgd door RIPEMD160:
 
 
 
@@ -3006,10 +3006,10 @@ RIPEMD160(SHA256(K)) = 9F81322CC88622CA4CCB2A52A21E2888727AA535
 ```
 
 
-We hebben een 160-bit Hash van de publieke sleutel verkregen, die de zogenaamde payload van de Address vormt. Deze payload vertegenwoordigt het centrale en belangrijkste deel van de Address. Het wordt ook gebruikt in het *scriptPubKey* om de UTXO's te vergrendelen.
+We hebben een 160-bit hash van de publieke sleutel verkregen, die de zogenaamde payload van de Address vormt. Deze payload vertegenwoordigt het centrale en belangrijkste deel van de Address. Het wordt ook gebruikt in het *scriptPubKey* om de UTXO's te vergrendelen.
 
 
-Om deze payload echter gemakkelijker bruikbaar te maken voor mensen, wordt er metadata aan toegevoegd. De volgende stap is het coderen van deze Hash in groepen van 5 bits in decimaal. Deze decimale transformatie zal nuttig zijn voor de conversie naar *bech32*, gebruikt door post-SegWit adressen. De 160-bits binaire Hash wordt dus verdeeld in 32 groepen van 5 bits:
+Om deze payload echter gemakkelijker bruikbaar te maken voor mensen, wordt er metadata aan toegevoegd. De volgende stap is het coderen van deze hash in groepen van 5 bits in decimaal. Deze decimale transformatie zal nuttig zijn voor de conversie naar *bech32*, gebruikt door post-SegWit adressen. De 160-bits binaire hash wordt dus verdeeld in 32 groepen van 5 bits:
 
 
 
@@ -3064,10 +3064,10 @@ HASH = 19 30 00 19 04 11 06 08 16 24 17 12 20 19 06 11 05 09 09 10 04 07 17 08 1
 ```
 
 
-Nadat de Hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een Wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of private sleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
+Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een Wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of private sleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
 
 
-Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address Hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
+Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
 
 
 In de context van Bitcoin bieden BCH-codes een beter compromis tussen grootte en foutdetectiecapaciteit vergeleken met de eenvoudige hashfuncties die gebruikt worden voor *Legacy* adressen. In Bitcoin worden BCH-codes echter alleen gebruikt voor foutdetectie, niet voor correctie. Dus, wallet-software zal een onjuist ontvangen Address signaleren, maar niet automatisch corrigeren. Deze beperking is opzettelijk: het toestaan van automatische correctie zou de foutdetectiecapaciteit verminderen.
@@ -3233,7 +3233,7 @@ $$
 Waarbij $G$ de generator van de gebruikte elliptische curve is. Deze bewerking produceert een nieuwe openbare sleutel die is afgeleid van de originele sleutel, met behoud van de cryptografische eigenschappen die het gebruik ervan toestaan.
 
 
-Als u geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kunt u generate een Taproot Address opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een Hash functie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
+Als u geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kunt u generate een Taproot Address opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een hashfunctie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
 
 
 
@@ -3248,7 +3248,7 @@ waar:
 
 
 
-- **${H}_{TapTweak}$** is een SHA256 Hash functie getagd met de tag `TapTweak`. Als je niet bekend bent met wat een getagde Hash functie is, raadpleeg dan hoofdstuk 3.3;
+- **${H}_{TapTweak}$** is een SHA256-hashfunctie getagd met de tag `TapTweak`. Als je niet bekend bent met wat een getagde hashfunctie is, raadpleeg dan hoofdstuk 3.3;
 - $P$ is de interne openbare sleutel, weergegeven in het gecomprimeerde 256-bits formaat, waarbij alleen de coördinaat $x$ wordt gebruikt.
 
 
@@ -3263,7 +3263,7 @@ Q = P + t \cdot G
 $$
 
 
-Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangende Address. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een Hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de Address geplaatst, op een onbewerkte manier.
+Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangende Address. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de Address geplaatst, op een onbewerkte manier.
 
 
 Om te beginnen extraheren we de $x$ coördinaat van het punt $Q$ om een gecomprimeerde publieke sleutel te verkrijgen. Op deze payload wordt een checksum berekend met BCH codes, net als bij SegWit v0 adressen. Het programma dat gebruikt wordt voor Taproot adressen verschilt echter enigszins. Na de introductie van het _bech32_ formaat met SegWit werd namelijk een bug ontdekt: wanneer het laatste teken van een Address een `p` is, maakt het invoegen of verwijderen van `q`s vlak voor deze `p` de controlesom niet ongeldig. Hoewel deze bug geen gevolgen heeft voor SegWit v0 (dankzij een beperking in grootte), zou het in de toekomst een probleem kunnen vormen. Deze bug is daarom gecorrigeerd voor Taproot adressen, en het nieuwe gecorrigeerde formaat heet "_bech32m_".
@@ -3286,10 +3286,10 @@ bc1p[Qx][checksum]
 ```
 
 
-Aan de andere kant, als je alternatieve scripts wilt toevoegen naast de uitgaven met de interne openbare sleutel (_scriptpad_), zal de berekening van de ontvangende Address iets anders zijn. Je moet de Hash van de alternatieve scripts opnemen in de berekening van de tweak. In Taproot wordt elk alternatief script, dat zich aan het einde van de Merkle Tree bevindt, een "blad" genoemd.
+Aan de andere kant, als je alternatieve scripts wilt toevoegen naast de uitgaven met de interne openbare sleutel (_scriptpad_), zal de berekening van de ontvangende Address iets anders zijn. Je moet de hash van de alternatieve scripts opnemen in de berekening van de tweak. In Taproot wordt elk alternatief script, dat zich aan het einde van de Merkle Tree bevindt, een "blad" genoemd.
 
 
-Als de verschillende alternatieve scripts geschreven zijn, moet je ze afzonderlijk door een Hash functie `TapLeaf` laten lopen, samen met wat metadata:
+Als de verschillende alternatieve scripts geschreven zijn, moet je ze afzonderlijk door een hashfunctie `TapLeaf` laten lopen, samen met wat metadata:
 
 
 
@@ -3309,7 +3309,7 @@ Met:
 - $S$: het script.
 
 
-De verschillende scripthashes (${h}_{{leaf}}) worden eerst in lexicografische volgorde gesorteerd. Daarna worden ze paarsgewijs samengevoegd en door een Hash functie `TapBranch` gehaald. Dit proces wordt iteratief herhaald om stap voor stap de Merkle Tree op te bouwen:
+De verschillende scripthashes (${h}_{{leaf}}) worden eerst in lexicografische volgorde gesorteerd. Daarna worden ze paarsgewijs samengevoegd en door een hashfunctie `TapBranch` gehaald. Dit proces wordt iteratief herhaald om stap voor stap de Merkle Tree op te bouwen:
 
 $$
 
@@ -3318,13 +3318,13 @@ $$
 $$
 
 
-We gaan dan verder door de resultaten twee aan twee aan elkaar te rijgen en ze bij elke stap door de Hash functie `TapBranch` te halen, totdat we de Merkle Tree wortel verkrijgen:
+We gaan dan verder door de resultaten twee aan twee aan elkaar te rijgen en ze bij elke stap door de hashfunctie `TapBranch` te halen, totdat we de Merkle Tree wortel verkrijgen:
 
 
 ![CYP201](assets/en/071.webp)
 
 
-Zodra de Merkle Root $h_{{root}}$ berekend is, kunnen we de tweak berekenen. Hiervoor concateneren we de interne publieke sleutel van de wallet $P$ met de root $h_{{\text{root}}$, en sturen het geheel door de getagde Hash functie `TapTweak`:
+Zodra de Merkle Root $h_{{root}}$ berekend is, kunnen we de tweak berekenen. Hiervoor concateneren we de interne publieke sleutel van de wallet $P$ met de root $h_{{\text{root}}$, en sturen het geheel door de getagde hashfunctie `TapTweak`:
 
 
 
