@@ -242,10 +242,10 @@ Daarom is de weerstand tegen het tweede preimage enigszins vergelijkbaar met bot
 ### Toepassingen van hashfuncties in Bitcoin
 
 
-De meest gebruikte hashfunctie in Bitcoin is **SHA256** ("_Secure hash Algorithm 256 bits"_). Ontworpen in de vroege jaren 2000 door de NSA en gestandaardiseerd door het NIST, produceert het een 256-bit hash uitvoer.
+De meest gebruikte hashfunctie in Bitcoin is **SHA256** ("_Secure Hash Algorithm 256 bits"_). Ontworpen in de vroege jaren 2000 door de NSA en gestandaardiseerd door het NIST, produceert het een 256-bit hash-output.
 
 
-Deze functie wordt in veel aspecten van Bitcoin gebruikt. Op protocolniveau is het betrokken bij het Proof-of-Work mechanisme, waar het wordt toegepast in dubbele hashing om te zoeken naar een gedeeltelijke botsing tussen de header van een kandidaatblok, aangemaakt door een Miner, en het moeilijkheidsdoel. Als deze gedeeltelijke botsing wordt gevonden, wordt het kandidaat-blok geldig en kan het worden toegevoegd aan Blockchain.
+Deze functie wordt op verschillende aspecten van Bitcoin gebruikt. Op protocolniveau is het betrokken bij het Proof-of-Work-mechanisme, waarbij een dubbele hashing wordt toegepast om een gedeeltelijke botsing te zoekn tussen de header van een kandidaat-blok, aangemaakt door een miner, en het moeilijkheidsdoel (difficulty target). Als deze gedeeltelijke botsing wordt gevonden, wordt het kandidaat-blok geldig en kan het worden toegevoegd aan de blockchain.
 
 
 SHA256 wordt ook gebruikt bij de opbouw van een Merkle Tree, wat met name de accumulator is die gebruikt wordt om transacties in blokken op te slaan. Deze structuur wordt ook gevonden in het Utreexo protocol, dat het mogelijk maakt om de grootte van de UTXO set te verkleinen. Daarnaast, met de introductie van Taproot in 2021, wordt SHA256 gebruikt in MAST (_Merkelised Alternative Script Tree_), wat het mogelijk maakt om alleen de bestedingsvoorwaarden te onthullen die daadwerkelijk gebruikt worden in een script, zonder de andere mogelijke opties te onthullen. Het wordt ook gebruikt bij het berekenen van transactie identifiers, bij het verzenden van pakketten over het P2P netwerk, bij elektronische handtekeningen... Tot slot, en dit is van bijzonder belang in deze training, wordt SHA256 gebruikt op applicatieniveau voor de constructie van Bitcoin-wallets en de afleiding van adressen.
