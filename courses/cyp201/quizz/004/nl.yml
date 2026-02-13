@@ -1,4 +1,4 @@
-question: Welke combinatie van hashfuncties wordt gebruikt om generate kortere vingerafdrukken in Bitcoin te maken?
+question: Welke combinatie van hashfuncties wordt gebruikt om kortere vingerafdrukken in Bitcoin te genereren?
 answer: HASH160
 wrong_answers:
   - SHA512-SHA256
