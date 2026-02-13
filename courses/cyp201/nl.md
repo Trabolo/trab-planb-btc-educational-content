@@ -248,10 +248,10 @@ De meest gebruikte hashfunctie in Bitcoin is **SHA256** ("_Secure Hash Algorithm
 Deze functie wordt op verschillende aspecten van Bitcoin gebruikt. Op protocolniveau is het betrokken bij het Proof-of-Work-mechanisme, waarbij een dubbele hashing wordt toegepast om een gedeeltelijke botsing te zoekn tussen de header van een kandidaat-blok, aangemaakt door een miner, en het moeilijkheidsdoel (difficulty target). Als deze gedeeltelijke botsing wordt gevonden, wordt het kandidaat-blok geldig en kan het worden toegevoegd aan de blockchain.
 
 
-SHA256 wordt ook gebruikt bij de opbouw van een Merkle Tree, wat met name de accumulator is die gebruikt wordt om transacties in blokken op te slaan. Deze structuur wordt ook gevonden in het Utreexo protocol, dat het mogelijk maakt om de grootte van de UTXO set te verkleinen. Daarnaast, met de introductie van Taproot in 2021, wordt SHA256 gebruikt in MAST (_Merkelised Alternative Script Tree_), wat het mogelijk maakt om alleen de bestedingsvoorwaarden te onthullen die daadwerkelijk gebruikt worden in een script, zonder de andere mogelijke opties te onthullen. Het wordt ook gebruikt bij het berekenen van transactie identifiers, bij het verzenden van pakketten over het P2P netwerk, bij elektronische handtekeningen... Tot slot, en dit is van bijzonder belang in deze training, wordt SHA256 gebruikt op applicatieniveau voor de constructie van Bitcoin-wallets en de afleiding van adressen.
+SHA256 wordt ook gebruikt bij de opbouw van een Merkle Tree, wat met name de accumulator is die gebruikt wordt om transacties in blokken op te slaan. Deze structuur wordt ook gevonden in het Utreexo-protocol, dat het mogelijk maakt om de grootte van de UTXO-set te verkleinen. Daarnaast, met de introductie van Taproot in 2021, wordt SHA256 gebruikt in MAST (_Merkelised Alternative Script Tree_), wat het mogelijk maakt om alleen de bestedingsvoorwaarden te onthullen die daadwerkelijk gebruikt worden in een script, zonder de andere mogelijke opties te onthullen. Het wordt ook gebruikt bij het berekenen van transactie-identifiers, bij het verzenden van pakketten over het P2P-netwerk, bij elektronische handtekeningen... Tot slot, en dit is van bijzonder belang in deze training, wordt SHA256 gebruikt op applicatieniveau voor de constructie van Bitcoin-wallets en de afleiding van adressen.
 
 
-Meestal, wanneer je het gebruik van SHA256 in Bitcoin tegenkomt, zal het eigenlijk een dubbele hash SHA256 zijn, genoteerd "**HASH256**", die simpelweg bestaat uit het twee keer achter elkaar toepassen van SHA256:
+Over het algemeen zul je in Bitcoin in plaats van SHA256 de dubbele hash SHA256 tegenkomen, genoteerd "**HASH256**", wat simpelweg neerkomt op het twee keer achter elkaar toepassen van SHA256:
 
 
 $$
@@ -259,10 +259,10 @@ $$
 $$
 
 
-Deze praktijk van dubbel hashen voegt een extra Layer aan beveiliging toe tegen bepaalde potentiële aanvallen, ook al wordt een enkele SHA256 tegenwoordig als cryptografisch veilig beschouwd.
+Deze praktijk van dubbel hashen voegt een extra laag aan beveiliging toe tegen bepaalde potentiële aanvallen, ook al wordt een enkele SHA256 tegenwoordig als cryptografisch veilig beschouwd.
 
 
-Een andere hashingfunctie die beschikbaar is in de Scripttaal en gebruikt wordt voor het afleiden van ontvangstadressen is de functie RIPEMD160. Deze functie produceert een hash van 160 bits (dus korter dan SHA256). Deze wordt meestal gecombineerd met SHA256 om de functie HASH160 te vormen:
+Een andere hashingfunctie die beschikbaar is in de Script-taal en gebruikt wordt voor het afleiden van ontvangstadressen is de functie RIPEMD160. Deze functie produceert een hash van 160 bits (dus korter dan SHA256). Deze wordt meestal gecombineerd met SHA256 om de functie HASH160 te vormen:
 
 
 $$
@@ -270,13 +270,13 @@ $$
 $$
 
 
-Deze combinatie wordt gebruikt om generate kortere hashes te maken, met name bij het maken van bepaalde Bitcoin adressen die hashes van sleutels of script-hashes voorstellen, en om fingerprints van sleutels te maken.
+Deze combinatie wordt gebruikt om kortere hashes te genereren, met name bij het maken van bepaalde Bitcoinadressen die hashes van sleutels of script-hashes voorstellen, en om fingerprints van sleutels te maken.
 
 
-Tot slot wordt, alleen op applicatieniveau, soms ook de SHA512 functie gebruikt, die indirect een rol speelt bij het afleiden van sleutels voor wallets. Deze functie lijkt erg op SHA256 in zijn werking; beide behoren tot dezelfde SHA2 familie, maar SHA512 produceert, zoals zijn naam aangeeft, een 512-bit Hash, vergeleken met 256 bits voor SHA256. We zullen het gebruik ervan in de volgende hoofdstukken gedetailleerd beschrijven.
+Tot slot wordt, alleen op applicatieniveau, soms ook de SHA512-functie gebruikt, die indirect een rol speelt bij het afleiden van sleutels voor wallets. Deze functie lijkt erg op SHA256 in zijn werking; beide behoren tot dezelfde SHA2-familie, maar SHA512 produceert, zoals zijn naam aangeeft, een 512-bit hash, vergeleken met 256 bits voor SHA256. We zullen het gebruik ervan in de volgende hoofdstukken gedetailleerd beschrijven.
 
 
-Je kent nu de essentiële basis over hashing functies voor wat volgt. In het volgende hoofdstuk stel ik voor om in meer detail de werking van de functie te ontdekken die het hart vormt van Bitcoin: SHA256. We zullen het ontleden om te begrijpen hoe het de karakteristieken bereikt die we hier beschreven hebben. Dit volgende hoofdstuk is vrij lang en technisch, maar het is niet essentieel om de rest van de training te volgen. Dus, als je moeite hebt om het te begrijpen, maak je dan geen zorgen en ga direct door naar het volgende hoofdstuk, dat veel toegankelijker zal zijn.
+Je kent nu de essentiële basis over hashingfuncties voor wat volgt. In het volgende hoofdstuk stel ik voor om in meer detail de werking van de functie te ontdekken die het hart vormt van Bitcoin: SHA256. We zullen het ontleden om te begrijpen hoe het de karakteristieken bereikt die we hier beschreven hebben. Dit volgende hoofdstuk is vrij lang en technisch, maar het is niet essentieel om de rest van de training te volgen. Dus, als je moeite hebt om het te begrijpen, maak je dan geen zorgen en ga direct door naar het volgende hoofdstuk, dat veel toegankelijker zal zijn.
 
 
 ## De interne werking van SHA256
@@ -301,7 +301,7 @@ Ter herinnering, we hebben een bericht van willekeurige grootte als invoer voor 
 
 Om te beginnen moeten we ons invoerbericht $m$ voorbereiden zodat het een standaardlengte heeft die een veelvoud is van 512 bits. Deze stap is cruciaal voor de goede werking van het algoritme.
 
-Om dit te doen, beginnen we met de padding bits stap. We voegen eerst een scheidingsbit `1` toe aan het bericht, gevolgd door een bepaald aantal `0` bits. Het aantal toegevoegde `0` bits wordt zo berekend dat de totale lengte van het bericht na deze toevoeging congruent is met 448 modulo 512. De lengte $L$ van het bericht met de opvulbits is dus gelijk aan:
+Om dit te doen, beginnen we met de padding bits stap (opvulstap). We voegen eerst een scheidingsbit `1` toe aan het bericht, gevolgd door een bepaald aantal `0` bits. Het aantal toegevoegde `0` bits wordt zo berekend dat de totale lengte van het bericht na deze toevoeging congruent is met 448 modulo 512. De lengte $L$ van het bericht met de opvulbits is dus gelijk aan:
 
 
 $$
@@ -433,7 +433,7 @@ Voordat we de compressiefunctie in detail bekijken, is het belangrijk om de logi
 
 
 - **Samenvoeging (AND)**: komt overeen met een logische "AND".
-- **Ontknoping (OR)**: komt overeen met een logische "OR".
+- **Disjunctie (OR)**: komt overeen met een logische "OR".
 - **Negatie (NOT)**: komt overeen met een logische "NOT".
 
 
@@ -1797,7 +1797,7 @@ Laten we samen ontdekken hoe we van entropie naar een Mnemonic zin kunnen gaan.
 Om entropie om te zetten in een Mnemonic zin, moet men eerst een controlesom (of "controlesom") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
 
 
-Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 hash wordt gebruikt in plaats van een dubbele Hash). Deze bewerking produceert een 256-bit Hash. De controlesom bestaat uit de eerste bits van deze Hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
+Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 hash wordt gebruikt in plaats van een dubbele hash). Deze bewerking produceert een 256-bit hash. De controlesom bestaat uit de eerste bits van deze hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
 
 
 $$
@@ -2553,7 +2553,7 @@ Deze diepte komt overeen met de master private key en master chain code van de W
 **Diepgang 1: Doel (BIP43)**
 
 
-Het doel bepaalt de logische structuur van de afleiding. Bijvoorbeeld, een P2WPKH Address zal $/84'/$ hebben op diepte 1 (volgens BIP84), terwijl een P2TR Address $/86'/$ zal hebben (volgens BIP86). Deze Layer vergemakkelijkt de compatibiliteit tussen portemonnees door indexnummers aan te geven die overeenkomen met de BIP-nummers.
+Het doel bepaalt de logische structuur van de afleiding. Bijvoorbeeld, een P2WPKH Address zal $/84'/$ hebben op diepte 1 (volgens BIP84), terwijl een P2TR Address $/86'/$ zal hebben (volgens BIP86). Deze laag vergemakkelijkt de compatibiliteit tussen portemonnees door indexnummers aan te geven die overeenkomen met de BIP-nummers.
 
 
 Met andere woorden, zodra je de hoofdsleutel en de chain code hoofdsleutel hebt, dienen deze als ouder sleutelpaar om een kind sleutelpaar af te leiden. De index die gebruikt wordt in deze afleiding kan bijvoorbeeld $/84'/$ zijn als de wallet bedoeld is om SegWit v0 type scripts te gebruiken. Dit sleutelpaar bevindt zich dan op diepte 1. Zijn rol is niet om bitcoins te vergrendelen, maar gewoon om te dienen als een tussenpunt in de afleidingshiërarchie.
@@ -3105,7 +3105,7 @@ Met het scheidingsteken `0` tussen de twee tekens is de HRP-extensie dus:
 
 
 
-- **De payload**: De decimale waarden van de openbare sleutel Hash;
+- **De payload**: De decimale waarden van de openbare sleutel hash;
 
 
 
@@ -3137,7 +3137,7 @@ We kunnen nu de ontvangende Address construeren door de volgende elementen in vo
 
 
 - De SegWit versie: `00`
-- **De payload**: De publieke sleutel Hash
+- **De payload**: De publieke sleutel hash
 - De controlesom: De waarden verkregen in de vorige stap (`10 16 11 04 13 18`)
 
 
