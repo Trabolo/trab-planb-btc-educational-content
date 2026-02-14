@@ -95,7 +95,7 @@ Deze tabel biedt een vertaling van de belangrijkste gebruikte Engelse termen die
 | *transaction*   | Bitcoin-transactie (set van inputs en outputs die een overdracht valideren).                        |
 | *XOR*           | Logische operator "exclusief OF", gebruikt in sommige cryptografische schema's.                    |
 | *HMAC*          | Berichtauthenticatiecode gebaseerd op een hash en een geheime sleutel.                              |
-| *ECDSA*         | Algoritme voor digitale handtekening  met elliptische krommen.                                            |
+| *ECDSA*         | Algoritme voor digitale handtekening  met elliptische curves.                                            |
 | *hash*          | Hash (unieke en vaste vingerafdruk van gegevens).                                                   |
 | *SigHash*       | Type handtekening-hash (definieert welke delen van een transactie worden ondertekend).              |
 | *HD Wallet*     | Hiërarchische deterministische wallet (genereert meerdere sleutels uit één seed).                   |
@@ -919,7 +919,7 @@ In dit hoofdstuk hebben we de HMAC-SHA512 en PBKDF2 functies onderzocht, die has
 <partId>76b58a00-0c18-54b9-870d-6b7e34029db8</partId>
 
 
-## Digitale handtekeningen en elliptische krommen
+## Digitale handtekeningen en elliptische curves
 
 
 <chapterId>c9dd9672-6da1-57f8-9871-8b28994d4c1a</chapterId>
@@ -951,19 +951,19 @@ Daarom moet een gebruiker die bitcoins bezit die vergrendeld zijn met een publie
 
 Het wiskundige verband tussen een openbare sleutel en een privésleutel, evenals de mogelijkheid om een handtekening uit te voeren om het bezit van een privésleutel te bewijzen zonder deze te onthullen, worden mogelijk gemaakt door een algoritme voor digitale handtekeningen. In het Bitcoin protocol worden twee handtekeningalgoritmen gebruikt: **[ECDSA](https://planb.academy/resources/glossary/ecdsa)** (_[Elliptic Curve](https://planb.academy/resources/glossary/elliptic-curve) Digital Signature Algorithm_) en het **Schnorr handtekeningenschema**. ECDSA is het digitale handtekeningprotocol dat vanaf het begin in Bitcoin gebruikt werd. Schnorr is recenter in Bitcoin, omdat het in november 2021 werd geïntroduceerd met de Taproot-update.
 
-Deze twee algoritmen lijken qua mechanisme erg op elkaar. Ze zijn beide gebaseerd op elliptische curve cryptografie. Het grote verschil tussen deze twee protocollen zit in de structuur van de handtekening en enkele specifieke wiskundige eigenschappen. We zullen daarom de werking van deze algoritmen bestuderen, te beginnen met de oudste: ECDSA.
+Deze twee algoritmen lijken qua mechanisme erg op elkaar. Ze zijn beide gebaseerd op elliptische curve-cryptografie. Het grote verschil tussen deze twee protocollen zit in de structuur van de handtekening en enkele specifieke wiskundige eigenschappen. We zullen daarom de werking van deze algoritmen bestuderen, te beginnen met de oudste: ECDSA.
 
 
-### Elliptische kromme cryptografie
+### Elliptische curve-cryptografie
 
 
-Elliptische Curve Cryptografie (ECC) is een reeks algoritmen die een elliptische curve gebruiken voor zijn verschillende wiskundige en geometrische eigenschappen voor cryptografische doeleinden. De veiligheid van deze algoritmen berust op de moeilijkheid van het discrete logaritmeprobleem op elliptische krommen. Elliptische krommen worden met name gebruikt voor sleuteluitwisselingen, asymmetrische encryptie of voor het maken van digitale handtekeningen.
+Elliptische Curve Cryptografie (ECC) is een reeks algoritmen die gebruikmaken van elliptische curves voor hun wiskundige en geometrische eigenschappen in cryptografische toepassingen. De veiligheid van deze algoritmen berust op de moeilijkheid van het discrete logaritmeprobleem op elliptische curves. Deze curves worden met name gebruikt voor sleuteluitwisselingen, asymmetrische encryptie of voor het maken van digitale handtekeningen.
 
 
-Een belangrijke eigenschap van deze krommen is dat ze symmetrisch zijn ten opzichte van de x-as. Zo zal elke niet-verticale lijn die de kromme in twee verschillende punten snijdt, de kromme altijd snijden in een derde punt. Bovendien zal elke raaklijn aan de kromme in een niet-singulier punt de kromme in een ander punt snijden. Deze eigenschappen zijn nuttig voor het definiëren van bewerkingen op de kromme.
+Een belangrijke eigenschap van deze curves is hun symmetrie ten opzichte van de x-as: elke niet-verticale lijn die de curve in twee verschillende punten snijdt, snijdt de curve altijd in een derde punt. Bovendien zal elke raaklijn aan de curve in een niet-singulier punt de curve in een ander punt snijden. Deze eigenschappen zijn nuttig voor het definiëren van bewerkingen op de curve.
 
 
-Hier is een voorstelling van een elliptische kromme over het veld van reële getallen:
+Hier is een voorstelling van een elliptische curve over het veld van reële getallen:
 
 
 ![CYP201](assets/en/019.webp)
@@ -983,7 +983,7 @@ $$
 ### secp256k1
 
 
-Om ECDSA of Schnorr te gebruiken, moet men de parameters van de elliptische curve kiezen, dat wil zeggen de waarden van $a$ en $b$ in de vergelijking van de curve. Er zijn verschillende standaarden van elliptische krommen die cryptografisch veilig zijn. De meest bekende is de _secp256r1_ curve, gedefinieerd en aanbevolen door het NIST (_National Institute of Standards and Technology_).
+Om ECDSA of Schnorr te gebruiken, moet men de parameters van de elliptische curve kiezen, dat wil zeggen de waarden van $a$ en $b$ in de vergelijking van de curve. Er zijn verschillende standaarden van elliptische curves die cryptografisch veilig zijn. De meest bekende is de _secp256r1_ curve, gedefinieerd en aanbevolen door het NIST (_National Institute of Standards and Technology_).
 
 
 Desondanks koos Satoshi Nakamoto, de uitvinder van Bitcoin, ervoor om deze curve niet te gebruiken. De reden voor deze keuze is onbekend, maar sommigen geloven dat hij liever een alternatief zocht omdat de parameters van deze curve mogelijk een achterdeur zouden kunnen bevatten. In plaats daarvan gebruikt het Bitcoin protocol de standaard **_secp256k1_** curve. Deze curve wordt gedefinieerd door de parameters $a = 0$ en $b = 7$. De vergelijking is dus:
@@ -1040,7 +1040,7 @@ y^2 \equiv x^3 + 7 \mod p
 $$
 
 
-Aangezien deze kromme gedefinieerd is over het eindige veld $mathbb{F}_p$, lijkt hij niet langer op een continue kromme maar eerder op een discrete verzameling punten. Hier is bijvoorbeeld hoe de kromme gebruikt in Bitcoin eruit ziet voor een zeer kleine $p = 17$:
+Aangezien deze curve gedefinieerd is over het eindige veld $mathbb{F}_p$, lijkt hij niet langer op een continue curve maar eerder op een discrete verzameling punten. Hier is bijvoorbeeld hoe de curve gebruikt in Bitcoin eruit ziet voor een zeer kleine $p = 17$:
 
 
 ![CYP201](assets/en/021.webp)
@@ -1049,10 +1049,10 @@ Aangezien deze kromme gedefinieerd is over het eindige veld $mathbb{F}_p$, lijkt
 In dit voorbeeld heb ik het eindige veld opzettelijk beperkt tot $p = 17$ om educatieve redenen, maar je moet je voorstellen dat het veld dat in Bitcoin wordt gebruikt immens veel groter is, bijna $2^{256}$.
 
 
-We gebruiken een eindig veld van gehele getallen modulo $p$ om de nauwkeurigheid van bewerkingen op de kromme te garanderen. Elliptische krommen over het veld van reële getallen zijn namelijk onderhevig aan onnauwkeurigheden door afrondingsfouten tijdens berekeningen. Als er veel bewerkingen op de kromme worden uitgevoerd, stapelen deze fouten zich op en kan het eindresultaat onjuist of moeilijk reproduceerbaar zijn. Het exclusieve gebruik van positieve gehele getallen zorgt voor een perfecte nauwkeurigheid van de berekeningen en dus reproduceerbaarheid van het resultaat.
+We gebruiken een eindig veld van gehele getallen modulo $p$ om de nauwkeurigheid van bewerkingen op de curve te garanderen. Elliptische curves over het veld van reële getallen zijn namelijk onderhevig aan onnauwkeurigheden door afrondingsfouten tijdens berekeningen. Als er veel bewerkingen op de curve worden uitgevoerd, stapelen deze fouten zich op en kan het eindresultaat onjuist of moeilijk reproduceerbaar zijn. Het exclusieve gebruik van positieve gehele getallen zorgt voor een perfecte nauwkeurigheid van de berekeningen en dus reproduceerbaarheid van het resultaat.
 
 
-De wiskunde van elliptische krommen over eindige velden is analoog aan die over het veld van reële getallen, met de aanpassing dat alle bewerkingen modulo $p$ worden uitgevoerd. Om de uitleg te vereenvoudigen zullen we in de volgende hoofdstukken de concepten illustreren aan de hand van een kromme gedefinieerd over reële getallen, terwijl we in gedachten houden dat de kromme in de praktijk gedefinieerd wordt over een eindig veld.
+De wiskunde van elliptische curves over eindige velden is analoog aan die over het veld van reële getallen, met de aanpassing dat alle bewerkingen modulo $p$ worden uitgevoerd. Om de uitleg te vereenvoudigen zullen we in de volgende hoofdstukken de concepten illustreren aan de hand van een curve gedefinieerd over reële getallen, terwijl we in gedachten houden dat de curve in de praktijk gedefinieerd wordt over een eindig veld.
 
 
 Als je meer wilt leren over de wiskundige grondslagen van moderne cryptografie, raad ik je ook aan deze andere cursus op Plan ₿ Academy te raadplegen:
@@ -1067,25 +1067,25 @@ https://planb.academy/courses/d2fd9fc0-d9ed-4a87-9fa3-0fdbb3937e28
 
 :::video id=2fddfb16-5ae3-41da-92f8-ef5d09789804:::
 
-Zoals eerder gezien, zijn de digitale handtekening algoritmen in Bitcoin gebaseerd op een paar private en publieke sleutels die wiskundig aan elkaar gekoppeld zijn. Laten we samen onderzoeken wat deze wiskundige link is en hoe ze gegenereerd worden.
+Zoals eerder gezien, zijn de digitale handtekening algoritmen in Bitcoin gebaseerd op een paar van private en publieke sleutels die wiskundig aan elkaar gekoppeld zijn. Laten we samen onderzoeken wat deze wiskundige link is en hoe ze gegenereerd worden.
 
 
 ### De privésleutel
 
 
-De privésleutel is eenvoudigweg een willekeurig of pseudo-willekeurig getal. In het geval van Bitcoin is dit getal 256 bits groot. Het aantal mogelijkheden voor een Bitcoin private sleutel is dus theoretisch $2^{256}$.
+De privésleutel is eenvoudigweg een willekeurig of pseudo-willekeurig getal. In het geval van Bitcoin is dit getal 256 bits groot. Het aantal mogelijkheden voor een Bitcoin privésleutel is dus theoretisch $2^{256}$.
 
 
 **Noot**: Een "pseudo-willekeurig getal" is een getal dat eigenschappen heeft die lijken op die van een echt willekeurig getal, maar gegenereerd wordt door een deterministisch algoritme.
 
 
-In de praktijk zijn er echter maar $n$ verschillende punten op onze elliptische kromme secp256k1, waarbij $n$ de orde is van het generator punt $G$ van de kromme. We zullen later zien waar dit getal mee overeenkomt, maar onthoud gewoon dat een geldige privésleutel een geheel getal is tussen $1$ en $n-1$, wetende dat $n$ een getal is dat dicht bij maar iets minder dan $2^{256}$ ligt. Daarom zijn er enkele 256-bit getallen die niet geldig zijn om een private sleutel te worden in Bitcoin, meer bepaald alle getallen tussen $n$ en $2^{256}$. Als het genereren van het willekeurige getal (de privésleutel) een waarde $k$ oplevert zodanig dat $k \geq n$, dan wordt het als ongeldig beschouwd en moet er een nieuwe willekeurige waarde gegenereerd worden.
+In de praktijk zijn er echter maar $n$ verschillende punten op onze elliptische curve secp256k1, waarbij $n$ de orde is van het generatorpunt $G$ van de kromme. We zullen later zien waar dit getal mee overeenkomt, maar onthoud simpelweg dat een geldige privésleutel een geheel getal is tussen $1$ en $n-1$. Let op dat dit getal $n$ dicht bij, maar iets minder dan $2^{256}$ ligt. Als gevolg daarvan zijn er slechts enkele 256-bit getallen die niet geldig zijn voor een private sleutel in Bitcoin, meer bepaald alle getallen tussen $n$ en $2^{256}$. Bij het genereren van het willekeurige getal (de privésleutel), wordt de waarde $k$ gebruikt. Als $k \geq n$, wordt de waarde beschouwd als ongeldig en moet er een nieuwe willekeurige waarde worden gegenereerd.
 
 
-Het aantal mogelijkheden voor een Bitcoin privésleutel is dus ongeveer $n$, een getal dat in de buurt komt van $1,158 maal 10^{77}$. Dit aantal is zo groot dat als je willekeurig een privésleutel kiest, het statistisch gezien bijna onmogelijk is om op de privésleutel van een andere gebruiker terecht te komen. Om je een idee te geven van de schaal, het aantal mogelijke privésleutels in Bitcoin is van een orde van grootte die in de buurt komt van het geschatte aantal atomen in het waarneembare universum.
+Het aantal mogelijkheden voor een Bitcoin privésleutel is dus ongeveer $n$, een getal dat in de buurt komt van $1,158 maal 10^{77}$. Dit aantal is zo groot dat als je willekeurig een privésleutel kiest, het statistisch gezien bijna onmogelijk is om op de privésleutel van een andere gebruiker terecht te komen. Om je een idee te geven van de schaal, het aantal mogelijke privésleutels in Bitcoin heeft ongeveer dezelfde grootte als het geschatte aantal atomen in het waarneembare universum.
 
 
-Zoals we in de komende hoofdstukken zullen zien, worden vandaag de dag de meeste private sleutels die gebruikt worden in Bitcoin niet willekeurig gegenereerd, maar zijn ze het resultaat van deterministische afleiding van een Mnemonic frase, zelf pseudo-willekeurig (dit is de beroemde frase van 12 of 24 woorden). Deze informatie verandert niets aan het gebruik van handtekeningalgoritmen zoals ECDSA, maar het helpt om onze popularisatie in Bitcoin te heroriënteren.
+Zoals we in de komende hoofdstukken zullen zien, worden vandaag de dag de meeste private sleutels die gebruikt worden in Bitcoin niet willekeurig gegenereerd, maar zijn ze het resultaat van deterministische afleiding van een mnemonische zin, zelf pseudo-willekeurig (dit is de zogenaamde zin van 12 of 24 woorden). Deze informatie verandert niets aan het gebruik van handtekeningalgoritmen zoals ECDSA, maar het helpt ons om ons begrip van Bitcoin te verduidelijken.
 
 
 Voor de rest van de uitleg wordt de privésleutel aangeduid met de kleine letter $k$.
@@ -1102,7 +1102,7 @@ In de praktijk wordt een ongecomprimeerde openbare sleutel weergegeven door 520 
 Het is echter ook mogelijk om de openbare sleutel in een gecomprimeerde vorm weer te geven met slechts 33 bytes (264 bits) door alleen de abscis $x$ van ons punt op de curve en een byte die de pariteit van $y$ aangeeft, te behouden. Dit staat bekend als een gecomprimeerde publieke sleutel. Ik zal hier meer over vertellen in de laatste hoofdstukken van deze training. Maar wat je moet onthouden is dat een publieke sleutel $K$ een punt is dat wordt beschreven door $x$ en $y$.
 
 
-Om het punt $K$ te berekenen dat overeenkomt met onze publieke sleutel, gebruiken we de operatie van scalaire vermenigvuldiging op elliptische krommen, gedefinieerd als een herhaalde optelling ($k$ keer) van het generatorpunt $G$:
+Om het punt $K$ te berekenen dat overeenkomt met onze publieke sleutel, gebruiken we de operatie van scalaire vermenigvuldiging op elliptische curves, gedefinieerd als een herhaalde optelling ($k$ keer) van het generatorpunt $G$:
 
 
 $$
@@ -1128,16 +1128,16 @@ Het feit dat dit punt $G$ gemeenschappelijk is voor alle publieke sleutels in Bi
 ![CYP201](assets/en/022.webp)
 
 
-Het belangrijkste kenmerk van deze operatie is dat het een eenrichtingsfunctie is. Het is gemakkelijk om de publieke sleutel $K$ te berekenen als je de private sleutel $k$ en het generator punt $G$ kent, maar het is praktisch onmogelijk om de private sleutel $k$ te berekenen als je alleen de publieke sleutel $K$ en het generator punt $G$ kent. Het vinden van $k$ uit $K$ en $G$ komt neer op het oplossen van het discrete logaritmeprobleem op elliptische krommen, een wiskundig moeilijk probleem waarvoor geen efficiënt algoritme bekend is. Zelfs de krachtigste huidige rekenmachines zijn niet in staat om dit probleem in een redelijke tijd op te lossen.
+Het belangrijkste kenmerk van deze operatie is dat het een eenrichtingsfunctie is. Het is gemakkelijk om de publieke sleutel $K$ te berekenen als je de private sleutel $k$ en het generator punt $G$ kent, maar het is praktisch onmogelijk om de private sleutel $k$ te berekenen als je alleen de publieke sleutel $K$ en het generator punt $G$ kent. Het vinden van $k$ uit $K$ en $G$ komt neer op het oplossen van het discrete logaritmeprobleem op elliptische curves, een wiskundig moeilijk probleem waarvoor geen efficiënt algoritme bekend is. Zelfs de krachtigste huidige rekenmachines zijn niet in staat om dit probleem in een redelijke tijd op te lossen.
 
 
 ![CYP201](assets/en/023.webp)
 
 
-### Optellen en verdubbelen van punten op elliptische krommen
+### Optellen en verdubbelen van punten op elliptische curves
 
 
-Het concept van optelling op elliptische krommen is meetkundig gedefinieerd. Als we twee punten $P$ en $Q$ op de kromme hebben, wordt de operatie $P + Q$ berekend door een lijn door $P$ en $Q$ te trekken. Deze lijn snijdt de kromme noodzakelijkerwijs in een derde punt $R'$. Vervolgens nemen we het spiegelbeeld van dit punt ten opzichte van de x-as om het punt $R$ te verkrijgen, dat het resultaat is van de optelling:
+Het concept van optelling op elliptische curves is meetkundig gedefinieerd. Als we twee punten $P$ en $Q$ op de curve hebben, wordt de operatie $P + Q$ berekend door een lijn door $P$ en $Q$ te trekken. Deze lijn snijdt de curve noodzakelijkerwijs in een derde punt $R'$. Vervolgens nemen we het spiegelbeeld van dit punt ten opzichte van de x-as om het punt $R$ te verkrijgen, dat het resultaat is van de optelling:
 
 
 $$
@@ -1154,7 +1154,7 @@ Grafisch kan dit als volgt worden voorgesteld:
 ![CYP201](assets/en/024.webp)
 
 
-Voor de verdubbeling van een punt, dat is de bewerking $P + P$, tekenen we de raaklijn aan de kromme in het punt $P$. Deze raaklijn snijdt de kromme in een ander punt $S'$. We nemen dan het spiegelbeeld van dit punt ten opzichte van de x-as om het punt $S$ te verkrijgen, dat het resultaat is van de verdubbeling:
+Voor de verdubbeling van een punt, dat is de bewerking $P + P$, tekenen we de raaklijn aan de curve in het punt $P$. Deze raaklijn snijdt de curve in een ander punt $S'$. We nemen dan het spiegelbeeld van dit punt ten opzichte van de x-as om het punt $S$ te verkrijgen, dat het resultaat is van de verdubbeling:
 
 
 $$
@@ -1241,7 +1241,7 @@ $$
 We hebben dus gemakkelijk de openbare sleutel $K$ kunnen berekenen door $k$ en $G$ te kennen.
 
 
-Als iemand alleen de openbare sleutel $K$ kent, wordt hij geconfronteerd met het discrete logaritmeprobleem: $k$ vinden zodat $K = k ≤ G$. Dit probleem wordt als moeilijk beschouwd omdat er geen efficiënt algoritme is om het op elliptische krommen op te lossen. Dit zorgt voor de veiligheid van de ECDSA- en Schnorr-algoritmen.
+Als iemand alleen de openbare sleutel $K$ kent, wordt hij geconfronteerd met het discrete logaritmeprobleem: $k$ vinden zodat $K = k ≤ G$. Dit probleem wordt als moeilijk beschouwd omdat er geen efficiënt algoritme is om het op elliptische curves op te lossen. Dit zorgt voor de veiligheid van de ECDSA- en Schnorr-algoritmen.
 
 
 Natuurlijk zou het in dit vereenvoudigde voorbeeld met $k = 4$ mogelijk zijn om $k$ met vallen en opstaan te vinden, omdat het aantal mogelijkheden laag is. In de praktijk is $k$ echter een geheel getal van 256 bits, waardoor het aantal mogelijkheden astronomisch groot is (ongeveer $1,158 maal 10^{77}$). Daarom is het ondoenlijk om $k$ met brute kracht te vinden.
@@ -1258,7 +1258,7 @@ Natuurlijk zou het in dit vereenvoudigde voorbeeld met $k = 4$ mogelijk zijn om 
 Nu je weet hoe je een publieke sleutel kunt afleiden uit een privésleutel, kun je al bitcoins ontvangen door dit sleutelpaar te gebruiken als bestedingsvoorwaarde. Maar hoe kunt u ze uitgeven? Om bitcoins uit te geven, moet je de _scriptPubKey_ die aan je UTXO hangt ontgrendelen om te bewijzen dat je inderdaad de rechtmatige eigenaar ervan bent. Om dit te doen, moet je een handtekening $s$ produceren die overeenstemt met de publieke sleutel $K$ die aanwezig is in de _scriptPubKey_ door gebruik te maken van de private sleutel $k$ die initieel gebruikt werd om $K$ te berekenen. De digitale handtekening is dus een onweerlegbaar bewijs dat u in het bezit bent van de privésleutel die hoort bij de openbare sleutel die u claimt.
 
 
-### Elliptische kromme parameters
+### Elliptische curve parameters
 
 
 Om een digitale handtekening uit te voeren, moeten alle deelnemers het eerst eens zijn over de parameters van de gebruikte elliptische curve. In het geval van Bitcoin zijn de parameters van **secp256k1** als volgt:
@@ -1280,7 +1280,7 @@ p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
 $p$ is een heel groot priemgetal iets minder dan $2^{256}$.
 
 
-De elliptische kromme $y^2 = x^3 + ax + b$ over $\mathbb{Z}_p$ gedefinieerd door:
+De elliptische curve $y^2 = x^3 + ax + b$ over $\mathbb{Z}_p$ gedefinieerd door:
 
 
 $$
@@ -1340,7 +1340,7 @@ $$
 Vervolgens berekenen we een Nonce. In cryptografie is een Nonce gewoon een getal dat willekeurig of pseudo-willekeurig gegenereerd wordt en slechts één keer gebruikt wordt. Dat wil zeggen, elke keer dat er een nieuwe digitale handtekening wordt gemaakt met dit sleutelpaar, is het erg belangrijk om een andere Nonce te gebruiken, anders zal dit de veiligheid van de private sleutel in gevaar brengen. Het is daarom voldoende om een willekeurig en uniek geheel getal $r$ te bepalen zodat $1 \leq r \leq n-1$, waarbij $n$ de orde is van het voortbrengende punt $G$ van de elliptische curve.
 
 
-Dan berekenen we het punt $R$ op de elliptische kromme met de coördinaten $(x_R, y_R)$ zo dat:
+Dan berekenen we het punt $R$ op de elliptische curve met de coördinaten $(x_R, y_R)$ zo dat:
 
 
 $$
@@ -1410,7 +1410,7 @@ u_2 &= x_R \cdot s^{-1} \mod n
 $$
 
 
-En bereken tenslotte het punt $V$ op de elliptische kromme zodat:
+En bereken tenslotte het punt $V$ op de elliptische curve zodat:
 
 
 $$
@@ -1477,7 +1477,7 @@ $$
 
 De verificatie van een Schnorr handtekening is eenvoudiger dan die van een ECDSA handtekening. Hier zijn de stappen om de handtekening $(R_x, s)$ met de openbare sleutel $K_x$ en het bericht $m$ te verifiëren.
 
-Eerst controleren we of $K_x$ een geldig geheel getal is kleiner dan $p$. Als dit het geval is, vinden we het overeenkomstige punt op de kromme waarbij $K_y$ even is. We extraheren ook $R_x$ en $s$ door de handtekening $\text{SIG}$ te splitsen. Daarna controleren we of $R_x < p$ en $s < n$ (de volgorde van de kromme).
+Eerst controleren we of $K_x$ een geldig geheel getal is kleiner dan $p$. Als dit het geval is, vinden we het overeenkomstige punt op de curve waarbij $K_y$ even is. We extraheren ook $R_x$ en $s$ door de handtekening $\text{SIG}$ te splitsen. Daarna controleren we of $R_x < p$ en $s < n$ (de volgorde van de kromme).
 
 Vervolgens berekenen we de uitdaging $e$ op dezelfde manier als de uitgever van de handtekening:
 
@@ -1894,7 +1894,7 @@ Deze lijst van 2048 woorden bestaat in verschillende talen. Dit zijn geen eenvou
 Om de optimale lengte van uw mnemonische zin te bepalen, moet u rekening houden met de werkelijke beveiliging die deze biedt. Een woordgroep van 12 woorden biedt 128 bits beveiliging, terwijl een woordgroep van 24 256 bits biedt.
 
 
-Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin-wallet, aangezien de private sleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin private sleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze private sleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische krommen (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
+Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin-wallet, aangezien de private sleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin private sleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze private sleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische curves (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
 
 
 Voor 256-bits sleutels, zoals die gebruikt worden in Bitcoin, reduceert Pollard's rho algoritme de complexiteit dus tot $2^{128}$ operaties:
@@ -2116,7 +2116,7 @@ De uitgebreide sleutel bestaat uit twee delen:
 
 ### Hoe uitgebreide toetsen werken
 
-Als de uitgebreide sleutel een privésleutel bevat, wordt het een uitgebreide privésleutel genoemd. Deze is te herkennen aan de prefix die de identificatie `prv` bevat. Naast de privésleutel bevat de uitgebreide privésleutel ook de bijbehorende chain code. Met dit type uitgebreide sleutel is het mogelijk om alle soorten kind-privésleutels af te leiden. Door het optellen en verdubbelen van punten op elliptische krommen is het dus ook mogelijk om child public keys af te leiden.
+Als de uitgebreide sleutel een privésleutel bevat, wordt het een uitgebreide privésleutel genoemd. Deze is te herkennen aan de prefix die de identificatie `prv` bevat. Naast de privésleutel bevat de uitgebreide privésleutel ook de bijbehorende chain code. Met dit type uitgebreide sleutel is het mogelijk om alle soorten kind-privésleutels af te leiden. Door het optellen en verdubbelen van punten op elliptische curves is het dus ook mogelijk om child public keys af te leiden.
 
 
 Als de uitgebreide sleutel geen privésleutel bevat, maar een openbare sleutel, wordt het een uitgebreide openbare sleutel genoemd. Deze wordt herkend aan de prefix die de identificatie `pub` bevat. Naast de sleutel bevat het uiteraard ook de bijbehorende chain code. In tegenstelling tot de uitgebreide private sleutel, kunnen met de uitgebreide publieke sleutel alleen "normale" child public keys worden afgeleid (wat betekent dat er geen "hardened" child keys kunnen worden afgeleid). We zullen in het volgende hoofdstuk zien wat deze "normale" en "geharde" kwalificaties betekenen.
@@ -2489,7 +2489,7 @@ Hier volgt een schematische voorstelling van de algemene afleiding:
 ### Correspondentie tussen openbare en privésleutels van kinderen
 
 
-Een vraag die kan opkomen is hoe een normale kind-privésleutel die is afgeleid van een ouder-privésleutel kan corresponderen met een normale kind-privésleutel die is afgeleid van de corresponderende ouder-privésleutel. Dit verband wordt precies gegarandeerd door de eigenschappen van elliptische krommen. Om een normale kind-publieke sleutel af te leiden, wordt HMAC-SHA512 op dezelfde manier toegepast, maar de uitvoer wordt anders gebruikt:
+Een vraag die kan opkomen is hoe een normale kind-privésleutel die is afgeleid van een ouder-privésleutel kan corresponderen met een normale kind-privésleutel die is afgeleid van de corresponderende ouder-privésleutel. Dit verband wordt precies gegarandeerd door de eigenschappen van elliptische curves. Om een normale kind-publieke sleutel af te leiden, wordt HMAC-SHA512 op dezelfde manier toegepast, maar de uitvoer wordt anders gebruikt:
 
 
 - Normale kind-privésleutel: $k_{CHD}^n = \text{parse256}(h_1) + k_{\text{PAR}} \mod n$
@@ -2936,7 +2936,7 @@ De eerste stap is het comprimeren van de openbare sleutel $K$. Om dit proces goe
 
 Een publieke sleutel in Bitcoin is een punt $K$ gelegen op een elliptische curve. Het wordt weergegeven in de vorm $(x, y)$, waarbij $x$ en $y$ de coördinaten van het punt zijn. In ongecomprimeerde vorm is deze openbare sleutel 520 bits groot: 8 bits voor een prefix (initiële waarde van `0x04`), 256 bits voor de coördinaat $x$ en 256 bits voor de coördinaat $y$.
 
-Elliptische krommen hebben echter een symmetrie-eigenschap ten opzichte van de x-as: voor een gegeven coördinaat van $x$ zijn er slechts twee mogelijke waarden voor $y$: $y$ en $-y$. Deze twee punten liggen aan weerszijden van de x-as. Met andere woorden, als we $x$ kennen, is het voldoende om aan te geven of $y$ even of oneven is om het exacte punt op de kromme te bepalen.
+Elliptische curves hebben echter een symmetrie-eigenschap ten opzichte van de x-as: voor een gegeven coördinaat van $x$ zijn er slechts twee mogelijke waarden voor $y$: $y$ en $-y$. Deze twee punten liggen aan weerszijden van de x-as. Met andere woorden, als we $x$ kennen, is het voldoende om aan te geven of $y$ even of oneven is om het exacte punt op de curve te bepalen.
 
 
 ![CYP201](assets/en/069.webp)
