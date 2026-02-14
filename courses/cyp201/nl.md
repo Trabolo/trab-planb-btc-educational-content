@@ -290,7 +290,7 @@ Je kent nu de essentiële basis over hashingfuncties voor wat volgt. In het volg
 We hebben eerder gezien dat hashingfuncties belangrijke eigenschappen bezitten die hun gebruik in Bitcoin rechtvaardigen. Laten we nu de interne mechanismen van deze hashingfuncties onderzoeken die hen deze eigenschappen geven, en om dit te doen, stel ik voor om de werking van SHA256 te ontleden.
 
 
-De SHA256- en SHA512-functies behoren tot dezelfde SHA2-familie. Hun mechanisme is gebaseerd op een specifieke constructie genaamd **Merkle-Damgård constructie**. RIPEMD160 gebruikt ook ditzelfde type constructie.
+De SHA256- en SHA512-functies behoren tot dezelfde SHA2-familie. Hun mechanisme is gebaseerd op een specifieke constructie genaamd **Merkle-Damgård-constructie**. RIPEMD160 gebruikt ook ditzelfde type constructie.
 
 
 Ter herinnering, we hebben een bericht van willekeurige grootte als invoer voor SHA256, en we zullen het door de functie sturen om een 256-bits hash als uitvoer te verkrijgen.
@@ -548,7 +548,7 @@ Schematisch zou de rechter circulaire shift operatie als volgt gezien kunnen wor
 ### Compressiefunctie
 
 
-Nu we de basisbewerkingen hebben begrepen, laten we de SHA256 compressiefunctie in detail bekijken.
+Nu we de basisbewerkingen hebben begrepen, laten we de SHA256-compressiefunctie in detail bekijken.
 
 
 In de vorige stap hebben we onze invoer verdeeld in verschillende 512-bits stukken $P$. Voor elk 512-bits blok $P$ hebben we:
@@ -667,7 +667,7 @@ A = temp1 + temp2 \mod 2^{32}
 $$
 
 
-Het volgende diagram stelt een ronde voor van de SHA256 compressiefunctie zoals we zojuist beschreven hebben:
+Het volgende diagram stelt een ronde voor van de SHA256-compressiefunctie zoals we zojuist beschreven hebben:
 
 
 ![CYP201](assets/en/015.webp)
@@ -718,10 +718,10 @@ Elke variabele is een geheel getal van 32 bits, dus hun aaneenschakeling levert 
 ### Rechtvaardiging van cryptografische eigenschappen
 
 
-Maar hoe is deze functie dan onomkeerbaar, botsingsbestendig en bestand tegen knoeien?
+Maar hoe is deze functie dan onomkeerbaar, botsings- en sabotagebestendig?
 
 
-Voor de sabotageweerstand is het vrij eenvoudig te begrijpen. Er worden zoveel berekeningen uitgevoerd in cascade, die zowel afhankelijk zijn van de invoer als van de constanten, dat de kleinste wijziging van de initiële boodschap het afgelegde pad volledig verandert, en dus de uitvoer hash volledig verandert. Dit wordt het lawine-effect genoemd. Deze eigenschap wordt gedeeltelijk gegarandeerd door de menging van de tussentoestanden met de begintoestanden voor elk stuk.
+Voor de sabotageweerstand is het vrij eenvoudig te begrijpen. Er worden zoveel berekeningen uitgevoerd in cascade, die zowel afhankelijk zijn van de invoer als van de constanten, dat de kleinste wijziging van de initiële boodschap het afgelegde pad volledig verandert, en dus de uitvoer-hash volledig verandert. Dit wordt het lawine-effect genoemd. Deze eigenschap wordt gedeeltelijk gegarandeerd door de menging van de tussentoestanden met de begintoestanden voor elk stuk.
 
 Wanneer we het hebben over een cryptografische hashfunctie, wordt de term "onomkeerbaarheid" over het algemeen niet gebruikt. In plaats daarvan hebben we het over "preimage-resistentie", die specificeert dat het voor elke gegeven $y$ moeilijk is om een $x$ te vinden zodat $h(x) = y$. Deze preimage-resistentie wordt gegarandeerd door de algebraïsche complexiteit en de sterke niet-lineariteit van de bewerkingen die in de compressiefunctie worden uitgevoerd, evenals door het verlies van bepaalde informatie in het proces. Bijvoorbeeld, voor een gegeven resultaat van een optelling modulo, zijn er verschillende mogelijke operanden:
 
@@ -745,7 +745,7 @@ Voor de XOR-bewerking hebben we te maken met hetzelfde probleem. Denk aan de waa
 De compressiefunctie gebruikt ook de bewerking $text{ShR}$. Deze bewerking verwijdert een deel van de basisinformatie, die later niet meer terug te halen is. Nogmaals, er is geen algebraïsche manier om deze bewerking terug te draaien. Al deze eenrichtings- en informatieverliesoperaties worden zeer vaak gebruikt in compressiefuncties. Het aantal mogelijke inputs voor een gegeven output is dus bijna oneindig, en elke poging tot omgekeerde berekening zou leiden tot vergelijkingen met een zeer groot aantal onbekenden, die bij elke stap exponentieel zouden toenemen.
 
 
-Tenslotte spelen voor de eigenschap botsingsbestendigheid verschillende parameters een rol. De voorbewerking van het originele bericht speelt een essentiële rol. Zonder deze voorbewerking zou het gemakkelijker kunnen zijn om botsingen op de functie te vinden. Hoewel botsingen theoretisch bestaan (vanwege het "pigeonhole" principe), maakt de structuur van de hashfunctie, gecombineerd met de eerder genoemde eigenschappen, de kans op het vinden van een botsing extreem laag.
+Tenslotte spelen voor de eigenschap botsingsbestendigheid verschillende parameters een rol. De voorbewerking van het originele bericht speelt een essentiële rol. Zonder deze voorbewerking zou het gemakkelijker kunnen zijn om botsingen op de functie te vinden. Hoewel botsingen theoretisch bestaan (vanwege het "pigeonhole"-principe), maakt de structuur van de hashfunctie, gecombineerd met de eerder genoemde eigenschappen, de kans op het vinden van een botsing extreem laag.
 
 Om een hashfunctie botsingsbestendig te maken, is het essentieel dat:
 
@@ -753,16 +753,16 @@ Om een hashfunctie botsingsbestendig te maken, is het essentieel dat:
 
 - De uitvoer is onvoorspelbaar: Elke voorspelbaarheid kan worden uitgebuit om sneller botsingen te vinden dan met een brute force aanval. De functie zorgt ervoor dat elke bit van de uitvoer op een niet-triviale manier afhangt van de invoer. Met andere woorden, de functie is zo ontworpen dat elke bit van het eindresultaat een onafhankelijke kans heeft om 0 of 1 te zijn, zelfs als deze onafhankelijkheid in de praktijk niet absoluut is.
 - De verdeling van hashes is pseudo-willekeurig: Dit zorgt ervoor dat de hashes uniform verdeeld zijn.
-- De grootte van de hash is aanzienlijk: hoe groter de mogelijke ruimte voor resultaten, hoe moeilijker het is om een botsing te vinden.
+- De grootte van de hash is substantieel: hoe groter de mogelijke ruimte voor resultaten, hoe moeilijker het is om een botsing te vinden.
 
 
 Cryptografen ontwerpen deze functies door de best mogelijke aanvallen te evalueren om botsingen te vinden en vervolgens de parameters aan te passen om deze aanvallen ineffectief te maken.
 
 
-### Merkle-Damgård Bouw
+### Merkle-Damgård-contructie
 
 
-De structuur van SHA256 is gebaseerd op de Merkle-Damgård constructie, die het mogelijk maakt om een compressiefunctie om te zetten in een hashfunctie die berichten van willekeurige lengte kan verwerken. Dit is precies wat we in dit hoofdstuk hebben gezien.
+De structuur van SHA256 is gebaseerd op de Merkle-Damgård-constructie, die het mogelijk maakt om een compressiefunctie om te zetten in een hashfunctie die berichten van willekeurige lengte kan verwerken. Dit is precies wat we in dit hoofdstuk hebben gezien.
 
 
 Sommige oude hashfuncties zoals SHA1 of MD5, die deze specifieke constructie gebruiken, zijn echter kwetsbaar voor lengte-uitbreidingsaanvallen. Dit is een techniek waarmee een aanvaller die de hash van een bericht $M$ en de lengte van $M$ kent (zonder het bericht zelf te kennen), de hash van een bericht $M'$ kan berekenen dat gevormd is door $M$ aan elkaar te rijgen met extra inhoud.
@@ -779,9 +779,9 @@ $$
 $$
 
 
-Dit verhoogt de veiligheid tegen mogelijke aanvallen gerelateerd aan de Merkle-Damgård constructie, maar het verhoogt de veiligheid van het hashingproces niet in termen van botsingsbestendigheid. Bovendien, zelfs als SHA256 kwetsbaar was geweest voor dit type aanval, zou het geen ernstige impact hebben gehad, aangezien alle gebruikssituaties van hashfuncties in Bitcoin betrekking hebben op openbare gegevens. De aanval voor lengteverlenging zou echter alleen nuttig kunnen zijn voor een aanvaller als de gehashte gegevens privé zijn en de gebruiker de hashfunctie heeft gebruikt als authenticatiemechanisme voor deze gegevens, vergelijkbaar met een MAC. De implementatie van dubbel hashing blijft dus een mysterie in het ontwerp van Bitcoin.
+Dit verhoogt de veiligheid tegen mogelijke aanvallen gerelateerd aan de Merkle-Damgård-constructie, maar het verhoogt de veiligheid van het hashingproces niet in termen van botsingsbestendigheid. Bovendien, zelfs als SHA256 kwetsbaar was geweest voor dit type aanval, zou het geen ernstige impact hebben gehad, aangezien alle gebruikssituaties van hashfuncties in Bitcoin betrekking hebben op openbare gegevens. De aanval voor lengteverlenging zou echter alleen nuttig kunnen zijn voor een aanvaller als de gehashte gegevens privé zijn en de gebruiker de hashfunctie heeft gebruikt als authenticatiemechanisme voor deze gegevens, vergelijkbaar met een MAC. De implementatie van de dubbele hashing blijft dus een mysterie in het ontwerp van Bitcoin.
 
-Nu we in detail hebben gekeken naar de werking van hashfuncties, in het bijzonder SHA256, dat uitgebreid gebruikt wordt in Bitcoin, zullen we ons meer specifiek richten op de cryptografische afleidingsalgoritmen die gebruikt worden op applicatieniveau, in het bijzonder voor het afleiden van de sleutels voor je Wallet.
+Nu we in detail hebben gekeken naar de werking van hashfuncties, in het bijzonder SHA256, dat uitgebreid gebruikt wordt in Bitcoin, zullen we ons meer specifiek richten op de cryptografische afleidingsalgoritmen die gebruikt worden op applicatieniveau, in het bijzonder voor het afleiden van de sleutels voor je wallet.
 
 
 ## De gebruikte algoritmen voor afleiding
@@ -792,15 +792,15 @@ Nu we in detail hebben gekeken naar de werking van hashfuncties, in het bijzonde
 :::video id=a5cf4eb3-e53f-4bff-aee4-de0ca6aab3b6:::
 
 
-In Bitcoin op applicatieniveau worden, naast hashfuncties, cryptografische afleidingsalgoritmen gebruikt om generate gegevens te beveiligen van initiële invoer. Hoewel deze algoritmen gebaseerd zijn op hashfuncties, dienen ze verschillende doelen, vooral in termen van authenticatie en sleutelgeneratie. Deze algoritmen behouden enkele kenmerken van hashfuncties, zoals onomkeerbaarheid, sabotagebestendigheid en botsingsbestendigheid.
+In Bitcoin op applicatieniveau worden, naast hashfuncties, cryptografische afleidingsalgoritmen gebruikt om gegevens van de initiële invoer te beveiligen. Hoewel deze algoritmen gebaseerd zijn op hashfuncties, dienen ze verschillende doelen, vooral in termen van authenticatie en sleutelgeneratie. Deze algoritmen behouden enkele kenmerken van hashfuncties, zoals onomkeerbaarheid, sabotagebestendigheid en botsingsbestendigheid.
 
 
 In Bitcoin-wallets worden voornamelijk 2 afleidingsalgoritmes gebruikt:
 
 
 
-- HMAC (_Hash-gebaseerde berichtenauthenticatiecode_)
-- PBKDF2 (**Password-Based Key Derivation Function 2**)
+- **HMAC (_Hash-based Message Authentication Code_)**
+- **PBKDF2 (_Password-Based Key Derivation Function 2_)**
 
 
 We zullen samen de werking en de rol van elk van hen onderzoeken.
@@ -881,14 +881,14 @@ HMAC wordt in Bitcoin met name gebruikt voor het afleiden van sleutels in HD (Hi
 PBKDF2 (_Password-Based Key Derivation Function 2_) is een sleutelafleidingsalgoritme dat is ontworpen om de veiligheid van wachtwoorden te verbeteren. Het algoritme past een pseudo-willekeurige functie toe (hier HMAC-SHA512) op een wachtwoord en een cryptografische salt en herhaalt deze bewerking een bepaald aantal keren om een outputsleutel te produceren.
 
 
-In Bitcoin wordt PBKDF2 gebruikt om generate de seed van een HD wallet te maken uit een Mnemonic zin en een passphrase (maar daar zullen we in de komende hoofdstukken dieper op ingaan).
+In Bitcoin wordt PBKDF2 gebruikt om de seed van een HD wallet te maken uit een mnemonische zin en een passphrase (maar daar zullen we in de komende hoofdstukken dieper op ingaan).
 
 
 Het PBKDF2 proces gaat als volgt, met:
 
 
 
-- $m$: de Mnemonic-zin van de gebruiker;
+- $m$: de mnemonische zin van de gebruiker;
 - $s$: de optionele passphrase om de beveiliging te verhogen (leeg veld als er geen passphrase is);
 - $n$: het aantal iteraties van de functie, in ons geval is dat 2048.
 
@@ -910,7 +910,7 @@ Schematisch kan PBKDF2 als volgt worden voorgesteld:
 ![CYP201](assets/en/018.webp)
 
 
-In dit hoofdstuk hebben we de HMAC-SHA512 en PBKDF2 functies onderzocht, die hashingfuncties gebruiken om de integriteit en veiligheid van sleutelafleidingen in het Bitcoin protocol te garanderen. In het volgende deel zullen we kijken naar digitale handtekeningen, een andere cryptografische methode die veel gebruikt wordt in Bitcoin.
+In dit hoofdstuk hebben we de HMAC-SHA512 en PBKDF2 functies onderzocht, die hashingfuncties gebruiken om de integriteit en veiligheid van sleutelafleidingen in het Bitcoin-protocol te verzekeren. In het volgende deel zullen we kijken naar digitale handtekeningen, een andere cryptografische methode die veel gebruikt wordt in Bitcoin.
 
 
 # Digitale handtekeningen
@@ -933,25 +933,25 @@ De tweede cryptografische methode die gebruikt wordt in Bitcoin zijn digitale ha
 ### Bitcoins, UTXO's en bestedingsvoorwaarden
 
 
-De term "_wallet_" in Bitcoin kan nogal verwarrend zijn voor beginners. Een Bitcoin-wallet is namelijk software die niet direct je bitcoins bevat, in tegenstelling tot een fysieke wallet die munten of biljetten kan bevatten. Bitcoins zijn gewoon rekeneenheden. Deze rekeneenheid wordt vertegenwoordigd door **UTXO** (_Unspent Transaction Outputs_), dat zijn niet-uitgegeven transactie-uitgangen. Als deze outputs niet uitgegeven zijn, betekent dit dat ze toebehoren aan een gebruiker. UTXO's zijn in zekere zin stukjes bitcoins, van variabele grootte, die toebehoren aan een gebruiker.
+De term "_wallet_" in Bitcoin kan nogal verwarrend zijn voor beginners. Een Bitcoin-wallet is namelijk software die niet direct je bitcoins bevat, in tegenstelling tot een fysieke wallet die munten of biljetten kan bevatten. Bitcoins zijn gewoon rekeneenheden. Deze rekeneenheid wordt vertegenwoordigd door **UTXO** (_Unspent Transaction Outputs_), dat zijn niet-uitgegeven transactie-outputs. Als deze outputs niet uitgegeven zijn, betekent dit dat ze toebehoren aan een gebruiker. UTXO's zijn in zekere zin stukjes bitcoins, van variabele grootte, die toebehoren aan een gebruiker.
 
 
-Het Bitcoin protocol is gedistribueerd en werkt zonder centrale autoriteit. Daarom is het niet zoals traditionele bankgegevens, waar de euro's die van jou zijn simpelweg geassocieerd zijn met je persoonlijke identiteit. In Bitcoin zijn je UTXO's van jou, omdat ze beschermd zijn door bestedingsvoorwaarden die in de Scripttaal zijn gespecificeerd. Simpel gezegd zijn er twee soorten scripts: het vergrendelingsscript (_scriptPubKey_), dat een UTXO beschermt, en het ontgrendelingsscript (_scriptSig_), dat het mogelijk maakt een UTXO te ontgrendelen en dus de Bitcoin eenheden die het vertegenwoordigt uit te geven.
+Het Bitcoin-protocol is gedistribueerd en werkt zonder centrale autoriteit. Daarom is het niet zoals traditionele bankgegevens, waarbij je euro's simpelweg geassocieerd is met je persoonlijke identiteit. In Bitcoin zijn je UTXO's van jou, omdat ze beschermd zijn door bestedingsvoorwaarden die in de Script-taal zijn gespecificeerd. Simpel gezegd zijn er twee soorten scripts: het vergrendelingsscript (_scriptPubKey_), dat een UTXO beschermt, en het ontgrendelingsscript (_scriptSig_), dat het mogelijk maakt een UTXO te ontgrendelen en dus de bitcoin eenheden die het vertegenwoordigt uit te geven.
 
-De initiële werking van Bitcoin met P2PK scripts houdt in dat er een publieke sleutel gebruikt wordt om geld te blokkeren, waarbij in een _scriptPubKey_ gespecificeerd wordt dat de persoon die deze UTXO wil uitgeven een geldige handtekening moet leveren met de private sleutel die overeenkomt met deze publieke sleutel. Om deze UTXO te ontgrendelen, is het dus nodig om een geldige handtekening te leveren in het _scriptSig_. Zoals de namen al suggereren, is de publieke sleutel bij iedereen bekend, omdat deze wordt uitgezonden op de Blockchain, terwijl de privésleutel alleen bekend is bij de rechtmatige eigenaar van het geld.
+De initiële werking van Bitcoin met P2PK-scripts houdt in dat er een publieke sleutel gebruikt wordt om geld te blokkeren, waarbij in een _scriptPubKey_ gespecificeerd wordt dat de persoon die deze UTXO wil uitgeven een geldige handtekening moet leveren met de private sleutel die overeenkomt met deze publieke sleutel. Om deze UTXO te ontgrendelen, is het dus nodig om een geldige handtekening te leveren in het _scriptSig_. Zoals de namen al suggereren, is de publieke sleutel bij iedereen bekend, omdat deze wordt uitgezonden op de blockchain, terwijl de privésleutel alleen bekend is bij de rechtmatige eigenaar van het geld.
 
-Dit is de basiswerking van Bitcoin, maar in de loop der tijd is deze werking complexer geworden. Eerst introduceerde Satoshi ook P2PKH scripts, die een ontvangende Address gebruiken in de _scriptPubKey_, die de hash van de publieke sleutel voorstelt. Daarna werd het systeem nog complexer met de komst van SegWit en daarna Taproot. Het algemene principe blijft echter fundamenteel hetzelfde: een publieke sleutel of een representatie van deze sleutel wordt gebruikt om UTXO's te vergrendelen, en een corresponderende private sleutel is nodig om ze te ontgrendelen en dus uit te geven.
-
-
-Een gebruiker die een Bitcoin transactie wil doen, moet daarom een digitale handtekening zetten met zijn privé-sleutel op de transactie. De handtekening kan worden geverifieerd door andere netwerkdeelnemers. Als deze geldig is, betekent dit dat de gebruiker die de transactie initieert inderdaad de eigenaar is van de private sleutel, en dus de eigenaar van de bitcoins die hij/zij wil uitgeven. Andere gebruikers kunnen de transactie dan accepteren en verspreiden.
+Dit is de basiswerking van Bitcoin, maar in de loop der tijd is deze werking complexer geworden. Eerst introduceerde Satoshi ook P2PKH-scripts, die een ontvangstadres gebruiken in de _scriptPubKey_, dat de hash van de publieke sleutel voorstelt. Daarna werd het systeem nog complexer met de komst van SegWit en daarna Taproot. Het algemene principe blijft echter fundamenteel hetzelfde: een publieke sleutel of een representatie van deze sleutel wordt gebruikt om UTXO's te vergrendelen, en een corresponderende privésleutel is nodig om ze te ontgrendelen en dus uit te geven.
 
 
-Daarom moet een gebruiker die bitcoins bezit die vergrendeld zijn met een publieke sleutel, een manier vinden om veilig op te bergen wat het mogelijk maakt om zijn fondsen te ontgrendelen: de privésleutel. Een Bitcoin-wallet is precies een apparaat waarmee je gemakkelijk al je sleutels kunt bewaren zonder dat andere mensen er toegang toe hebben. Het is daarom meer een sleutelhanger dan een Wallet.
+Een gebruiker die een Bitcoin-transactie wil uitvoeren, moet daarom een digitale handtekening zetten met zijn privésleutel op de transactie. Deze handtekening kan door andere netwerkdeelnemers worden geverifieerd. Als de handtekening geldig is, betekent dit dat de initiator van de transactie inderdaad de eigenaar is van de privésleutel, en dus de eigenaar van de bitcoins die hij/zij wil uitgeven. Andere gebruikers kunnen de transactie dan accepteren en verspreiden.
 
 
-Het wiskundige verband tussen een openbare sleutel en een privésleutel, evenals de mogelijkheid om een handtekening uit te voeren om het bezit van een privésleutel te bewijzen zonder deze te onthullen, worden mogelijk gemaakt door een algoritme voor digitale handtekeningen. In het Bitcoin protocol worden twee handtekeningalgoritmen gebruikt: **[ECDSA](https://planb.academy/resources/glossary/ecdsa)** (_[Elliptic Curve](https://planb.academy/resources/glossary/elliptic-curve) Digital Signature Algorithm_) en het **Schnorr handtekeningenschema**. ECDSA is het digitale handtekeningprotocol dat vanaf het begin in Bitcoin gebruikt werd. Schnorr is recenter in Bitcoin, omdat het in november 2021 werd geïntroduceerd met de Taproot update.
+Daarom moet een gebruiker die bitcoins bezit die vergrendeld zijn met een publieke sleutel, een veilige manier vinden om de privésleutel te bewaren, waardoor de fondsen kunnen worden ontgrendeld. Een Bitcoin-wallet is precies een apparaat waarmee je gemakkelijk al je sleutels kunt bewaren zonder dat andere mensen er toegang toe hebben. Het is daarom meer een sleutelhanger dan een wallet.
 
-Deze twee algoritmen lijken erg op elkaar in hun mechanisme. Ze zijn beide gebaseerd op elliptische curve cryptografie. Het grote verschil tussen deze twee protocollen zit in de structuur van de handtekening en enkele specifieke wiskundige eigenschappen. We zullen daarom de werking van deze algoritmen bestuderen, te beginnen met de oudste: ECDSA.
+
+Het wiskundige verband tussen een openbare sleutel en een privésleutel, evenals de mogelijkheid om een handtekening uit te voeren om het bezit van een privésleutel te bewijzen zonder deze te onthullen, worden mogelijk gemaakt door een algoritme voor digitale handtekeningen. In het Bitcoin protocol worden twee handtekeningalgoritmen gebruikt: **[ECDSA](https://planb.academy/resources/glossary/ecdsa)** (_[Elliptic Curve](https://planb.academy/resources/glossary/elliptic-curve) Digital Signature Algorithm_) en het **Schnorr handtekeningenschema**. ECDSA is het digitale handtekeningprotocol dat vanaf het begin in Bitcoin gebruikt werd. Schnorr is recenter in Bitcoin, omdat het in november 2021 werd geïntroduceerd met de Taproot-update.
+
+Deze twee algoritmen lijken qua mechanisme erg op elkaar. Ze zijn beide gebaseerd op elliptische curve cryptografie. Het grote verschil tussen deze twee protocollen zit in de structuur van de handtekening en enkele specifieke wiskundige eigenschappen. We zullen daarom de werking van deze algoritmen bestuderen, te beginnen met de oudste: ECDSA.
 
 
 ### Elliptische kromme cryptografie
@@ -1576,7 +1576,7 @@ In het specifieke geval van Bitcoin hebben we gezien dat het bericht $m$ overeen
 De "sighash flag" is dus een parameter die aan elke ingang wordt toegevoegd, zodat kan worden bepaald welke onderdelen van een transactie onder de bijbehorende handtekening vallen. Deze componenten zijn de ingangen en de uitgangen. De keuze van de sighash flag bepaalt dus welke inputs en welke outputs van de transactie vastliggen in de handtekening en welke nog gewijzigd kunnen worden zonder deze ongeldig te maken. Met dit mechanisme kunnen handtekeningen transactiegegevens vastleggen volgens de bedoelingen van de ondertekenaar.
 
 
-Het is duidelijk dat zodra de transactie bevestigd is op de Blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash vlaggen. De mogelijkheid van wijziging via de sighash vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
+Het is duidelijk dat zodra de transactie bevestigd is op de blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash vlaggen. De mogelijkheid van wijziging via de sighash vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
 
 
 Over het algemeen biedt de wallet-software u niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer u een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
@@ -1599,7 +1599,7 @@ In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de elementen die
 
 
 
-- `SIGHASH_NONE` (`0x02`): De handtekening dekt alle ingangen maar geen van de uitgangen, waardoor de uitgangen na de handtekening gewijzigd kunnen worden. Concreet lijkt dit op een blanco cheque. De ondertekenaar ontgrendelt de UTXO's in de ingangen, maar laat het veld van de uitgangen volledig wijzigbaar. Iedereen die op de hoogte is van deze transactie kan dus de output van zijn keuze toevoegen, bijvoorbeeld door een ontvangende Address op te geven om het geld te innen dat verbruikt is door de inputs, en vervolgens de transactie uit te zenden om de bitcoins terug te krijgen. De handtekening van de eigenaar van de inputs wordt niet ongeldig gemaakt, omdat deze alleen betrekking heeft op de inputs.
+- `SIGHASH_NONE` (`0x02`): De handtekening dekt alle ingangen maar geen van de uitgangen, waardoor de uitgangen na de handtekening gewijzigd kunnen worden. Concreet lijkt dit op een blanco cheque. De ondertekenaar ontgrendelt de UTXO's in de ingangen, maar laat het veld van de uitgangen volledig wijzigbaar. Iedereen die op de hoogte is van deze transactie kan dus de output van zijn keuze toevoegen, bijvoorbeeld door een ontvangstadres op te geven om het geld te innen dat verbruikt is door de inputs, en vervolgens de transactie uit te zenden om de bitcoins terug te krijgen. De handtekening van de eigenaar van de inputs wordt niet ongeldig gemaakt, omdat deze alleen betrekking heeft op de inputs.
 
 
 ![CYP201](assets/en/032.webp)
@@ -1661,7 +1661,7 @@ https://planb.academy/courses/34bd43ef-6683-4a5c-b239-7cb1e40a4aeb
 In het volgende deel stel ik voor om te ontdekken hoe de Mnemonic frase aan de basis van je Bitcoin-wallet werkt.
 
 
-# De Mnemonic zin
+# De mnemonische zin
 
 
 <partId>4070af16-c8a2-58b5-9871-a22c86c07458</partId>
@@ -1681,7 +1681,7 @@ Nu we de werking van hashfuncties en digitale handtekeningen hebben onderzocht, 
 Voordat we in de technische details duiken, is het essentieel om te verduidelijken wat bedoeld wordt met "Bitcoin Wallet" en om het nut ervan te begrijpen.
 
 
-### Wat is een Bitcoin Wallet?
+### Wat is een Bitcoin-wallet?
 
 
 In tegenstelling tot traditionele portemonnees, die het mogelijk maken om fysieke biljetten en munten op te slaan, "bevat" een Bitcoin-wallet niet per se bitcoins. Bitcoins bestaan namelijk niet in een fysieke of digitale vorm die kan worden opgeslagen, maar worden vertegenwoordigd door rekeneenheden die in het Bitcoin systeem worden weergegeven in de vorm van **UTXO's** (_Unspent Transaction Outputs_).
@@ -1704,7 +1704,7 @@ De eerste wallets die gebruikt werden in Bitcoin waren JBOK (_Just a Bunch Of Ke
 Als men meerdere privésleutels wilde gebruiken, was het nodig om evenzoveel back-ups te maken om toegang tot fondsen te garanderen in geval van problemen met het apparaat waarop de wallet staat. Als men één enkele private sleutel gebruikt, kan deze wallet structuur volstaan, aangezien één back-up voldoende is. Dit levert echter een probleem op: in Bitcoin wordt het sterk afgeraden om steeds dezelfde private sleutel te gebruiken. Een private sleutel is namelijk geassocieerd met een unieke Address, en Bitcoin ontvangstadressen zijn normaal ontworpen voor eenmalig gebruik. Elke keer dat je geld ontvangt, moet je generate een nieuwe lege Address aanmaken.
 
 
-Deze beperking komt voort uit het privacymodel van Bitcoin. Door dezelfde Address te hergebruiken, wordt het voor externe waarnemers gemakkelijker om Bitcoin transacties te traceren. Daarom wordt het hergebruiken van een ontvangende Address sterk afgeraden. Echter, om meerdere adressen te hebben en onze transacties publiekelijk te scheiden, is het noodzakelijk om meerdere privésleutels te beheren. In het geval van JBOK wallets betekent dit dat er evenveel back-ups moeten worden gemaakt als er nieuwe sleutelparen zijn, een taak die snel complex en moeilijk te onderhouden kan worden voor gebruikers.
+Deze beperking komt voort uit het privacymodel van Bitcoin. Door dezelfde Address te hergebruiken, wordt het voor externe waarnemers gemakkelijker om Bitcoin transacties te traceren. Daarom wordt het hergebruiken van een ontvangstadres sterk afgeraden. Echter, om meerdere adressen te hebben en onze transacties publiekelijk te scheiden, is het noodzakelijk om meerdere privésleutels te beheren. In het geval van JBOK wallets betekent dit dat er evenveel back-ups moeten worden gemaakt als er nieuwe sleutelparen zijn, een taak die snel complex en moeilijk te onderhouden kan worden voor gebruikers.
 
 
 Om meer te leren over het privacymodel van Bitcoin en methodes te ontdekken om je privacy te beschermen, raad ik je ook aan om mijn BTC204-cursus over Plan ₿ Academy te volgen:
@@ -1724,13 +1724,13 @@ Om Address de beperking van JBOK wallets op te heffen, werd vervolgens een nieuw
 In HD-wallets wordt de sleutelafleiding uitgevoerd volgens een hiërarchische structuur die het mogelijk maakt om sleutels te organiseren in afleidingsdeelruimten, waarbij elke deelruimte verder onderverdeeld kan worden, om het beheer van fondsen en de interoperabiliteit tussen verschillende wallet-software te vergemakkelijken. Tegenwoordig wordt deze standaard aangenomen door de overgrote meerderheid van de Bitcoin gebruikers. Daarom zullen we het in detail onderzoeken in de volgende hoofdstukken.
 
 
-### De BIP39-standaard: De Mnemonic zin
+### De BIP39-standaard: De mnemonische zin
 
 
-In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een Mnemonic zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De Mnemonic frase, ook wel herstelfrase of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de Wallet's seed veilig codeert.
+In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een mnemonische zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De Mnemonic frase, ook wel herstelfrase of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de wallet's seed veilig codeert.
 
 
-De Mnemonic-zin vereenvoudigt het maken van back-ups voor de gebruiker enorm. In geval van verlies, beschadiging of diefstal van het apparaat waarop de wallet staat, kan de wallet eenvoudigweg worden hersteld met behulp van deze Mnemonic-zin en kan de toegang tot alle fondsen die erdoor zijn beveiligd, worden hersteld.
+De mnemonische zin vereenvoudigt het maken van back-ups voor de gebruiker enorm. In geval van verlies, beschadiging of diefstal van het apparaat waarop de wallet staat, kan de wallet eenvoudigweg worden hersteld met behulp van deze mnemonische zin en kan de toegang tot alle fondsen die erdoor zijn beveiligd, worden hersteld.
 
 
 In de komende hoofdstukken zullen we de interne werking van HD-wallets onderzoeken, inclusief sleutelafleidingsmechanismen en de verschillende mogelijke hiërarchische structuren. Dit zal je toelaten om de cryptografische fundamenten waarop de veiligheid van fondsen in Bitcoin gebaseerd is, beter te begrijpen. En om te beginnen stel ik voor om in het volgende hoofdstuk de rol van entropie aan de basis van je wallet te ontdekken.
@@ -1752,7 +1752,7 @@ Moderne HD-wallets vertrouwen op een enkel initieel stukje informatie genaamd "e
 Entropie, in de context van cryptografie en informatie, is een kwantitatieve maat voor de onzekerheid of onvoorspelbaarheid geassocieerd met een gegevensbron of een willekeurig proces. Entropie speelt een belangrijke rol in de veiligheid van cryptografische systemen, vooral bij het genereren van sleutels en willekeurige getallen. Een hoge entropie zorgt ervoor dat de gegenereerde sleutels voldoende onvoorspelbaar zijn en bestand tegen brute kracht aanvallen, waarbij een aanvaller alle mogelijke combinaties probeert om de sleutel te raden.
 
 
-In de context van Bitcoin wordt entropie gebruikt om generate de seed te maken. Bij het creëren van een HD Wallet, wordt de Mnemonic zin geconstrueerd uit een willekeurig getal, zelf afgeleid van een entropiebron. De zin wordt dan gebruikt om meerdere private sleutels generate te maken, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
+In de context van Bitcoin wordt entropie gebruikt om generate de seed te maken. Bij het creëren van een HD wallet, wordt de mnemonische zin geconstrueerd uit een willekeurig getal, zelf afgeleid van een entropiebron. De zin wordt dan gebruikt om meerdere private sleutels generate te maken, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
 
 
 ### Methoden voor het genereren van entropie
@@ -1762,8 +1762,8 @@ De initiële entropie die gebruikt wordt voor een HD wallet is over het algemeen
 
 
 
-- 128 bits entropie komen overeen met een Mnemonic zin van **12 woorden**;
-- 256 bits entropie komen overeen met een Mnemonic zin van **24 woorden**.
+- 128 bits entropie komen overeen met een mnemonische zin van **12 woorden**;
+- 256 bits entropie komen overeen met een mnemonische zin van **24 woorden**.
 
 
 In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door de wallet-software met behulp van een PRNG (_Pseudo-Random Number Generator_). PRNGs zijn een categorie algoritmes die gebruikt worden om generate getallenreeksen te genereren vanuit een initiële toestand, die kenmerken hebben die lijken op die van een willekeurig getal, zonder er daadwerkelijk één te zijn. Een goede PRNG moet eigenschappen hebben zoals eenvormige uitvoer, onvoorspelbaarheid en weerstand tegen voorspellende aanvallen. In tegenstelling tot True Random Number Generators (TRNGs), zijn PRNGs deterministisch en reproduceerbaar.
@@ -1775,26 +1775,26 @@ In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door 
 Een alternatief is om handmatig generate de entropie te genereren, wat een betere controle biedt, maar ook veel riskanter is. Ik raad ten zeerste af om zelf de entropie voor je HD wallet te genereren.
 
 
-In het volgende hoofdstuk zullen we zien hoe we van een willekeurig getal naar een Mnemonic zin van 12 of 24 woorden gaan.
+In het volgende hoofdstuk zullen we zien hoe we van een willekeurig getal naar een mnemonische zin van 12 of 24 woorden gaan.
 
 
-## De Mnemonic zin
+## De mnemonische zin
 
 
 <chapterId>8f9340c1-e6dc-5557-a2f2-26c9669987d5</chapterId>
 
 :::video id=6218472e-b965-484f-b56b-e363f65d2827:::
 
-De Mnemonic frase, ook wel "seed frase", "herstelfrase", "geheime frase", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze generate alle private en publieke sleutels van de Bitcoin-wallet te recreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de Mnemonic-zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39 standaard.
+De Mnemonic frase, ook wel "seed frase", "herstelfrase", "geheime frase", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze generate alle private en publieke sleutels van de Bitcoin-wallet te recreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de mnemonische zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39 standaard.
 
 
-Laten we samen ontdekken hoe we van entropie naar een Mnemonic zin kunnen gaan.
+Laten we samen ontdekken hoe we van entropie naar een mnemonische zin kunnen gaan.
 
 
 ### De controlesom
 
 
-Om entropie om te zetten in een Mnemonic zin, moet men eerst een controlesom (of "controlesom") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
+Om entropie om te zetten in een mnemonische zin, moet men eerst een controlesom (of "controlesom") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
 
 
 Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 hash wordt gebruikt in plaats van een dubbele hash). Deze bewerking produceert een 256-bit hash. De controlesom bestaat uit de eerste bits van deze hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
@@ -1822,16 +1822,16 @@ Nadat de controlesom is berekend, wordt deze samengevoegd met de entropie om een
 ![CYP201](assets/en/041.webp)
 
 
-### Correspondentie tussen de Entropie en de Mnemonic zin
+### Correspondentie tussen de Entropie en de mnemonische zin
 
 
-Het aantal woorden in de Mnemonic zin hangt af van de grootte van de initiële entropie, zoals geïllustreerd in de volgende tabel met:
+Het aantal woorden in de mnemonische zin hangt af van de grootte van de initiële entropie, zoals geïllustreerd in de volgende tabel met:
 
 
 
 - $text{ENT}$: de grootte in bits van de entropie;
 - $text{CS}$: de grootte in bits van de controlesom;
-- $w$: het aantal woorden in de uiteindelijke Mnemonic zin.
+- $w$: het aantal woorden in de uiteindelijke mnemonische zin.
 
 
 $$
@@ -1849,10 +1849,10 @@ $$
 $$
 
 
-Bijvoorbeeld, voor een entropie van 256 bits is het resultaat ${ENT} \264 bits en levert een Mnemonic zin van 24 woorden op.
+Bijvoorbeeld, voor een entropie van 256 bits is het resultaat ${ENT} \264 bits en levert een mnemonische zin van 24 woorden op.
 
 
-### Conversie van de binaire sequentie in een Mnemonic zin
+### Conversie van de binaire sequentie in een mnemonische zin
 
 
 De bitreeks ${ENT} \wordt dan verdeeld in segmenten van 11 bits. Elk 11-bits segment komt, na omzetting naar decimaal, overeen met een getal tussen 0 en 2047, dat de positie van een woord aangeeft [in een lijst van 2048 woorden gestandaardiseerd door BIP39](https://github.com/PlanB-Network/Bitcoin-educational-content/blob/dev/resources/bet/bip39-wordlist/assets/BIP39-WORDLIST.pdf).
@@ -1882,19 +1882,19 @@ Deze correspondentie wordt herhaald voor elk van de 12 segmenten om een woordgro
 ### Kenmerken van de BIP39-woordenlijst
 
 
-Een bijzonderheid van de BIP39-woordenlijst is dat geen enkel woord dezelfde eerste vier letters in dezelfde volgorde deelt met een ander woord. Dit betekent dat het opschrijven van alleen de eerste vier letters van elk woord voldoende is om de Mnemonic zin op te slaan. Dit kan interessant zijn om ruimte te besparen, vooral voor wie het op een metalen drager wil graveren.
+Een bijzonderheid van de BIP39-woordenlijst is dat geen enkel woord dezelfde eerste vier letters in dezelfde volgorde deelt met een ander woord. Dit betekent dat het opschrijven van alleen de eerste vier letters van elk woord voldoende is om de mnemonische zin op te slaan. Dit kan interessant zijn om ruimte te besparen, vooral voor wie het op een metalen drager wil graveren.
 
 
 Deze lijst van 2048 woorden bestaat in verschillende talen. Dit zijn geen eenvoudige vertalingen, maar aparte woorden voor elke taal. Het wordt echter sterk aangeraden om de Engelse versie te gebruiken, omdat versies in andere talen over het algemeen niet worden ondersteund door de wallet software.
 
 
-### Welke lengte moet je kiezen voor je Mnemonic zin?
+### Welke lengte moet je kiezen voor je mnemonische zin?
 
 
-Om de optimale lengte van uw Mnemonic zin te bepalen, moet u rekening houden met de werkelijke beveiliging die deze biedt. Een woordgroep van 12 woorden biedt 128 bits beveiliging, terwijl een woordgroep van 24 256 bits biedt.
+Om de optimale lengte van uw mnemonische zin te bepalen, moet u rekening houden met de werkelijke beveiliging die deze biedt. Een woordgroep van 12 woorden biedt 128 bits beveiliging, terwijl een woordgroep van 24 256 bits biedt.
 
 
-Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin Wallet, aangezien de private sleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin private sleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze private sleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische krommen (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
+Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin-wallet, aangezien de private sleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin private sleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze private sleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische krommen (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
 
 
 Voor 256-bits sleutels, zoals die gebruikt worden in Bitcoin, reduceert Pollard's rho algoritme de complexiteit dus tot $2^{128}$ operaties:
@@ -1911,13 +1911,13 @@ $$
 Daarom wordt aangenomen dat een privésleutel gebruikt in Bitcoin 128 bits veiligheid biedt.
 
 
-Het kiezen van een woordgroep van 24 woorden biedt dus geen extra bescherming voor de Wallet, omdat 256 bits beveiliging van de woordgroep zinloos is als de afgeleide sleutels slechts 128 bits beveiliging bieden. Om dit principe te illustreren, is het alsof je een huis hebt met twee deuren: een oude houten deur en een versterkte deur. Bij een inbraak zou de versterkte deur geen nut hebben, omdat de indringer door de houten deur zou gaan. Dit is een analoge situatie.
+Het kiezen van een woordgroep van 24 woorden biedt dus geen extra bescherming voor de wallet, omdat 256 bits beveiliging van de woordgroep zinloos is als de afgeleide sleutels slechts 128 bits beveiliging bieden. Om dit principe te illustreren, is het alsof je een huis hebt met twee deuren: een oude houten deur en een versterkte deur. Bij een inbraak zou de versterkte deur geen nut hebben, omdat de indringer door de houten deur zou gaan. Dit is een analoge situatie.
 
 
 Een zin van 12 woorden, die ook 128 bits veiligheid biedt, is daarom momenteel voldoende om je bitcoins te beschermen tegen elke poging tot diefstal. Zolang het algoritme voor digitale handtekeningen niet verandert om grotere sleutels te gebruiken of om te vertrouwen op een ander wiskundig probleem dan de ECDLP, blijft een zin van 24 woorden overbodig. Bovendien verhoogt een langere zin het risico op verlies tijdens de back-up: een back-up die twee keer zo kort is, is altijd gemakkelijker te beheren.
 
 
-Om verder te gaan en concreet te leren hoe je handmatig generate een test Mnemonic zin kunt maken, raad ik je aan deze tutorial te ontdekken:
+Om verder te gaan en concreet te leren hoe je handmatig generate een test mnemonische zin kunt maken, raad ik je aan deze tutorial te ontdekken:
 
 
 https://planb.academy/tutorials/wallet/backup/generate-mnemonic-phrase-47507d90-e6af-4cac-b01b-01a14d7a8228
@@ -1933,19 +1933,19 @@ Voordat we verder gaan met de afleiding van de wallet uit deze Mnemonic frase, z
 :::video id=59f8a63e-56af-4937-a1d1-3314b3934048:::
 
 
-Zoals we net gezien hebben, worden HD-wallets gegenereerd uit een Mnemonic zin die meestal uit 12 of 24 woorden bestaat. Deze zin is erg belangrijk, omdat het de mogelijkheid biedt om alle sleutels van een wallet te herstellen in het geval dat het fysieke apparaat (zoals een Hardware Wallet, bijvoorbeeld) verloren gaat. Het is echter een enkelvoudig faalpunt, want als het gecompromitteerd wordt, kan een aanvaller alle bitcoins stelen. Dit is waar de BIP39 passphrase om de hoek komt kijken.
+Zoals we net gezien hebben, worden HD-wallets gegenereerd uit een mnemonische zin die meestal uit 12 of 24 woorden bestaat. Deze zin is erg belangrijk, omdat het de mogelijkheid biedt om alle sleutels van een wallet te herstellen in het geval dat het fysieke apparaat (zoals een Hardware wallet, bijvoorbeeld) verloren gaat. Het is echter een enkelvoudig faalpunt, want als het gecompromitteerd wordt, kan een aanvaller alle bitcoins stelen. Dit is waar de BIP39 passphrase om de hoek komt kijken.
 
 
 ### Wat is een BIP39 passphrase?
 
 
-De passphrase is een optioneel wachtwoord, dat u vrij kunt kiezen, dat wordt toegevoegd aan de Mnemonic zin in het sleutelafleidingsproces om de veiligheid van de wallet te verbeteren.
+De passphrase is een optioneel wachtwoord, dat u vrij kunt kiezen, dat wordt toegevoegd aan de mnemonische zin in het sleutelafleidingsproces om de veiligheid van de wallet te verbeteren.
 
 
-Let op, de passphrase mag niet verward worden met de PIN-code van je Hardware wallet of het wachtwoord dat gebruikt wordt om de toegang tot je wallet op je computer te ontgrendelen. In tegenstelling tot al deze Elements, speelt de passphrase een rol bij het afleiden van de sleutels van je Wallet. **Dit betekent dat je zonder de passphrase nooit in staat zult zijn om je bitcoins terug te krijgen.**
+Let op, de passphrase mag niet verward worden met de PIN-code van je Hardware wallet of het wachtwoord dat gebruikt wordt om de toegang tot je wallet op je computer te ontgrendelen. In tegenstelling tot al deze Elements, speelt de passphrase een rol bij het afleiden van de sleutels van je wallet. **Dit betekent dat je zonder de passphrase nooit in staat zult zijn om je bitcoins terug te krijgen.**
 
 
-De passphrase werkt samen met de Mnemonic-zin en wijzigt de seed waaruit de sleutels worden gegenereerd. Dus zelfs als iemand uw 12- of 24-woordzin bemachtigt, heeft hij zonder de passphrase geen toegang tot uw fondsen. Het gebruik van een passphrase creëert in wezen een nieuwe wallet met verschillende sleutels. Als je de passphrase (zelfs maar een beetje) wijzigt, ontstaat er een andere Wallet.
+De passphrase werkt samen met de mnemonische zin en wijzigt de seed waaruit de sleutels worden gegenereerd. Dus zelfs als iemand uw 12- of 24-woordzin bemachtigt, heeft hij zonder de passphrase geen toegang tot uw fondsen. Het gebruik van een passphrase creëert in wezen een nieuwe wallet met verschillende sleutels. Als je de passphrase (zelfs maar een beetje) wijzigt, ontstaat er een andere wallet.
 
 
 ![CYP201](assets/en/046.webp)
@@ -1954,10 +1954,10 @@ De passphrase werkt samen met de Mnemonic-zin en wijzigt de seed waaruit de sleu
 ### Waarom zou je een passphrase gebruiken?
 
 
-De passphrase is willekeurig en kan elke combinatie van tekens zijn die de gebruiker kiest. Het gebruik van een passphrase biedt dus verschillende voordelen. Ten eerste vermindert het alle risico's die gepaard gaan met het compromitteren van de Mnemonic-zin door een tweede factor nodig te hebben om toegang te krijgen tot de fondsen (inbraak, toegang tot je huis, enz.).
+De passphrase is willekeurig en kan elke combinatie van tekens zijn die de gebruiker kiest. Het gebruik van een passphrase biedt dus verschillende voordelen. Ten eerste vermindert het alle risico's die gepaard gaan met het compromitteren van de mnemonische zin door een tweede factor nodig te hebben om toegang te krijgen tot de fondsen (inbraak, toegang tot je huis, enz.).
 
 
-Vervolgens kan het strategisch gebruikt worden om een lok wallet te maken, om fysieke beperkingen het hoofd te bieden om je fondsen te stelen, zoals de beruchte "_$5 wrench attack_". In dit scenario is het idee om een wallet zonder passphrase te hebben, die slechts een kleine hoeveelheid bitcoins bevat, genoeg om een potentiële aanvaller tevreden te stellen, terwijl je een verborgen wallet hebt. Deze laatste gebruikt dezelfde Mnemonic zin, maar is beveiligd met een extra passphrase.
+Vervolgens kan het strategisch gebruikt worden om een lok wallet te maken, om fysieke beperkingen het hoofd te bieden om je fondsen te stelen, zoals de beruchte "_$5 wrench attack_". In dit scenario is het idee om een wallet zonder passphrase te hebben, die slechts een kleine hoeveelheid bitcoins bevat, genoeg om een potentiële aanvaller tevreden te stellen, terwijl je een verborgen wallet hebt. Deze laatste gebruikt dezelfde mnemonische zin, maar is beveiligd met een extra passphrase.
 
 Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeurigheid van het genereren van de seed van de HD wallet wil controleren.
 
@@ -1968,7 +1968,7 @@ Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeur
 Om de passphrase effectief te laten zijn, moet deze lang en willekeurig genoeg zijn. Net als bij een sterk wachtwoord, raad ik aan een passphrase te kiezen die zo lang en willekeurig mogelijk is, met een verscheidenheid aan letters, cijfers en symbolen om een brute force aanval onmogelijk te maken.
 
 
-Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier als de Mnemonic zin. **Verlies betekent verlies van toegang tot je bitcoins**. Ik raad sterk af om het alleen uit het hoofd te onthouden, omdat dit het risico op verlies onredelijk vergroot. Het ideale is om het op te schrijven op een fysieke drager (papier of metaal), los van de Mnemonic-zin. Deze back-up moet uiteraard op een andere plaats bewaard worden dan waar uw Mnemonic zin is opgeslagen om te voorkomen dat beide tegelijkertijd gecompromitteerd worden.
+Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier als de mnemonische zin. **Verlies betekent verlies van toegang tot je bitcoins**. Ik raad sterk af om het alleen uit het hoofd te onthouden, omdat dit het risico op verlies onredelijk vergroot. Het ideale is om het op te schrijven op een fysieke drager (papier of metaal), los van de mnemonische zin. Deze back-up moet uiteraard op een andere plaats bewaard worden dan waar uw mnemonische zin is opgeslagen om te voorkomen dat beide tegelijkertijd gecompromitteerd worden.
 
 
 ![CYP201](assets/en/047.webp)
@@ -1991,20 +1991,20 @@ In de volgende paragraaf zullen we ontdekken hoe deze twee elementen aan de basi
 :::video id=60e3ade6-501b-4e1e-a85e-59257ef12900:::
 
 
-Zodra de Mnemonic zin en de optionele passphrase zijn gegenereerd, kan het proces van het afleiden van een Bitcoin HD wallet beginnen. De Mnemonic zin wordt eerst omgezet in een seed, die de basis vormt voor alle sleutels van de Wallet.
+Zodra de mnemonische zin en de optionele passphrase zijn gegenereerd, kan het proces van het afleiden van een Bitcoin HD wallet beginnen. De mnemonische zin wordt eerst omgezet in een seed, die de basis vormt voor alle sleutels van de wallet.
 
 
 ![CYP201](assets/en/048.webp)
 
 
-### De seed van een HD Wallet
+### De seed van een HD wallet
 
 
-De BIP39 standaard definieert de seed als een 512-bit reeks, die dient als startpunt voor de afleiding van alle sleutels van een HD Wallet. De seed wordt afgeleid van de Mnemonic zin en de mogelijke passphrase met behulp van het **PBKDF2** algoritme (_Password-Based Key Derivation Function 2_), dat we al besproken hebben in hoofdstuk 3.3. In deze afleidingsfunctie gebruiken we de volgende parameters:
+De BIP39 standaard definieert de seed als een 512-bit reeks, die dient als startpunt voor de afleiding van alle sleutels van een HD wallet. De seed wordt afgeleid van de mnemonische zin en de mogelijke passphrase met behulp van het **PBKDF2** algoritme (_Password-Based Key Derivation Function 2_), dat we al besproken hebben in hoofdstuk 3.3. In deze afleidingsfunctie gebruiken we de volgende parameters:
 
 
 
-- $m$ : de Mnemonic zin;
+- $m$ : de mnemonische zin;
 - $p$ : een optionele passphrase gekozen door de gebruiker om de veiligheid van de seed te verhogen. Als er geen passphrase is, wordt dit veld leeg gelaten;
 - $BBKDF2}$ : de afleidingsfunctie met $HMAC-SHA512}$ en $2048$ iteraties;
 - $s$: de 512-bits wallet seed.
@@ -2015,7 +2015,7 @@ Ongeacht de gekozen zinslengte van de Mnemonic (132 bits of 264 bits), zal de PB
 ### seed Afleidingsschema met PBKDF2
 
 
-De volgende vergelijking illustreert de afleiding van de seed uit de Mnemonic zin en de passphrase:
+De volgende vergelijking illustreert de afleiding van de seed uit de mnemonische zin en de passphrase:
 
 
 $$
@@ -2026,13 +2026,13 @@ $$
 ![CYP201](assets/en/049.webp)
 
 
-De waarde van de seed wordt dus beïnvloed door de waarde van de Mnemonic zin en de passphrase. Door de passphrase te veranderen, wordt een andere seed verkregen. Echter, met dezelfde Mnemonic zin en passphrase, wordt altijd dezelfde seed gegenereerd, omdat PBKDF2 een deterministische functie is. Dit zorgt ervoor dat dezelfde sleutelparen teruggehaald kunnen worden via onze back-ups.
+De waarde van de seed wordt dus beïnvloed door de waarde van de mnemonische zin en de passphrase. Door de passphrase te veranderen, wordt een andere seed verkregen. Echter, met dezelfde mnemonische zin en passphrase, wordt altijd dezelfde seed gegenereerd, omdat PBKDF2 een deterministische functie is. Dit zorgt ervoor dat dezelfde sleutelparen teruggehaald kunnen worden via onze back-ups.
 
 
-**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de Mnemonic frase. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van portemonnees, de seed en de Mnemonic zin inderdaad twee verschillende Elements.
+**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de Mnemonic frase. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van portemonnees, de seed en de mnemonische zin inderdaad twee verschillende Elements.
 
 
-Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin Wallet.
+Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin-wallet.
 
 
 ### De hoofdsleutel en de chain code hoofdsleutel
@@ -2091,7 +2091,7 @@ De master private sleutel wordt beschouwd als de oudersleutel, waarvan alle afge
 De master chain code, aan de andere kant, introduceert een extra bron van entropie in het sleutelafleidingsproces voor kinderen, om bepaalde potentiële aanvallen tegen te gaan. Bovendien is in de HD wallet aan elk sleutelpaar een unieke chain code gekoppeld, die ook gebruikt wordt om kindsleutels van dit paar af te leiden, maar dit zullen we in de komende hoofdstukken in meer detail bespreken.
 
 
-Voordat we verder gaan met de afleiding van de HD wallet met de volgende Elements, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin Wallet.
+Voordat we verder gaan met de afleiding van de HD wallet met de volgende Elements, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin-wallet.
 
 
 ## Uitgebreide toetsen
@@ -2535,7 +2535,7 @@ De hiërarchische structuur van HD-wallets in Bitcoin maakt het mogelijk om sleu
 In de loop der tijd hebben verschillende BIP's standaarden geïntroduceerd voor deze afleidingspaden, met als doel het gebruik ervan te standaardiseren in verschillende software. In dit hoofdstuk zullen we de betekenis van elk afleidingsniveau in HD-wallets ontdekken, volgens deze standaarden.
 
 
-### De afleidingsdiepte van een HD Wallet
+### De afleidingsdiepte van een HD wallet
 
 
 Afleidingspaden zijn georganiseerd in lagen van diepte, variërend van diepte 0, die de hoofdsleutel en chain code vertegenwoordigt, tot lagen van subniveaus voor het afleiden van adressen die gebruikt worden om UTXO's te vergrendelen. De BIP's (*Bitcoin Improvement Proposals*) definiëren de standaarden voor elke Layer, wat helpt bij het harmoniseren van praktijken tussen verschillende wallet beheersoftware.
@@ -2547,7 +2547,7 @@ Een afleidingspad verwijst daarom naar de reeks indexen die worden gebruikt om k
 **Diepte 0: Hoofdsleutel (BIP32)**
 
 
-Deze diepte komt overeen met de master private key en master chain code van de Wallet. Het wordt weergegeven door de notatie $m/$.
+Deze diepte komt overeen met de master private key en master chain code van de wallet. Het wordt weergegeven door de notatie $m/$.
 
 
 **Diepgang 1: Doel (BIP43)**
@@ -2562,7 +2562,7 @@ Met andere woorden, zodra je de hoofdsleutel en de chain code hoofdsleutel hebt,
 **Diepte 2: Valutasoort (BIP44)**
 
 
-Van het sleutelpaar op diepte 1 wordt een nieuwe afleiding uitgevoerd om het sleutelpaar op diepte 2 te verkrijgen. Deze diepte maakt het mogelijk om Bitcoin-accounts te onderscheiden van andere cryptocurrencies binnen dezelfde Wallet.
+Van het sleutelpaar op diepte 1 wordt een nieuwe afleiding uitgevoerd om het sleutelpaar op diepte 2 te verkrijgen. Deze diepte maakt het mogelijk om Bitcoin-accounts te onderscheiden van andere cryptocurrencies binnen dezelfde wallet.
 
 
 Elke valuta heeft een unieke index om compatibiliteit tussen meerdere valuta wallets te garanderen. Voor Bitcoin is de index bijvoorbeeld $/0'/$ (of `0x80000000` in hexadecimale notatie). Valuta-indexen worden gekozen in het bereik van $2^{31}$ tot $2^{32}-1$ om een geharde afleiding te garanderen.
@@ -2598,7 +2598,7 @@ Elke rekening die op diepte 3 wordt gedefinieerd, wordt vervolgens gestructureer
 **Diepte 5: Address Index (BIP32)**
 
 
-Diepte 5 tenslotte vertegenwoordigt de laatste afleidingsstap in de Wallet. Hoewel het technisch mogelijk is om oneindig door te gaan, stoppen de huidige standaarden hier. Op deze laatste diepte worden de sleutelparen afgeleid die daadwerkelijk zullen worden gebruikt om de UTXO's te vergrendelen en te ontgrendelen. Elke index maakt het mogelijk een onderscheid te maken tussen broer-zus sleutelparen: de eerste ontvangende Address zal dus de index $/0/$ gebruiken, de tweede de index $/1/$, enzovoort.
+Diepte 5 tenslotte vertegenwoordigt de laatste afleidingsstap in de wallet. Hoewel het technisch mogelijk is om oneindig door te gaan, stoppen de huidige standaarden hier. Op deze laatste diepte worden de sleutelparen afgeleid die daadwerkelijk zullen worden gebruikt om de UTXO's te vergrendelen en te ontgrendelen. Elke index maakt het mogelijk een onderscheid te maken tussen broer-zus sleutelparen: de eerste ontvangstadres zal dus de index $/0/$ gebruiken, de tweede de index $/1/$, enzovoort.
 
 
 ![CYP201](assets/en/058.webp)
@@ -2637,7 +2637,7 @@ In dit voorbeeld:
 
 - $84'$ geeft de P2WPKH (SegWit v0) standaard aan;
 - $0'$ geeft de Bitcoin valuta aan op de Mainnet;
-- $1'$ komt overeen met de tweede rekening in de Wallet;
+- $1'$ komt overeen met de tweede rekening in de wallet;
 - $0$ geeft aan dat de Address zich op de externe keten bevindt;
 - $7$ geeft de 8e externe Address van dit account aan.
 
@@ -2663,10 +2663,10 @@ In het volgende hoofdstuk zullen we ontdekken wat "*output script descriptors*" 
 
 :::video id=ce9d2c33-6a9d-451e-a2b4-41ef81cbfd71:::
 
-Er wordt vaak gezegd dat de Mnemonic zin alleen voldoende is om toegang te krijgen tot een Wallet. In werkelijkheid liggen de zaken iets ingewikkelder. In het vorige hoofdstuk hebben we gekeken naar de afleidingsstructuur van de HD Wallet, en het is je misschien opgevallen dat dit proces behoorlijk complex is. Afleidingspaden vertellen software welke richting ze moet volgen om de sleutels van de gebruiker af te leiden. Echter, bij het herstellen van een Bitcoin Wallet, als men deze paden niet kent, is de Mnemonic zin alleen niet genoeg. Het maakt het mogelijk om de hoofdsleutel en de hoofd chain code te verkrijgen, maar dan is het nodig om de indexen te kennen die gebruikt zijn om de kind sleutels te bereiken.
+Er wordt vaak gezegd dat de mnemonische zin alleen voldoende is om toegang te krijgen tot een wallet. In werkelijkheid liggen de zaken iets ingewikkelder. In het vorige hoofdstuk hebben we gekeken naar de afleidingsstructuur van de HD wallet, en het is je misschien opgevallen dat dit proces behoorlijk complex is. Afleidingspaden vertellen software welke richting ze moet volgen om de sleutels van de gebruiker af te leiden. Echter, bij het herstellen van een Bitcoin-wallet, als men deze paden niet kent, is de mnemonische zin alleen niet genoeg. Het maakt het mogelijk om de hoofdsleutel en de hoofd chain code te verkrijgen, maar dan is het nodig om de indexen te kennen die gebruikt zijn om de kind sleutels te bereiken.
 
 
-Theoretisch zou het nodig zijn om niet alleen de Mnemonic zinsnede van onze wallet op te slaan, maar ook de paden naar de accounts die we gebruiken. In de praktijk is het vaak mogelijk om zonder deze informatie weer toegang te krijgen tot de kind sleutels, mits de standaarden zijn gevolgd. Door elke standaard één voor één te testen, is het over het algemeen mogelijk om weer toegang te krijgen tot de bitcoins. Dit is echter niet gegarandeerd en het is vooral ingewikkeld voor beginners. Met de diversificatie van scripttypen en de opkomst van complexere configuraties kan deze informatie bovendien moeilijk te extrapoleren zijn, waardoor deze gegevens privé-informatie worden en moeilijk te achterhalen zijn met brute kracht. Daarom is er onlangs een innovatie geïntroduceerd die nu in uw favoriete wallet-software geïntegreerd begint te worden: de *output script descriptors*.
+Theoretisch zou het nodig zijn om niet alleen de mnemonische zinsnede van onze wallet op te slaan, maar ook de paden naar de accounts die we gebruiken. In de praktijk is het vaak mogelijk om zonder deze informatie weer toegang te krijgen tot de kind sleutels, mits de standaarden zijn gevolgd. Door elke standaard één voor één te testen, is het over het algemeen mogelijk om weer toegang te krijgen tot de bitcoins. Dit is echter niet gegarandeerd en het is vooral ingewikkeld voor beginners. Met de diversificatie van scripttypen en de opkomst van complexere configuraties kan deze informatie bovendien moeilijk te extrapoleren zijn, waardoor deze gegevens privé-informatie worden en moeilijk te achterhalen zijn met brute kracht. Daarom is er onlangs een innovatie geïntroduceerd die nu in uw favoriete wallet-software geïntegreerd begint te worden: de *output script descriptors*.
 
 
 ### Wat is een "descriptor"?
@@ -2774,7 +2774,7 @@ OP_DUP OP_HASH160 OP_PUSHBYTES_20 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
 ```
 
 
-Zoals we in dit hoofdstuk zullen zien, vertegenwoordigt `<pubKeyHash>` eigenlijk de payload van de ontvangende Address die gebruikt wordt om de UTXO te locken. Om deze *scriptPubKey* te ontgrendelen, is het nodig om een *scriptSig* mee te geven:
+Zoals we in dit hoofdstuk zullen zien, vertegenwoordigt `<pubKeyHash>` eigenlijk de payload van de ontvangstadres die gebruikt wordt om de UTXO te locken. Om deze *scriptPubKey* te ontgrendelen, is het nodig om een *scriptSig* mee te geven:
 
 
 ```text
@@ -2824,7 +2824,7 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 
 
 
-- `OP_EQUALVERIFY` controleert of de gehashte openbare sleutel overeenkomt met de verstrekte ontvangende Address:
+- `OP_EQUALVERIFY` controleert of de gehashte openbare sleutel overeenkomt met de verstrekte ontvangstadres:
 
 
 ![CYP201](assets/en/065.webp)
@@ -2844,25 +2844,25 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 ![CYP201](assets/en/067.webp)
 
 
-Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die Ownership van deze UTXO claimt en het wil uitgeven, inderdaad de private sleutel bezit die geassocieerd is met de ontvangende Address die gebruikt is tijdens het aanmaken van deze UTXO.
+Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die Ownership van deze UTXO claimt en het wil uitgeven, inderdaad de private sleutel bezit die geassocieerd is met de ontvangstadres die gebruikt is tijdens het aanmaken van deze UTXO.
 
 
 ### De verschillende soorten Bitcoin adressen
 
 
-In de loop van de evolutie van de Bitcoin zijn er verschillende standaard scriptmodellen toegevoegd. Elk daarvan maakt gebruik van een ander type ontvangende Address. Hier volgt een overzicht van de belangrijkste scriptmodellen die tot op heden beschikbaar zijn:
+In de loop van de evolutie van de Bitcoin zijn er verschillende standaard scriptmodellen toegevoegd. Elk daarvan maakt gebruik van een ander type ontvangstadres. Hier volgt een overzicht van de belangrijkste scriptmodellen die tot op heden beschikbaar zijn:
 
 
 **P2PK (*Pay-to-PubKey*)**:
 
 
-Dit scriptmodel werd geïntroduceerd in de eerste versie van Bitcoin door Satoshi Nakamoto. Het P2PK-script vergrendelt bitcoins rechtstreeks met behulp van een onbewerkte openbare sleutel (er wordt dus geen ontvangende Address gebruikt bij dit model). De structuur is eenvoudig: het bevat een openbare sleutel en vereist een overeenkomstige digitale handtekening om de fondsen te ontgrendelen. Dit script maakt deel uit van de "*Legacy*" standaard.
+Dit scriptmodel werd geïntroduceerd in de eerste versie van Bitcoin door Satoshi Nakamoto. Het P2PK-script vergrendelt bitcoins rechtstreeks met behulp van een onbewerkte openbare sleutel (er wordt dus geen ontvangstadres gebruikt bij dit model). De structuur is eenvoudig: het bevat een openbare sleutel en vereist een overeenkomstige digitale handtekening om de fondsen te ontgrendelen. Dit script maakt deel uit van de "*Legacy*" standaard.
 
 
 **P2PKH (*Pay-to-PubKey-Hash*)**:
 
 
-Net als P2PK werd het P2PKH-script geïntroduceerd bij de lancering van Bitcoin. In tegenstelling tot zijn voorganger, vergrendelt het de bitcoins door gebruik te maken van de hash van de publieke sleutel, in plaats van direct gebruik te maken van de ruwe publieke sleutel. Het *scriptSig* moet dan de publieke sleutel leveren die geassocieerd is met de ontvangende Address, evenals een geldige handtekening. De adressen die overeenkomen met dit model beginnen met `1` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
+Net als P2PK werd het P2PKH-script geïntroduceerd bij de lancering van Bitcoin. In tegenstelling tot zijn voorganger, vergrendelt het de bitcoins door gebruik te maken van de hash van de publieke sleutel, in plaats van direct gebruik te maken van de ruwe publieke sleutel. Het *scriptSig* moet dan de publieke sleutel leveren die geassocieerd is met de ontvangstadres, evenals een geldige handtekening. De adressen die overeenkomen met dit model beginnen met `1` en zijn gecodeerd in *base58check*. Dit script behoort ook tot de "*Legacy*" standaard.
 
 
 **P2SH (*Pay-to-Script-Hash*)**:
@@ -2920,7 +2920,7 @@ Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgend
 :::video id=1517c0fd-d31b-426b-b99e-e4eb19635415:::
 
 
-Laten we samen onderzoeken hoe we generate een ontvangende Address kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD wallet bevinden. Deze Address kan dan gebruikt worden in een wallet-software om een UTXO te vergrendelen.
+Laten we samen onderzoeken hoe we generate een ontvangstadres kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD wallet bevinden. Deze Address kan dan gebruikt worden in een wallet-software om een UTXO te vergrendelen.
 
 
 Aangezien het genereren van een Address afhankelijk is van het gebruikte scriptmodel, concentreren we ons op twee specifieke gevallen: het genereren van een SegWit v0 Address in P2WPKH en een SegWit v1 Address in P2TR. Deze twee soorten adressen dekken de overgrote meerderheid van het huidige gebruik.
@@ -3064,7 +3064,7 @@ HASH = 19 30 00 19 04 11 06 08 16 24 17 12 20 19 06 11 05 09 09 10 04 07 17 08 1
 ```
 
 
-Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een Wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of private sleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
+Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of private sleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
 
 
 Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
@@ -3133,7 +3133,7 @@ De berekening van de checksum is behoorlijk complex. Er komt polynomiale eindige
 ```
 
 
-We kunnen nu de ontvangende Address construeren door de volgende elementen in volgorde aan elkaar te rijgen:
+We kunnen nu de ontvangstadres construeren door de volgende elementen in volgorde aan elkaar te rijgen:
 
 
 - De SegWit versie: `00`
@@ -3183,7 +3183,7 @@ qn7qnytxgsc3v5nxt9ff2y83g3pe84ff42stydj
 ```
 
 
-Alles wat overblijft is het toevoegen van de HRP `bc`, die aangeeft dat het een Address is voor de Bitcoin Mainnet, en het scheidingsteken `1`, om de volledige ontvangende Address te krijgen:
+Alles wat overblijft is het toevoegen van de HRP `bc`, die aangeeft dat het een Address is voor de Bitcoin Mainnet, en het scheidingsteken `1`, om de volledige ontvangstadres te krijgen:
 
 
 ```
@@ -3263,7 +3263,7 @@ Q = P + t \cdot G
 $$
 
 
-Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangende Address. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de Address geplaatst, op een onbewerkte manier.
+Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangstadres. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de Address geplaatst, op een onbewerkte manier.
 
 
 Om te beginnen extraheren we de $x$ coördinaat van het punt $Q$ om een gecomprimeerde publieke sleutel te verkrijgen. Op deze payload wordt een checksum berekend met BCH codes, net als bij SegWit v0 adressen. Het programma dat gebruikt wordt voor Taproot adressen verschilt echter enigszins. Na de introductie van het _bech32_ formaat met SegWit werd namelijk een bug ontdekt: wanneer het laatste teken van een Address een `p` is, maakt het invoegen of verwijderen van `q`s vlak voor deze `p` de controlesom niet ongeldig. Hoewel deze bug geen gevolgen heeft voor SegWit v0 (dankzij een beperking in grootte), zou het in de toekomst een probleem kunnen vormen. Deze bug is daarom gecorrigeerd voor Taproot adressen, en het nieuwe gecorrigeerde formaat heet "_bech32m_".
@@ -3286,7 +3286,7 @@ bc1p[Qx][checksum]
 ```
 
 
-Aan de andere kant, als je alternatieve scripts wilt toevoegen naast de uitgaven met de interne openbare sleutel (_scriptpad_), zal de berekening van de ontvangende Address iets anders zijn. Je moet de hash van de alternatieve scripts opnemen in de berekening van de tweak. In Taproot wordt elk alternatief script, dat zich aan het einde van de Merkle Tree bevindt, een "blad" genoemd.
+Aan de andere kant, als je alternatieve scripts wilt toevoegen naast de uitgaven met de interne openbare sleutel (_scriptpad_), zal de berekening van de ontvangstadres iets anders zijn. Je moet de hash van de alternatieve scripts opnemen in de berekening van de tweak. In Taproot wordt elk alternatief script, dat zich aan het einde van de Merkle Tree bevindt, een "blad" genoemd.
 
 
 Als de verschillende alternatieve scripts geschreven zijn, moet je ze afzonderlijk door een hashfunctie `TapLeaf` laten lopen, samen met wat metadata:
