@@ -1528,7 +1528,7 @@ $$
 ### De voordelen van Schnorr-handtekeningen
 
 
-Het Schnorr handtekeningschema biedt verschillende voordelen voor Bitcoin ten opzichte van het originele ECDSA algoritme. Ten eerste staat Schnorr de aggregatie van sleutels en handtekeningen toe. Dit betekent dat meerdere publieke sleutels gecombineerd kunnen worden tot één enkele sleutel.
+Het Schnorr-handtekeningschema biedt verschillende voordelen voor Bitcoin ten opzichte van het originele ECDSA-algoritme. Ten eerste staat Schnorr de aggregatie van sleutels en handtekeningen toe. Dit betekent dat meerdere publieke sleutels gecombineerd kunnen worden tot één enkele sleutel.
 
 
 ![CYP201](assets/en/029.webp)
@@ -1540,7 +1540,7 @@ Op dezelfde manier kunnen meerdere handtekeningen worden samengevoegd tot één 
 ![CYP201](assets/en/030.webp)
 
 
-Bovendien verbetert handtekeningaggregatie de privacy. Met Schnorr wordt het onmogelijk om een transactie met meerdere handtekeningen te onderscheiden van een standaard transactie met één handtekening. Deze homogeniteit maakt ketenanalyse moeilijker, omdat het de mogelijkheid om wallet vingerafdrukken te identificeren beperkt.
+Bovendien verbetert handtekeningaggregatie de privacy. Met Schnorr wordt het onmogelijk om een transactie met meerdere handtekeningen te onderscheiden van een standaard transactie met één handtekening. Deze homogeniteit maakt ketenanalyse moeilijker, omdat het de mogelijkheid om wallet-vingerafdrukken te identificeren beperkt.
 
 
 Tot slot biedt Schnorr ook de mogelijkheid van batchverificatie. Door meerdere handtekeningen tegelijkertijd te verifiëren, kunnen nodes efficiënter werken, vooral voor blokken die veel transacties bevatten. Deze optimalisatie vermindert de tijd en middelen die nodig zijn om een blok te valideren.
@@ -1554,10 +1554,10 @@ Schnorr-handtekeningen zijn ook niet vervormbaar, in tegenstelling tot handteken
 Zoals we gezien hebben, koos Satoshi er in eerste instantie voor om ECDSA te implementeren voor digitale handtekeningen in Bitcoin. We hebben echter ook gezien dat Schnorr in veel opzichten superieur is aan ECDSA, en dit protocol werd gecreëerd door Claus-Peter Schnorr in 1989, 20 jaar voor de uitvinding van Bitcoin.
 
 
-Nou, we weten niet echt waarom Satoshi er niet voor koos, maar een waarschijnlijke hypothese is dat dit protocol tot 2008 gepatenteerd was. Hoewel Bitcoin een jaar later werd gemaakt, in januari 2009, was er op dat moment nog geen open-source standaardisatie voor Schnorr handtekeningen beschikbaar. Misschien vond Satoshi het veiliger om ECDSA te gebruiken, dat al veel gebruikt en getest werd in open-source software en verschillende erkende implementaties had (met name de OpenSSL library die tot 2015 gebruikt werd in Bitcoin Core, daarna vervangen door libsecp256k1 in versie 0.10.0). Of misschien was hij zich er gewoon niet van bewust dat dit patent in 2008 zou verlopen. In ieder geval lijkt de meest waarschijnlijke hypothese gerelateerd aan dit patent en het feit dat ECDSA een bewezen geschiedenis had en gemakkelijker te implementeren was.
+Nou, we weten niet echt waarom Satoshi er niet voor koos, maar een waarschijnlijke hypothese is dat dit protocol tot 2008 gepatenteerd was. Hoewel Bitcoin een jaar later werd gemaakt, in januari 2009, was er op dat moment nog geen open-source standaardisatie voor Schnorr-handtekeningen beschikbaar. Misschien vond Satoshi het veiliger om ECDSA te gebruiken, dat al veel gebruikt en getest werd in open-source software en verschillende erkende implementaties had (met name de OpenSSL library die tot 2015 gebruikt werd in Bitcoin Core, daarna vervangen door libsecp256k1 in versie 0.10.0). Of misschien was hij zich er gewoon niet van bewust dat dit patent in 2008 zou verlopen. In ieder geval lijkt de meest waarschijnlijke hypothese gerelateerd aan dit patent en het feit dat ECDSA een bewezen geschiedenis had en gemakkelijker te implementeren was.
 
 
-## De sighashvlaggen
+## De sighash-vlaggen
 
 
 <chapterId>231c41a2-aff2-4655-9048-47b6d2d83d64</chapterId>
@@ -1565,21 +1565,21 @@ Nou, we weten niet echt waarom Satoshi er niet voor koos, maar een waarschijnlij
 :::video id=43dfce6d-c51a-44c1-b565-95b4430da069:::
 
 
-Zoals we in vorige hoofdstukken hebben gezien, worden digitale handtekeningen vaak gebruikt om het script van een invoer te ontsluiten. In het ondertekeningsproces is het noodzakelijk om de ondertekende gegevens in de berekening op te nemen, in onze voorbeelden aangeduid met het bericht $m$. Deze gegevens kunnen, eenmaal ondertekend, niet worden gewijzigd zonder de handtekening ongeldig te maken. Inderdaad, of het nu voor ECDSA of Schnorr is, de verificateur van de handtekening moet hetzelfde bericht $m$ in zijn berekening opnemen. Als het verschilt van het bericht $m$ dat aanvankelijk door de ondertekenaar werd gebruikt, zal het resultaat onjuist zijn en wordt de handtekening ongeldig geacht. Er wordt dan gezegd dat een handtekening bepaalde gegevens afdekt en op een bepaalde manier beschermt tegen ongeoorloofde wijzigingen.
+Zoals we in vorige hoofdstukken hebben gezien, worden digitale handtekeningen vaak gebruikt om het script van een input te ontsluiten. In het ondertekeningsproces is het noodzakelijk om de ondertekende gegevens in de berekening op te nemen, in onze voorbeelden aangeduid met het bericht $m$. Deze gegevens kunnen, eenmaal ondertekend, niet worden gewijzigd zonder de handtekening ongeldig te maken. Inderdaad, of het nu voor ECDSA of Schnorr is, de verificateur van de handtekening moet hetzelfde bericht $m$ in zijn berekening opnemen. Als het verschilt van het bericht $m$ dat aanvankelijk door de ondertekenaar werd gebruikt, zal het resultaat onjuist zijn en wordt de handtekening ongeldig geacht. Er wordt dan gezegd dat een handtekening bepaalde gegevens afdekt en op een bepaalde manier beschermt tegen ongeoorloofde wijzigingen.
 
 
-### Wat is een sighashvlag?
+### Wat is een sighash-vlag?
 
 
 In het specifieke geval van Bitcoin hebben we gezien dat het bericht $m$ overeenkomt met de transactie. In werkelijkheid is het echter een beetje complexer. Dankzij sighash-flags is het namelijk mogelijk om specifieke gegevens binnen de transactie te selecteren die wel of niet gedekt worden door de handtekening.
 
-De "sighash flag" is dus een parameter die aan elke ingang wordt toegevoegd, zodat kan worden bepaald welke onderdelen van een transactie onder de bijbehorende handtekening vallen. Deze componenten zijn de ingangen en de uitgangen. De keuze van de sighash flag bepaalt dus welke inputs en welke outputs van de transactie vastliggen in de handtekening en welke nog gewijzigd kunnen worden zonder deze ongeldig te maken. Met dit mechanisme kunnen handtekeningen transactiegegevens vastleggen volgens de bedoelingen van de ondertekenaar.
+De "sighash flag" is dus een parameter die aan elke input wordt toegevoegd, zodat kan worden bepaald welke onderdelen van een transactie onder de bijbehorende handtekening vallen. Deze componenten zijn de inputs en de outputs. De keuze van de sighash flag bepaalt dus welke inputs en welke outputs van de transactie vastliggen in de handtekening en welke nog gewijzigd kunnen worden zonder deze ongeldig te maken. Met dit mechanisme kunnen handtekeningen transactiegegevens vastleggen volgens de intenties van de ondertekenaar.
 
 
-Het is duidelijk dat zodra de transactie bevestigd is op de blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash vlaggen. De mogelijkheid van wijziging via de sighash vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
+Het is duidelijk dat zodra de transactie bevestigd is op de blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash-vlaggen. De mogelijkheid van wijziging via de sighash-vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
 
 
-Over het algemeen biedt de wallet-software je niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer je een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
+Over het algemeen biedt de wallet-software je niet de mogelijkheid om handmatig de sighash flag van je input te wijzigen wanneer je een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow Wallet die deze wijziging toestaat van de gebruiker Interface.
 
 
 ### Wat zijn de bestaande sighash-vlaggen in Bitcoin?
@@ -1589,7 +1589,7 @@ In Bitcoin zijn er eerst en vooral 3 basis sighash-vlaggen:
 
 
 
-- `SIGHASH_ALL` (`0x01`): De handtekening geldt voor alle ingangen en alle uitgangen van de transactie. De transactie wordt dus volledig gedekt door de handtekening en kan niet meer gewijzigd worden. `SIGHASH_ALL` is de meest gebruikte sighash in alledaagse transacties als men gewoon een transactie wil maken zonder dat deze gewijzigd kan worden.
+- `SIGHASH_ALL` (`0x01`): De handtekening geldt voor alle inputs en alle outputs van de transactie. De transactie wordt dus volledig gedekt door de handtekening en kan niet meer gewijzigd worden. `SIGHASH_ALL` is de meest gebruikte sighash in alledaagse transacties als men gewoon een transactie wil maken zonder dat deze gewijzigd kan worden.
 
 
 ![CYP201](assets/en/031.webp)
@@ -1599,38 +1599,38 @@ In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de elementen die
 
 
 
-- `SIGHASH_NONE` (`0x02`): De handtekening dekt alle ingangen maar geen van de uitgangen, waardoor de uitgangen na de handtekening gewijzigd kunnen worden. Concreet lijkt dit op een blanco cheque. De ondertekenaar ontgrendelt de UTXO's in de ingangen, maar laat het veld van de uitgangen volledig wijzigbaar. Iedereen die op de hoogte is van deze transactie kan dus de output van zijn keuze toevoegen, bijvoorbeeld door een ontvangstadres op te geven om het geld te innen dat verbruikt is door de inputs, en vervolgens de transactie uit te zenden om de bitcoins terug te krijgen. De handtekening van de eigenaar van de inputs wordt niet ongeldig gemaakt, omdat deze alleen betrekking heeft op de inputs.
+- `SIGHASH_NONE` (`0x02`): De handtekening dekt alle inputs maar geen van de outputs, waardoor de outputs na de handtekening gewijzigd kunnen worden. Concreet lijkt dit op een blanco cheque. De ondertekenaar ontgrendelt de UTXO's in de inputs, maar laat het veld van de outputs volledig wijzigbaar. Iedereen die op de hoogte is van deze transactie kan dus de output van zijn keuze toevoegen, bijvoorbeeld door een ontvangstadres op te geven om het geld te innen dat verbruikt is door de inputs, en vervolgens de transactie uit te zenden om de bitcoins terug te krijgen. De handtekening van de eigenaar van de inputs wordt niet ongeldig gemaakt, omdat deze alleen betrekking heeft op de inputs.
 
 
 ![CYP201](assets/en/032.webp)
 
 
 
-- `SIGHASH_SINGLE` (`0x03`): De handtekening dekt alle ingangen en een enkele uitvoer, die overeenkomt met de index van de ondertekende invoer. Als de handtekening bijvoorbeeld de _scriptPubKey_ van ingang #0 ontgrendelt, dan dekt het ook uitvoer #0. De handtekening beschermt ook alle andere ingangen, die niet meer gewijzigd kunnen worden. Iedereen kan echter een extra uitvoer toevoegen zonder de handtekening ongeldig te maken, op voorwaarde dat uitvoer #0, de enige die door de handtekening wordt gedekt, niet wordt gewijzigd.
+- `SIGHASH_SINGLE` (`0x03`): De handtekening dekt alle inputs en een enkele output, die overeenkomt met de index van de ondertekende input. Als de handtekening bijvoorbeeld de _scriptPubKey_ van input #0 ontgrendelt, dan dekt het ook output #0. De handtekening beschermt ook alle andere inputs, die niet meer gewijzigd kunnen worden. Iedereen kan echter een extra output toevoegen zonder de handtekening ongeldig te maken, op voorwaarde dat output #0, de enige die door de handtekening wordt gedekt, niet wordt gewijzigd.
 
 
 ![CYP201](assets/en/033.webp)
 
 
-Naast deze drie sighash vlaggen is er ook de modifier `SIGHASH_ANYONECANPAY` (`0x80`). Deze modifier kan gecombineerd worden met een basis sighash vlag om drie nieuwe sighash vlaggen te maken:
+Naast deze drie sighash-vlaggen is er ook de modifier `SIGHASH_ANYONECANPAY` (`0x80`). Deze modifier kan gecombineerd worden met een basis sighash-vlag om drie nieuwe sighash-vlaggen te maken:
 
 
 
-- `SIGHASH_ALL | SIGHASH_ANYONECANPAY` (`0x81`): De handtekening heeft betrekking op een enkele invoer en omvat alle uitgangen van de transactie. Deze gecombineerde sighash flag maakt het bijvoorbeeld mogelijk om een crowdfundingtransactie aan te maken. De organisator bereidt de output voor met zijn Address en het doelbedrag, en elke investeerder kan dan inputs toevoegen om deze output te financieren. Zodra er voldoende inputs zijn verzameld om de output te financieren, kan de transactie worden uitgezonden.
+- `SIGHASH_ALL | SIGHASH_ANYONECANPAY` (`0x81`): De handtekening heeft betrekking op een enkele input en omvat alle outputs van de transactie. Deze gecombineerde sighash-vlag maakt het bijvoorbeeld mogelijk om een crowdfundingtransactie aan te maken. De organisator bereidt de output voor met zijn adres en het doelbedrag, en elke investeerder kan dan inputs toevoegen om deze output te financieren. Zodra er voldoende inputs zijn verzameld om de output te financieren, kan de transactie worden uitgezonden.
 
 
 ![CYP201](assets/en/034.webp)
 
 
 
-- `SIGHASH_NONE | SIGHASH_ANYONECANPAY` (`0x82`): De handtekening heeft betrekking op een enkele invoer, zonder zich vast te leggen op een uitvoer;
+- `SIGHASH_NONE | SIGHASH_ANYONECANPAY` (`0x82`): De handtekening heeft betrekking op een enkele input, zonder zich te engageren tot een output;
 
 
 ![CYP201](assets/en/035.webp)
 
 
 
-- `SIGHASH_SINGLE | SIGHASH_ANYONECANPAY` (`0x83`): De handtekening dekt een enkele invoer evenals de uitvoer die dezelfde index heeft als deze invoer. Als de handtekening bijvoorbeeld de _scriptPubKey_ van invoer #3 ontgrendelt, zal deze ook uitvoer #3 dekken. De rest van de transactie blijft wijzigbaar, zowel wat betreft andere ingangen als andere uitgangen.
+- `SIGHASH_SINGLE | SIGHASH_ANYONECANPAY` (`0x83`): De handtekening dekt een enkele input evenals de input die dezelfde index heeft als deze input. Als de handtekening bijvoorbeeld de _scriptPubKey_ van input #3 ontgrendelt, zal deze ook output #3 dekken. De rest van de transactie blijft wijzigbaar, zowel wat betreft andere inputs als andere outputs.
 
 
 ![CYP201](assets/en/036.webp)
@@ -1639,10 +1639,10 @@ Naast deze drie sighash vlaggen is er ook de modifier `SIGHASH_ANYONECANPAY` (`0
 ### Projecten om nieuwe Sighash-vlaggen toe te voegen
 
 
-Op dit moment (2024) zijn alleen de sighash vlaggen uit de vorige sectie bruikbaar in Bitcoin. Sommige projecten overwegen echter de toevoeging van nieuwe sighash vlaggen. Bijvoorbeeld, BIP118, voorgesteld door Christian Decker en Anthony Towns, introduceert twee nieuwe sighash vlaggen: `SIGHASH_ANYPREVOUT` en `SIGHASH_ANYPREVOUTANYSCRIPT` (_AnyPrevOut = "Any Previous Output"_).
+Op dit moment (2024) zijn alleen de sighash-vlaggen uit de vorige sectie bruikbaar in Bitcoin. Sommige projecten overwegen echter de toevoeging van nieuwe sighash-vlaggen. Bijvoorbeeld, BIP118, voorgesteld door Christian Decker en Anthony Towns, introduceert twee nieuwe sighash vlaggen: `SIGHASH_ANYPREVOUT` en `SIGHASH_ANYPREVOUTANYSCRIPT` (_AnyPrevOut = "Any Previous Output"_).
 
 
-Deze twee sighash vlaggen zouden een extra mogelijkheid bieden in Bitcoin: het maken van handtekeningen die geen enkele specifieke invoer van de transactie dekken.
+Deze twee sighash-vlaggen zouden een extra mogelijkheid bieden in Bitcoin: het maken van handtekeningen die geen enkele specifieke input van de transactie dekken.
 
 
 ![CYP201](assets/en/037.webp)
@@ -1650,15 +1650,15 @@ Deze twee sighash vlaggen zouden een extra mogelijkheid bieden in Bitcoin: het m
 
 Dit idee werd oorspronkelijk geformuleerd door Joseph Poon en Thaddeus Dryja in het Lightning White Paper. Voordat deze vlag werd hernoemd, heette hij `SIGHASH_NOINPUT`.
 
-Als deze sighash flag wordt geïntegreerd in Bitcoin, zal het het gebruik van convenanten mogelijk maken, maar het is ook een verplichte voorwaarde voor het implementeren van Eltoo, een algemeen protocol voor tweede lagen dat definieert hoe de Ownership van een UTXO gezamenlijk beheerd moet worden. Eltoo is specifiek ontworpen om de problemen op te lossen die samenhangen met de mechanismen voor het onderhandelen over de toestand van Lightning-kanalen, dat wil zeggen tussen openen en sluiten.
+Als deze sighash-flag wordt geïntegreerd in Bitcoin, zal het het gebruik van convenanten mogelijk maken, maar het is ook een verplichte voorwaarde voor het implementeren van Eltoo, een algemeen protocol voor tweede lagen dat definieert hoe de eigendom van een UTXO gezamenlijk beheerd moet worden. Eltoo is specifiek ontworpen om de problemen op te lossen die samenhangen met de mechanismen voor het onderhandelen over de toestand van Lightning-kanalen, dat wil zeggen tussen openen en sluiten.
 
 
-Om je kennis van de Lightning Network te verdiepen, raad ik je na de CYP201 cursus van harte de LNP201 cursus van Fanis Michalakis aan, die het onderwerp in detail behandelt:
+Om je kennis van het Lightning Network te verdiepen, raad ik je na de CYP201 cursus van harte de LNP201 cursus van Fanis Michalakis aan, die het onderwerp in detail behandelt:
 
 
 https://planb.academy/courses/34bd43ef-6683-4a5c-b239-7cb1e40a4aeb
 
-In het volgende deel stel ik voor om te ontdekken hoe de Mnemonic frase aan de basis van je Bitcoin-wallet werkt.
+In het volgende deel stel ik voor om te ontdekken hoe de mnemonische zin aan de basis van je Bitcoin-wallet werkt.
 
 
 # De mnemonische zin
@@ -1727,7 +1727,7 @@ In HD-wallets wordt de sleutelafleiding uitgevoerd volgens een hiërarchische st
 ### De BIP39-standaard: De mnemonische zin
 
 
-In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een mnemonische zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De Mnemonic frase, ook wel herstelfrase of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de wallet's seed veilig codeert.
+In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een mnemonische zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De mnemonische zin, ook wel herstelfrase of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de wallet's seed veilig codeert.
 
 
 De mnemonische zin vereenvoudigt het maken van back-ups voor de gebruiker enorm. In geval van verlies, beschadiging of diefstal van het apparaat waarop de wallet staat, kan de wallet eenvoudigweg worden hersteld met behulp van deze mnemonische zin en kan de toegang tot alle fondsen die erdoor zijn beveiligd, worden hersteld.
@@ -1785,7 +1785,7 @@ In het volgende hoofdstuk zullen we zien hoe we van een willekeurig getal naar e
 
 :::video id=6218472e-b965-484f-b56b-e363f65d2827:::
 
-De Mnemonic frase, ook wel "seed frase", "herstelfrase", "geheime frase", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze generate alle private en publieke sleutels van de Bitcoin-wallet te recreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de mnemonische zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39 standaard.
+De mnemonische zin, ook wel "seed frase", "herstelfrase", "geheime frase", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze generate alle private en publieke sleutels van de Bitcoin-wallet te recreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de mnemonische zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39 standaard.
 
 
 Laten we samen ontdekken hoe we van entropie naar een mnemonische zin kunnen gaan.
@@ -1922,7 +1922,7 @@ Om verder te gaan en concreet te leren hoe je handmatig generate een test mnemon
 
 https://planb.academy/tutorials/wallet/backup/generate-mnemonic-phrase-47507d90-e6af-4cac-b01b-01a14d7a8228
 
-Voordat we verder gaan met de afleiding van de wallet uit deze Mnemonic frase, zal ik je in het volgende hoofdstuk kennis laten maken met de BIP39 passphrase, omdat deze een rol speelt in het afleidingsproces en zich op hetzelfde niveau bevindt als de Mnemonic frase.
+Voordat we verder gaan met de afleiding van de wallet uit deze mnemonische zin, zal ik je in het volgende hoofdstuk kennis laten maken met de BIP39 passphrase, omdat deze een rol speelt in het afleidingsproces en zich op hetzelfde niveau bevindt als de mnemonische zin.
 
 
 ## De passphrase
@@ -1974,7 +1974,7 @@ Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier al
 ![CYP201](assets/en/047.webp)
 
 
-In de volgende paragraaf zullen we ontdekken hoe deze twee elementen aan de basis van je wallet - de Mnemonic frase en de passphrase - gebruikt worden om de sleutelparen af te leiden die gebruikt worden in de _scriptPubKey_ die je UTXO's vergrendelen.
+In de volgende paragraaf zullen we ontdekken hoe deze twee elementen aan de basis van je wallet - de mnemonische zin en de passphrase - gebruikt worden om de sleutelparen af te leiden die gebruikt worden in de _scriptPubKey_ die je UTXO's vergrendelen.
 
 
 # Creatie van Bitcoin-wallets
@@ -2029,7 +2029,7 @@ $$
 De waarde van de seed wordt dus beïnvloed door de waarde van de mnemonische zin en de passphrase. Door de passphrase te veranderen, wordt een andere seed verkregen. Echter, met dezelfde mnemonische zin en passphrase, wordt altijd dezelfde seed gegenereerd, omdat PBKDF2 een deterministische functie is. Dit zorgt ervoor dat dezelfde sleutelparen teruggehaald kunnen worden via onze back-ups.
 
 
-**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de Mnemonic frase. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van portemonnees, de seed en de mnemonische zin inderdaad twee verschillende Elements.
+**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de mnemonische zin. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van portemonnees, de seed en de mnemonische zin inderdaad twee verschillende Elements.
 
 
 Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin-wallet.
@@ -2297,7 +2297,7 @@ Elk sleutelpaar wordt geïdentificeerd door een 32-bits **index** ($i$ genoemd i
 ### Afleidingsproces met HMAC-SHA512
 
 
-De afleiding van elke kindsleutel is gebaseerd op de HMAC-SHA512 functie, die we bespraken in Sectie 2 over hashfuncties. Deze heeft twee ingangen: de ouder chain code $C_{\text{PAR}}$ en de aaneenschakeling van de oudersleutel (de publieke sleutel $K_{\text{PAR}}$ of de privésleutel $k_{\text{PAR}}$, afhankelijk van het gewenste type kindsleutel) met de index. De uitvoer van HMAC-SHA512 is een reeks van 512 bits, verdeeld in twee delen:
+De afleiding van elke kindsleutel is gebaseerd op de HMAC-SHA512 functie, die we bespraken in Sectie 2 over hashfuncties. Deze heeft twee inputs: de ouder chain code $C_{\text{PAR}}$ en de aaneenschakeling van de oudersleutel (de publieke sleutel $K_{\text{PAR}}$ of de privésleutel $k_{\text{PAR}}$, afhankelijk van het gewenste type kindsleutel) met de index. De uitvoer van HMAC-SHA512 is een reeks van 512 bits, verdeeld in twee delen:
 
 
 - De eerste **32 bytes** (of $h_1$) worden gebruikt om het nieuwe kindpaar te berekenen.
@@ -2324,7 +2324,7 @@ $$
 $$
 
 
-In deze berekening zien we dat onze HMAC-functie twee ingangen nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de openbare sleutel die hoort bij de privésleutel van de ouder. De openbare sleutel van de ouder wordt hier gebruikt omdat we een normale kindsleutel willen afleiden, geen geharde sleutel.
+In deze berekening zien we dat onze HMAC-functie twee inputs nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de openbare sleutel die hoort bij de privésleutel van de ouder. De openbare sleutel van de ouder wordt hier gebruikt omdat we een normale kindsleutel willen afleiden, geen geharde sleutel.
 
 We hebben nu een 64-byte $tekst{Hash}$ die we opsplitsen in 2 delen van elk 32 bytes, $h_1$ en $h_2$:
 
@@ -2351,7 +2351,7 @@ k_{\text{CHD}}^n = \text{parse256}(h_1) + k_{\text{PAR}} \mod n
 $$
 
 
-In deze berekening bestaat de bewerking ${parse256}(h_1)$ uit het interpreteren van de eerste 32 bytes van de ${Hash}$ als een geheel getal van 256 bits. Dit getal wordt dan toegevoegd aan de ouderprivésleutel, allemaal modulo $n$ om binnen de orde van de elliptische curve te blijven, zoals we zagen in hoofdstuk 3 over digitale handtekeningen. Om een normale kind-privésleutel af te leiden, wordt de openbare sleutel van de ouder weliswaar gebruikt als basis voor de berekening in de ingangen van de HMAC-SHA512-functie, maar het is altijd nodig om de privésleutel van de ouder te hebben om de berekening af te ronden.
+In deze berekening bestaat de bewerking ${parse256}(h_1)$ uit het interpreteren van de eerste 32 bytes van de ${Hash}$ als een geheel getal van 256 bits. Dit getal wordt dan toegevoegd aan de ouderprivésleutel, allemaal modulo $n$ om binnen de orde van de elliptische curve te blijven, zoals we zagen in hoofdstuk 3 over digitale handtekeningen. Om een normale kind-privésleutel af te leiden, wordt de openbare sleutel van de ouder weliswaar gebruikt als basis voor de berekening in de inputs van de HMAC-SHA512-functie, maar het is altijd nodig om de privésleutel van de ouder te hebben om de berekening af te ronden.
 
 
 Van deze kind-privésleutel is het mogelijk om de corresponderende publieke sleutel af te leiden door ECDSA of Schnorr toe te passen. Op deze manier verkrijgen we een compleet sleutelpaar.
@@ -2380,7 +2380,7 @@ $$
 $$
 
 
-In deze berekening zien we dat onze HMAC-functie twee ingangen nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de privésleutel van de ouder. De privésleutel van de ouder wordt hier gebruikt omdat we een geharde kindersleutel willen afleiden. Bovendien wordt een byte gelijk aan `0x00` toegevoegd aan het begin van de sleutel. Deze bewerking maakt de lengte gelijk aan die van een gecomprimeerde openbare sleutel.
+In deze berekening zien we dat onze HMAC-functie twee inputs nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de privésleutel van de ouder. De privésleutel van de ouder wordt hier gebruikt omdat we een geharde kindersleutel willen afleiden. Bovendien wordt een byte gelijk aan `0x00` toegevoegd aan het begin van de sleutel. Deze bewerking maakt de lengte gelijk aan die van een gecomprimeerde openbare sleutel.
 
 We hebben nu dus een $tekst{Hash}$ van 64 bytes die we opsplitsen in 2 delen van elk 32 bytes, $h_1$ en $h_2$:
 
@@ -2436,7 +2436,7 @@ $$
 $$
 
 
-In deze berekening zien we dat onze HMAC-functie twee ingangen nodig heeft: eerst de chain code van de ouder, dan de aaneenschakeling van de index met de openbare sleutel van de ouder.
+In deze berekening zien we dat onze HMAC-functie twee inputs nodig heeft: eerst de chain code van de ouder, dan de aaneenschakeling van de index met de openbare sleutel van de ouder.
 
 
 We hebben nu dus een $\text{Hash}$ van 64 bytes die we opsplitsen in 2 delen van elk 32 bytes, $h_1$ en $h_2$:
@@ -2519,7 +2519,7 @@ K_{\text{PAR}} \rightarrow K_{\text{CHD}} & K_{\text{PAR}} & K_{\text{CHD}}^n & 
 $$
 
 
-Tot nu toe heb je geleerd om de basis elementen van een HD wallet te maken: de Mnemonic frase, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangstadressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
+Tot nu toe heb je geleerd om de basis elementen van een HD wallet te maken: de mnemonische zin, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangstadressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
 
 
 ## Wallet Structuur en afleidingstrajecten
@@ -2737,7 +2737,7 @@ Ontvangstadressen zijn stukjes informatie die in *scriptPubKey* zijn ingesloten 
 ### De rol van Bitcoin-adressen in scripts
 
 
-Zoals eerder uitgelegd, is de rol van een transactie het Ownership van bitcoins overbrengen van inputs naar outputs. Dit proces omvat het consumeren van UTXO's als inputs en het creëren van nieuwe UTXO's als outputs. Deze UTXO's worden beveiligd door scripts, die de noodzakelijke voorwaarden definiëren om de fondsen te ontgrendelen.
+Zoals eerder uitgelegd, is de rol van een transactie het eigendom van bitcoins overbrengen van inputs naar outputs. Dit proces omvat het consumeren van UTXO's als inputs en het creëren van nieuwe UTXO's als outputs. Deze UTXO's worden beveiligd door scripts, die de noodzakelijke voorwaarden definiëren om de fondsen te ontgrendelen.
 
 
 Wanneer een gebruiker bitcoins ontvangt, maakt de verzender een UTXO aan en vergrendelt deze met een *scriptPubKey*. Dit script bevat de regels om de UTXO te ontgrendelen, meestal met vermelding van de vereiste handtekeningen en publieke sleutels. Om deze UTXO uit te geven in een nieuwe transactie, moet de gebruiker de gevraagde informatie verstrekken via een *scriptSig*. De uitvoering van *scriptSig* in combinatie met *scriptPubKey* moet "true" of `1` opleveren. Als aan deze voorwaarde is voldaan, kan de UTXO worden gebruikt om een nieuwe UTXO aan te maken, die zelf wordt vergrendeld door een nieuwe *scriptPubKey*, enzovoort.
@@ -2844,7 +2844,7 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 ![CYP201](assets/en/067.webp)
 
 
-Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die Ownership van deze UTXO claimt en het wil uitgeven, inderdaad de privésleutel bezit die geassocieerd is met de ontvangstadres die gebruikt is tijdens het aanmaken van deze UTXO.
+Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die eigendom van deze UTXO claimt en het wil uitgeven, inderdaad de privésleutel bezit die geassocieerd is met de ontvangstadres die gebruikt is tijdens het aanmaken van deze UTXO.
 
 
 ### De verschillende soorten Bitcoin adressen
@@ -2876,7 +2876,7 @@ Het P2SH model, geïntroduceerd in 2012 met BIP16, maakt het mogelijk om de hash
 
 Dit script lijkt op P2PKH, omdat het ook bitcoins vergrendelt met behulp van de hash van een publieke sleutel. Echter, in tegenstelling tot P2PKH, is het *scriptSig* verplaatst naar een aparte sectie genaamd "*Witness*". Dit wordt soms "*scriptWitness*" genoemd om de set aan te duiden die bestaat uit de handtekening en de publieke sleutel. Elke SegWit invoer heeft zijn eigen *scriptWitness* en de verzameling *scriptWitnesses* vormt het *Witness* veld van de transactie. Deze verplaatsing van handtekeninggegevens is een innovatie die is geïntroduceerd door de SegWit update, met name gericht op het voorkomen van de vervormbaarheid van transacties door ECDSA handtekeningen.
 
-P2WPKH adressen gebruiken *bech32* codering en beginnen altijd met `bc1q`. Dit type script komt overeen met versie 0 SegWit uitgangen.
+P2WPKH adressen gebruiken *bech32* codering en beginnen altijd met `bc1q`. Dit type script komt overeen met versie 0 SegWit outputs.
 
 
 **P2WSH (*Pay-to-Witness-Script-Hash*)**:
@@ -2907,7 +2907,7 @@ P2TR biedt dus een grote flexibiliteit, omdat bitcoins kunnen worden vergrendeld
 ![CYP201](assets/en/068.webp)
 
 
-P2TR komt overeen met versie 1 SegWit uitgangen, wat betekent dat de handtekeningen voor P2TR ingangen worden opgeslagen in de *Witness* sectie van de transactie, en niet in de *scriptSig*. P2TR adressen gebruiken de *bech32m* codering en beginnen met `bc1p`, maar ze zijn vrij uniek omdat ze geen hashfunctie gebruiken voor hun constructie. Ze vertegenwoordigen namelijk direct de publieke sleutel $Q$ die eenvoudigweg geformatteerd is met metadata. Het is daarom een scriptmodel dat dicht in de buurt komt van P2PK.
+P2TR komt overeen met versie 1 SegWit outputs, wat betekent dat de handtekeningen voor P2TR inputs worden opgeslagen in de *Witness* sectie van de transactie, en niet in de *scriptSig*. P2TR adressen gebruiken de *bech32m* codering en beginnen met `bc1p`, maar ze zijn vrij uniek omdat ze geen hashfunctie gebruiken voor hun constructie. Ze vertegenwoordigen namelijk direct de publieke sleutel $Q$ die eenvoudigweg geformatteerd is met metadata. Het is daarom een scriptmodel dat dicht in de buurt komt van P2PK.
 
 
 Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgende hoofdstuk stel ik voor om zowel een SegWit v0 Address als een SegWit v1 Address af te leiden uit een paar sleutels.
