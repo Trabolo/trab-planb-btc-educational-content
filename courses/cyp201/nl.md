@@ -938,7 +938,7 @@ De term "_wallet_" in Bitcoin kan nogal verwarrend zijn voor beginners. Een Bitc
 
 Het Bitcoin-protocol is gedistribueerd en werkt zonder centrale autoriteit. Daarom is het niet zoals traditionele bankgegevens, waarbij je euro's simpelweg geassocieerd is met je persoonlijke identiteit. In Bitcoin zijn je UTXO's van jou, omdat ze beschermd zijn door bestedingsvoorwaarden die in de Script-taal zijn gespecificeerd. Simpel gezegd zijn er twee soorten scripts: het vergrendelingsscript (_scriptPubKey_), dat een UTXO beschermt, en het ontgrendelingsscript (_scriptSig_), dat het mogelijk maakt een UTXO te ontgrendelen en dus de bitcoin eenheden die het vertegenwoordigt uit te geven.
 
-De initiële werking van Bitcoin met P2PK-scripts houdt in dat er een publieke sleutel gebruikt wordt om geld te blokkeren, waarbij in een _scriptPubKey_ gespecificeerd wordt dat de persoon die deze UTXO wil uitgeven een geldige handtekening moet leveren met de private sleutel die overeenkomt met deze publieke sleutel. Om deze UTXO te ontgrendelen, is het dus nodig om een geldige handtekening te leveren in het _scriptSig_. Zoals de namen al suggereren, is de publieke sleutel bij iedereen bekend, omdat deze wordt uitgezonden op de blockchain, terwijl de privésleutel alleen bekend is bij de rechtmatige eigenaar van het geld.
+De initiële werking van Bitcoin met P2PK-scripts houdt in dat er een publieke sleutel gebruikt wordt om geld te blokkeren, waarbij in een _scriptPubKey_ gespecificeerd wordt dat de persoon die deze UTXO wil uitgeven een geldige handtekening moet leveren met de privésleutel die overeenkomt met deze publieke sleutel. Om deze UTXO te ontgrendelen, is het dus nodig om een geldige handtekening te leveren in het _scriptSig_. Zoals de namen al suggereren, is de publieke sleutel bij iedereen bekend, omdat deze wordt uitgezonden op de blockchain, terwijl de privésleutel alleen bekend is bij de rechtmatige eigenaar van het geld.
 
 Dit is de basiswerking van Bitcoin, maar in de loop der tijd is deze werking complexer geworden. Eerst introduceerde Satoshi ook P2PKH-scripts, die een ontvangstadres gebruiken in de _scriptPubKey_, dat de hash van de publieke sleutel voorstelt. Daarna werd het systeem nog complexer met de komst van SegWit en daarna Taproot. Het algemene principe blijft echter fundamenteel hetzelfde: een publieke sleutel of een representatie van deze sleutel wordt gebruikt om UTXO's te vergrendelen, en een corresponderende privésleutel is nodig om ze te ontgrendelen en dus uit te geven.
 
@@ -1079,13 +1079,13 @@ De privésleutel is eenvoudigweg een willekeurig of pseudo-willekeurig getal. In
 **Noot**: Een "pseudo-willekeurig getal" is een getal dat eigenschappen heeft die lijken op die van een echt willekeurig getal, maar gegenereerd wordt door een deterministisch algoritme.
 
 
-In de praktijk zijn er echter maar $n$ verschillende punten op onze elliptische curve secp256k1, waarbij $n$ de orde is van het generatorpunt $G$ van de kromme. We zullen later zien waar dit getal mee overeenkomt, maar onthoud simpelweg dat een geldige privésleutel een geheel getal is tussen $1$ en $n-1$. Let op dat dit getal $n$ dicht bij, maar iets minder dan $2^{256}$ ligt. Als gevolg daarvan zijn er slechts enkele 256-bit getallen die niet geldig zijn voor een private sleutel in Bitcoin, meer bepaald alle getallen tussen $n$ en $2^{256}$. Bij het genereren van het willekeurige getal (de privésleutel), wordt de waarde $k$ gebruikt. Als $k \geq n$, wordt de waarde beschouwd als ongeldig en moet er een nieuwe willekeurige waarde worden gegenereerd.
+In de praktijk zijn er echter maar $n$ verschillende punten op onze elliptische curve secp256k1, waarbij $n$ de orde is van het generatorpunt $G$ van de curve. We zullen later zien waar dit getal mee overeenkomt, maar onthoud simpelweg dat een geldige privésleutel een geheel getal is tussen $1$ en $n-1$. Let op dat dit getal $n$ dicht bij, maar iets minder dan $2^{256}$ ligt. Als gevolg daarvan zijn er slechts enkele 256-bit getallen die niet geldig zijn voor een privésleutel in Bitcoin, meer bepaald alle getallen tussen $n$ en $2^{256}$. Bij het genereren van het willekeurige getal (de privésleutel), wordt de waarde $k$ gebruikt. Als $k \geq n$, wordt de waarde beschouwd als ongeldig en moet er een nieuwe willekeurige waarde worden gegenereerd.
 
 
 Het aantal mogelijkheden voor een Bitcoin privésleutel is dus ongeveer $n$, een getal dat in de buurt komt van $1,158 maal 10^{77}$. Dit aantal is zo groot dat als je willekeurig een privésleutel kiest, het statistisch gezien bijna onmogelijk is om op de privésleutel van een andere gebruiker terecht te komen. Om je een idee te geven van de schaal, het aantal mogelijke privésleutels in Bitcoin heeft ongeveer dezelfde grootte als het geschatte aantal atomen in het waarneembare universum.
 
 
-Zoals we in de komende hoofdstukken zullen zien, worden vandaag de dag de meeste private sleutels die gebruikt worden in Bitcoin niet willekeurig gegenereerd, maar zijn ze het resultaat van deterministische afleiding van een mnemonische zin, zelf pseudo-willekeurig (dit is de zogenaamde zin van 12 of 24 woorden). Deze informatie verandert niets aan het gebruik van handtekeningalgoritmen zoals ECDSA, maar het helpt ons om ons begrip van Bitcoin te verduidelijken.
+Zoals we in de komende hoofdstukken zullen zien, worden vandaag de dag de meeste privésleutels die gebruikt worden in Bitcoin niet willekeurig gegenereerd, maar zijn ze het resultaat van deterministische afleiding van een mnemonische zin, zelf pseudo-willekeurig (dit is de zogenaamde zin van 12 of 24 woorden). Deze informatie verandert niets aan het gebruik van handtekeningalgoritmen zoals ECDSA, maar het helpt ons om ons begrip van Bitcoin te verduidelijken.
 
 
 Voor de rest van de uitleg wordt de privésleutel aangeduid met de kleine letter $k$.
@@ -1094,7 +1094,7 @@ Voor de rest van de uitleg wordt de privésleutel aangeduid met de kleine letter
 ### De openbare sleutel
 
 
-De openbare sleutel is een punt op de elliptische kromme, aangeduid met de hoofdletter $K$, en wordt berekend uit de privésleutel $k$. Dit punt $K$ wordt voorgesteld door een paar coördinaten $(x, y)$ op de elliptische kromme, waarbij elke coördinaat een geheel getal is modulo $p$, het priemgetal dat het eindige veld $mathbb{F}_p$ definieert.
+De openbare sleutel is een punt op de elliptische curve, aangeduid met de hoofdletter $K$, en wordt berekend uit de privésleutel $k$. Dit punt $K$ wordt voorgesteld door een paar coördinaten $(x, y)$ op de elliptische curve, waarbij elke coördinaat een geheel getal is modulo $p$, het priemgetal dat het eindige veld $mathbb{F}_p$ definieert.
 
 In de praktijk wordt een ongecomprimeerde openbare sleutel weergegeven door 520 bits (of 65 bytes), wat overeenkomt met twee 256-bits getallen ($x$ en $y$) die achter elkaar zijn geplaatst, voorafgegaan door het 8-bits voorvoegsel $0x04$.
 
@@ -1118,17 +1118,17 @@ waar:
 
 
 - $k$ is de privésleutel (een willekeurig geheel getal tussen $1$ en $n-1$);
-- $G$ is het generatorpunt van de elliptische curve die gebruikt wordt door alle deelnemers van het Bitcoin netwerk;
-- $\cdot$ staat voor de scalaire vermenigvuldiging op de elliptische kromme, die gelijk is aan het optellen van het punt $G$ bij zichzelf $k$ keer.
+- $G$ is het generatorpunt van de elliptische curve dat gebruikt wordt door alle deelnemers van het Bitcoin-netwerk;
+- $\cdot$ staat voor de scalaire vermenigvuldiging op de elliptische curve, die gelijk is aan het optellen van het punt $G$ bij zichzelf $k$ keer.
 
 
-Het feit dat dit punt $G$ gemeenschappelijk is voor alle publieke sleutels in Bitcoin laat ons toe er zeker van te zijn dat dezelfde private sleutel $k$ ons altijd dezelfde publieke sleutel $K$ zal geven:
+Het feit dat dit punt $G$ gemeenschappelijk is voor alle publieke sleutels in Bitcoin laat ons toe er zeker van te zijn dat dezelfde privésleutel $k$ ons altijd dezelfde publieke sleutel $K$ zal geven:
 
 
 ![CYP201](assets/en/022.webp)
 
 
-Het belangrijkste kenmerk van deze operatie is dat het een eenrichtingsfunctie is. Het is gemakkelijk om de publieke sleutel $K$ te berekenen als je de private sleutel $k$ en het generator punt $G$ kent, maar het is praktisch onmogelijk om de private sleutel $k$ te berekenen als je alleen de publieke sleutel $K$ en het generator punt $G$ kent. Het vinden van $k$ uit $K$ en $G$ komt neer op het oplossen van het discrete logaritmeprobleem op elliptische curves, een wiskundig moeilijk probleem waarvoor geen efficiënt algoritme bekend is. Zelfs de krachtigste huidige rekenmachines zijn niet in staat om dit probleem in een redelijke tijd op te lossen.
+Het belangrijkste kenmerk van deze operatie is dat het een eenrichtingsfunctie is. Het is gemakkelijk om de publieke sleutel $K$ te berekenen als je de privésleutel $k$ en het generator punt $G$ kent, maar het is praktisch onmogelijk om de privésleutel $k$ te berekenen als je alleen de publieke sleutel $K$ en het generator punt $G$ kent. Het vinden van $k$ uit $K$ en $G$ komt neer op het oplossen van het discrete logaritmeprobleem op elliptische curves, een wiskundig moeilijk probleem waarvoor geen efficiënt algoritme bekend is. Zelfs de krachtigste huidige rekenmachines zijn niet in staat om dit probleem in een redelijke tijd op te lossen.
 
 
 ![CYP201](assets/en/023.webp)
@@ -1196,7 +1196,7 @@ Grafisch komt dit overeen met het uitvoeren van een reeks optellingen en verdubb
 ![CYP201](assets/en/026.webp)
 
 
-Als we bijvoorbeeld het punt $3G$ willen berekenen, moeten we eerst het punt $2G$ berekenen door het punt $G$ te verdubbelen, en dan $G$ en $2G$ optellen. Om $G$ en $2G$ op te tellen, trek je gewoon de lijn die deze twee punten verbindt, zoek je het unieke punt $-3G$ op het snijpunt van deze lijn en de elliptische kromme, en bepaal je vervolgens $3G$ als het tegenovergestelde van $-3G$.
+Als we bijvoorbeeld het punt $3G$ willen berekenen, moeten we eerst het punt $2G$ berekenen door het punt $G$ te verdubbelen, en dan $G$ en $2G$ optellen. Om $G$ en $2G$ op te tellen, trek je gewoon de lijn die deze twee punten verbindt, zoek je het unieke punt $-3G$ op het snijpunt van deze lijn en de elliptische curve, en bepaal je vervolgens $3G$ als het tegenovergestelde van $-3G$.
 
 
 We hebben:
@@ -1241,10 +1241,10 @@ $$
 We hebben dus gemakkelijk de openbare sleutel $K$ kunnen berekenen door $k$ en $G$ te kennen.
 
 
-Als iemand alleen de openbare sleutel $K$ kent, wordt hij geconfronteerd met het discrete logaritmeprobleem: $k$ vinden zodat $K = k ≤ G$. Dit probleem wordt als moeilijk beschouwd omdat er geen efficiënt algoritme is om het op elliptische curves op te lossen. Dit zorgt voor de veiligheid van de ECDSA- en Schnorr-algoritmen.
+Als iemand alleen de openbare sleutel $K$ kent, wordt hij geconfronteerd met het discrete logaritmeprobleem: $k$ vinden zodat $K = k ≤ G$. Dit probleem wordt als moeilijk beschouwd omdat er geen efficiënt algoritme is om het op elliptische curves op te lossen. Dit verzekert de veiligheid van de ECDSA- en Schnorr-algoritmen.
 
 
-Natuurlijk zou het in dit vereenvoudigde voorbeeld met $k = 4$ mogelijk zijn om $k$ met vallen en opstaan te vinden, omdat het aantal mogelijkheden laag is. In de praktijk is $k$ echter een geheel getal van 256 bits, waardoor het aantal mogelijkheden astronomisch groot is (ongeveer $1,158 maal 10^{77}$). Daarom is het ondoenlijk om $k$ met brute kracht te vinden.
+Natuurlijk zou het in dit vereenvoudigde voorbeeld met $k = 4$ mogelijk zijn om $k$ met brute kracht te vinden, omdat het aantal mogelijkheden laag is. In de praktijk is $k$ echter een geheel getal van 256 bits, waardoor het aantal mogelijkheden astronomisch groot is (ongeveer $1,158 maal 10^{77}$). Daarom is het ondoenlijk om $k$ met brute kracht te vinden.
 
 
 ## Ondertekenen met de privésleutel
@@ -1255,10 +1255,10 @@ Natuurlijk zou het in dit vereenvoudigde voorbeeld met $k = 4$ mogelijk zijn om 
 :::video id=fe3acbf4-a9d4-4c7d-82cc-79de24bf8aec:::
 
 
-Nu je weet hoe je een publieke sleutel kunt afleiden uit een privésleutel, kun je al bitcoins ontvangen door dit sleutelpaar te gebruiken als bestedingsvoorwaarde. Maar hoe kunt u ze uitgeven? Om bitcoins uit te geven, moet je de _scriptPubKey_ die aan je UTXO hangt ontgrendelen om te bewijzen dat je inderdaad de rechtmatige eigenaar ervan bent. Om dit te doen, moet je een handtekening $s$ produceren die overeenstemt met de publieke sleutel $K$ die aanwezig is in de _scriptPubKey_ door gebruik te maken van de private sleutel $k$ die initieel gebruikt werd om $K$ te berekenen. De digitale handtekening is dus een onweerlegbaar bewijs dat u in het bezit bent van de privésleutel die hoort bij de openbare sleutel die u claimt.
+Nu je weet hoe je een publieke sleutel kunt afleiden uit een privésleutel, kun je al bitcoins ontvangen door dit sleutelpaar te gebruiken als bestedingsvoorwaarde. Maar hoe kun je ze uitgeven? Om bitcoins uit te geven, moet je de _scriptPubKey_ die aan je UTXO hangt ontgrendelen om te bewijzen dat je inderdaad de rechtmatige eigenaar ervan bent. Om dit te doen, moet je een handtekening $s$ produceren die overeenstemt met de publieke sleutel $K$ die aanwezig is in de _scriptPubKey_ door gebruik te maken van de privésleutel $k$ die initieel gebruikt werd om $K$ te berekenen. De digitale handtekening is dus een onweerlegbaar bewijs dat je in het bezit bent van de privésleutel die hoort bij de openbare sleutel die je claimt.
 
 
-### Elliptische curve parameters
+### Parameters van de elliptische curve 
 
 
 Om een digitale handtekening uit te voeren, moeten alle deelnemers het eerst eens zijn over de parameters van de gebruikte elliptische curve. In het geval van Bitcoin zijn de parameters van **secp256k1** als volgt:
@@ -1317,16 +1317,16 @@ $$
 $h$ is de cofactor of het aantal subgroepen. Ik zal hier niet uitweiden over wat dit voorstelt, omdat het vrij complex is, en in het geval van Bitcoin hoeven we er geen rekening mee te houden omdat het gelijk is aan $1$.
 
 
-Al deze informatie is openbaar en bekend bij alle deelnemers. Dankzij hen kunnen gebruikers een digitale handtekening maken en deze verifiëren.
+Al deze informatie is openbaar en bekend bij alle deelnemers. Dankzij deze informatie kunnen gebruikers een digitale handtekening maken en deze verifiëren.
 
 
 ### Handtekening met ECDSA
 
 
-Met het ECDSA-algoritme kan een gebruiker een bericht ondertekenen met zijn privé-sleutel, op zo'n manier dat iedereen die de corresponderende publieke sleutel kent de geldigheid van de handtekening kan verifiëren, zonder dat de privé-sleutel ooit onthuld wordt. In de context van Bitcoin hangt het te ondertekenen bericht af van de _sighash_ gekozen door de gebruiker. Het is deze _sighash_ die bepaalt welke delen van de transactie gedekt worden door de handtekening. Ik zal hier meer over vertellen in het volgende hoofdstuk.
+Met het ECDSA-algoritme kan een gebruiker een bericht ondertekenen met zijn privésleutel, op zo'n manier dat iedereen die de corresponderende publieke sleutel kent de geldigheid van de handtekening kan verifiëren, zonder dat de privésleutel ooit onthuld wordt. In de context van Bitcoin hangt het te ondertekenen bericht af van de _sighash_ gekozen door de gebruiker. Het is deze _sighash_ die bepaalt welke delen van de transactie gedekt worden door de handtekening. Ik zal hier meer over vertellen in het volgende hoofdstuk.
 
 
-Hier zijn de stappen om generate een ECDSA handtekening te geven:
+Hier zijn de stappen om een ECDSA-handtekening te genereren:
 
 
 Eerst berekenen we de hash ($e$) van het bericht dat ondertekend moet worden. Het bericht $m$ wordt dus door een cryptografische hashfunctie gehaald, meestal SHA256 of dubbel SHA256 in het geval van Bitcoin:
@@ -1337,7 +1337,7 @@ e = \text{HASH}(m)
 $$
 
 
-Vervolgens berekenen we een Nonce. In cryptografie is een Nonce gewoon een getal dat willekeurig of pseudo-willekeurig gegenereerd wordt en slechts één keer gebruikt wordt. Dat wil zeggen, elke keer dat er een nieuwe digitale handtekening wordt gemaakt met dit sleutelpaar, is het erg belangrijk om een andere Nonce te gebruiken, anders zal dit de veiligheid van de private sleutel in gevaar brengen. Het is daarom voldoende om een willekeurig en uniek geheel getal $r$ te bepalen zodat $1 \leq r \leq n-1$, waarbij $n$ de orde is van het voortbrengende punt $G$ van de elliptische curve.
+Vervolgens berekenen we een nonce. In cryptografie is een nonce gewoon een getal dat willekeurig of pseudo-willekeurig gegenereerd wordt en slechts één keer gebruikt wordt. Dat wil zeggen, elke keer dat er een nieuwe digitale handtekening wordt gemaakt met dit sleutelpaar, is het erg belangrijk om een andere nonce te gebruiken, anders zal dit de veiligheid van de privésleutel in gevaar brengen. Het is daarom voldoende om een willekeurig en uniek geheel getal $r$ te bepalen zodat $1 \leq r \leq n-1$, waarbij $n$ de volgorde is van het voortbrengende punt $G$ van de elliptische curve.
 
 
 Dan berekenen we het punt $R$ op de elliptische curve met de coördinaten $(x_R, y_R)$ zo dat:
@@ -1363,7 +1363,7 @@ waar:
 - $r^{-1}$ is de modulaire inverse van $r$ modulo $n$, dat wil zeggen, een geheel getal zo dat $r \dot r^{-1} \equiv 1 mod n$;
 - $k$ is de privésleutel van de gebruiker;
 - $e$ is de hash van het bericht;
-- $n$ is de orde van het generator punt $G$ van de elliptische kromme.
+- $n$ is de volgorde van het generator punt $G$ van de elliptische curve.
 
 
 De handtekening is dan gewoon de aaneenschakeling van $x_R$ en $s$:
@@ -1418,13 +1418,13 @@ V = u_1 \cdot G + u_2 \cdot K
 $$
 
 
-De signatuur is alleen geldig als $x_V \equiv x_R \mod n$, waarbij $x_V$ de $x$ coördinaat van het punt $V$ is. Door het combineren van $u_1 \cdot G$ en $u_2 \cdot K$ verkrijgt men immers een punt $V$ dat, indien de signatuur geldig is, moet corresponderen met het punt $R$ gebruikt tijdens de signatuur (modulo $n$).
+De hantekening is alleen geldig als $x_V \equiv x_R \mod n$, waarbij $x_V$ de $x$ coördinaat van het punt $V$ is. Door het combineren van $u_1 \cdot G$ en $u_2 \cdot K$ verkrijgt men immers een punt $V$ dat, indien de hantekening geldig is, moet corresponderen met het punt $R$ gebruikt tijdens de hantekening (modulo $n$).
 
 
 ### Handtekening met het Schnorr-protocol
 
 
-Het Schnorr handtekeningschema is een alternatief voor ECDSA dat veel voordelen biedt. Het is sinds 2021 en de introductie van Taproot mogelijk om het te gebruiken in Bitcoin, met de P2TR scriptpatronen. Net als ECDSA maakt het Schnorr-schema het mogelijk om een bericht te ondertekenen met een privésleutel, op zo'n manier dat de handtekening geverifieerd kan worden door iedereen die de corresponderende publieke sleutel kent.
+Het Schnorr-handtekeningschema is een alternatief voor ECDSA dat veel voordelen biedt. Het is sinds 2021 en de introductie van Taproot mogelijk om het te gebruiken in Bitcoin, met de P2TR-scriptpatronen. Net als ECDSA maakt het Schnorr-schema het mogelijk om een bericht te ondertekenen met een privésleutel, op zo'n manier dat de handtekening geverifieerd kan worden door iedereen die de corresponderende publieke sleutel kent.
 
 In het geval van Schnorr wordt exact dezelfde curve als ECDSA gebruikt met dezelfde parameters. De publieke sleutels worden echter iets anders voorgesteld dan bij ECDSA. Ze worden namelijk alleen aangeduid door de $x$ coördinaat van het punt op de elliptische curve. In tegenstelling tot ECDSA, waar gecomprimeerde publieke sleutels worden voorgesteld door 33 bytes (met de prefixbyte die de pariteit van $y$ aangeeft), gebruikt Schnorr publieke sleutels van 32 bytes, die enkel overeenkomen met de $x$ coördinaat van het punt $K$, en er wordt aangenomen dat $y$ standaard even is. Deze vereenvoudigde weergave vermindert de grootte van de handtekeningen en vergemakkelijkt bepaalde optimalisaties in de verificatiealgoritmen.
 
@@ -1436,16 +1436,16 @@ $$
 $$
 
 
-De eerste stap naar generate een handtekening is hash het bericht. Maar in tegenstelling tot ECDSA wordt dit gedaan met andere waarden en wordt een gelabelde hashfunctie gebruikt om botsingen in verschillende contexten te voorkomen. Bij een gelabelde hashfunctie wordt eenvoudigweg een willekeurig label toegevoegd aan de hashfunctieingangen naast de berichtgegevens.
+De eerste stap om een handtekening te genereren, is het bericht hashen. Maar in tegenstelling tot ECDSA wordt dit gedaan met andere waarden en wordt een gelabelde hashfunctie gebruikt om botsingen in verschillende contexten te voorkomen. Bij een gelabelde hashfunctie wordt eenvoudigweg een willekeurig label toegevoegd aan de hashfunctieingangen naast de berichtgegevens.
 
 
 ![CYP201](assets/en/028.webp)
 
 
-Naast het bericht worden ook de $x$ coördinaat van de publieke sleutel $K_x$, en het punt $R = r \cdot G$, berekend uit de Nonce $r$ (die zelf een uniek geheel getal is voor elke handtekening, deterministisch berekend uit de private sleutel en het bericht om kwetsbaarheden gerelateerd aan hergebruik van Nonce te voorkomen), doorgegeven aan de gelabelde functie. Net als voor de publieke sleutel wordt alleen de $x$ coördinaat van het Nonce punt $R_x$ behouden om het punt te beschrijven.
+Naast het bericht worden ook de $x$ coördinaat van de publieke sleutel $K_x$, en het punt $R = r \cdot G$, berekend uit de nonce $r$ (dat zelf een uniek geheel getal is voor elke handtekening, deterministisch berekend uit de privésleutel en het bericht om kwetsbaarheden gerelateerd aan hergebruik van nonce te voorkomen), doorgegeven aan de gelabelde functie. Net als voor de publieke sleutel wordt alleen de $x$ coördinaat van het nonce punt $R_x$ behouden om het punt te beschrijven.
 
 
-Het resultaat van deze hashing genoteerd $e$ wordt de "uitdaging" genoemd:
+Het resultaat van deze hashing genoteerd $e$ wordt de "challenge" genoemd:
 
 
 $$
@@ -1456,7 +1456,7 @@ $$
 Hier is $\text{Hash}$ de SHA256-hashfunctie en $\text{`BIP0340/challenge''}$ de specifieke tag voor het hashen.
 
 
-Tenslotte wordt de parameter $s$ als volgt berekend uit de privésleutel $k$, de Nonce $r$ en de uitdaging $e$:
+Tenslotte wordt de parameter $s$ als volgt berekend uit de privésleutel $k$, de nonce $r$ en de challenge $e$:
 
 
 $$
@@ -1475,11 +1475,11 @@ $$
 ### Verificatie van de Schnorr-handtekening
 
 
-De verificatie van een Schnorr handtekening is eenvoudiger dan die van een ECDSA handtekening. Hier zijn de stappen om de handtekening $(R_x, s)$ met de openbare sleutel $K_x$ en het bericht $m$ te verifiëren.
+De verificatie van een Schnorr-handtekening is eenvoudiger dan die van een ECDSA handtekening. Hier zijn de stappen om de handtekening $(R_x, s)$ met de openbare sleutel $K_x$ en het bericht $m$ te verifiëren.
 
-Eerst controleren we of $K_x$ een geldig geheel getal is kleiner dan $p$. Als dit het geval is, vinden we het overeenkomstige punt op de curve waarbij $K_y$ even is. We extraheren ook $R_x$ en $s$ door de handtekening $\text{SIG}$ te splitsen. Daarna controleren we of $R_x < p$ en $s < n$ (de volgorde van de kromme).
+Eerst controleren we of $K_x$ een geldig geheel getal is kleiner dan $p$. Als dit het geval is, vinden we het overeenkomstige punt op de curve waarbij $K_y$ even is. We extraheren ook $R_x$ en $s$ door de handtekening $\text{SIG}$ te splitsen. Daarna controleren we of $R_x < p$ en $s < n$ (de volgorde van de curve).
 
-Vervolgens berekenen we de uitdaging $e$ op dezelfde manier als de uitgever van de handtekening:
+Vervolgens berekenen we de challenge $e$ op dezelfde manier als de uitgever van de handtekening:
 
 
 $$
@@ -1579,7 +1579,7 @@ De "sighash flag" is dus een parameter die aan elke ingang wordt toegevoegd, zod
 Het is duidelijk dat zodra de transactie bevestigd is op de blockchain, deze onveranderbaar wordt, ongeacht de gebruikte sighash vlaggen. De mogelijkheid van wijziging via de sighash vlaggen is beperkt tot de periode tussen het ondertekenen en de bevestiging.
 
 
-Over het algemeen biedt de wallet-software u niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer u een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
+Over het algemeen biedt de wallet-software je niet de mogelijkheid om handmatig de sighash flag van uw invoer te wijzigen wanneer je een transactie aanmaakt. Standaard is `SIGHASH_ALL` ingesteld. Persoonlijk ken ik alleen Sparrow wallet die deze wijziging toestaat van de gebruiker Interface.
 
 
 ### Wat zijn de bestaande sighash-vlaggen in Bitcoin?
@@ -1595,7 +1595,7 @@ In Bitcoin zijn er eerst en vooral 3 basis sighash-vlaggen:
 ![CYP201](assets/en/031.webp)
 
 
-In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de elementen die onder de signatuur valt, terwijl de zwarte kleur aangeeft welke dat niet zijn.
+In alle diagrammen van dit hoofdstuk staat de oranje kleur voor de elementen die onder de hantekening valt, terwijl de zwarte kleur aangeeft welke dat niet zijn.
 
 
 
@@ -1687,21 +1687,21 @@ Voordat we in de technische details duiken, is het essentieel om te verduidelijk
 In tegenstelling tot traditionele portemonnees, die het mogelijk maken om fysieke biljetten en munten op te slaan, "bevat" een Bitcoin-wallet niet per se bitcoins. Bitcoins bestaan namelijk niet in een fysieke of digitale vorm die kan worden opgeslagen, maar worden vertegenwoordigd door rekeneenheden die in het Bitcoin systeem worden weergegeven in de vorm van **UTXO's** (_Unspent Transaction Outputs_).
 
 
-UTXO's vertegenwoordigen dus fragmenten van bitcoins, van verschillende groottes, die kunnen worden uitgegeven op voorwaarde dat aan hun _scriptPubKey_ is voldaan. Om zijn bitcoins uit te geven, moet een gebruiker een _scriptSig_ leveren die de _scriptPubKey_ ontsluit die geassocieerd is met zijn UTXO. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening, gegenereerd uit de private sleutel die overeenkomt met de publieke sleutel in de _scriptPubKey_. Het cruciale element dat de gebruiker moet beveiligen is dus de private sleutel.
+UTXO's vertegenwoordigen dus fragmenten van bitcoins, van verschillende groottes, die kunnen worden uitgegeven op voorwaarde dat aan hun _scriptPubKey_ is voldaan. Om zijn bitcoins uit te geven, moet een gebruiker een _scriptSig_ leveren die de _scriptPubKey_ ontsluit die geassocieerd is met zijn UTXO. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening, gegenereerd uit de privésleutel die overeenkomt met de publieke sleutel in de _scriptPubKey_. Het cruciale element dat de gebruiker moet beveiligen is dus de privésleutel.
 
-De rol van een Bitcoin-wallet is juist om deze private sleutels veilig te beheren. In werkelijkheid lijkt zijn rol meer op die van een sleutelhanger dan op die van een wallet in de traditionele zin.
+De rol van een Bitcoin-wallet is juist om deze privésleutels veilig te beheren. In werkelijkheid lijkt zijn rol meer op die van een sleutelhanger dan op die van een wallet in de traditionele zin.
 
 
 ### JBOK Portemonnees
 
 
-De eerste wallets die gebruikt werden in Bitcoin waren JBOK (_Just a Bunch Of Keys_) wallets, die privé-sleutels groepeerden die onafhankelijk van elkaar gegenereerd waren, zonder enig verband ertussen. Deze wallets werkten volgens een eenvoudig model waarbij elke private sleutel een unieke Bitcoin kon ontgrendelen die Address ontving.
+De eerste wallets die gebruikt werden in Bitcoin waren JBOK (_Just a Bunch Of Keys_) wallets, die privésleutels groepeerden die onafhankelijk van elkaar gegenereerd waren, zonder enig verband ertussen. Deze wallets werkten volgens een eenvoudig model waarbij elke privésleutel een unieke Bitcoin kon ontgrendelen die Address ontving.
 
 
 ![CYP201](assets/en/038.webp)
 
 
-Als men meerdere privésleutels wilde gebruiken, was het nodig om evenzoveel back-ups te maken om toegang tot fondsen te garanderen in geval van problemen met het apparaat waarop de wallet staat. Als men één enkele private sleutel gebruikt, kan deze wallet structuur volstaan, aangezien één back-up voldoende is. Dit levert echter een probleem op: in Bitcoin wordt het sterk afgeraden om steeds dezelfde private sleutel te gebruiken. Een private sleutel is namelijk geassocieerd met een unieke Address, en Bitcoin ontvangstadressen zijn normaal ontworpen voor eenmalig gebruik. Elke keer dat je geld ontvangt, moet je generate een nieuwe lege Address aanmaken.
+Als men meerdere privésleutels wilde gebruiken, was het nodig om evenzoveel back-ups te maken om toegang tot fondsen te garanderen in geval van problemen met het apparaat waarop de wallet staat. Als men één enkele privésleutel gebruikt, kan deze wallet structuur volstaan, aangezien één back-up voldoende is. Dit levert echter een probleem op: in Bitcoin wordt het sterk afgeraden om steeds dezelfde privésleutel te gebruiken. Een privésleutel is namelijk geassocieerd met een unieke Address, en Bitcoin ontvangstadressen zijn normaal ontworpen voor eenmalig gebruik. Elke keer dat je geld ontvangt, moet je generate een nieuwe lege Address aanmaken.
 
 
 Deze beperking komt voort uit het privacymodel van Bitcoin. Door dezelfde Address te hergebruiken, wordt het voor externe waarnemers gemakkelijker om Bitcoin transacties te traceren. Daarom wordt het hergebruiken van een ontvangstadres sterk afgeraden. Echter, om meerdere adressen te hebben en onze transacties publiekelijk te scheiden, is het noodzakelijk om meerdere privésleutels te beheren. In het geval van JBOK wallets betekent dit dat er evenveel back-ups moeten worden gemaakt als er nieuwe sleutelparen zijn, een taak die snel complex en moeilijk te onderhouden kan worden voor gebruikers.
@@ -1715,7 +1715,7 @@ https://planb.academy/courses/65c138b0-4161-4958-bbe3-c12916bc959c
 ### HD Portemonnees
 
 
-Om Address de beperking van JBOK wallets op te heffen, werd vervolgens een nieuwe wallet structuur gebruikt. In 2012 stelde Pieter Wuille een verbetering voor met BIP32, die HD (Hierarchical Deterministic) wallets introduceerde. Het principe van een HD wallet is om alle private sleutels af te leiden uit één enkele informatiebron, een seed genaamd, op een deterministische en hiërarchische manier. Deze seed wordt willekeurig gegenereerd wanneer de wallet wordt aangemaakt en vormt een unieke back-up waarmee alle privésleutels van de wallet opnieuw kunnen worden aangemaakt. De gebruiker kan dus generate een zeer groot aantal privésleutels aanmaken om Address hergebruik te voorkomen en zijn privacy te bewaren, terwijl hij slechts één back-up van zijn wallet hoeft te maken via de seed.
+Om Address de beperking van JBOK wallets op te heffen, werd vervolgens een nieuwe wallet structuur gebruikt. In 2012 stelde Pieter Wuille een verbetering voor met BIP32, die HD (Hierarchical Deterministic) wallets introduceerde. Het principe van een HD wallet is om alle privésleutels af te leiden uit één enkele informatiebron, een seed genaamd, op een deterministische en hiërarchische manier. Deze seed wordt willekeurig gegenereerd wanneer de wallet wordt aangemaakt en vormt een unieke back-up waarmee alle privésleutels van de wallet opnieuw kunnen worden aangemaakt. De gebruiker kan dus generate een zeer groot aantal privésleutels aanmaken om Address hergebruik te voorkomen en zijn privacy te bewaren, terwijl hij slechts één back-up van zijn wallet hoeft te maken via de seed.
 
 
 ![CYP201](assets/en/039.webp)
@@ -1752,7 +1752,7 @@ Moderne HD-wallets vertrouwen op een enkel initieel stukje informatie genaamd "e
 Entropie, in de context van cryptografie en informatie, is een kwantitatieve maat voor de onzekerheid of onvoorspelbaarheid geassocieerd met een gegevensbron of een willekeurig proces. Entropie speelt een belangrijke rol in de veiligheid van cryptografische systemen, vooral bij het genereren van sleutels en willekeurige getallen. Een hoge entropie zorgt ervoor dat de gegenereerde sleutels voldoende onvoorspelbaar zijn en bestand tegen brute kracht aanvallen, waarbij een aanvaller alle mogelijke combinaties probeert om de sleutel te raden.
 
 
-In de context van Bitcoin wordt entropie gebruikt om generate de seed te maken. Bij het creëren van een HD wallet, wordt de mnemonische zin geconstrueerd uit een willekeurig getal, zelf afgeleid van een entropiebron. De zin wordt dan gebruikt om meerdere private sleutels generate te maken, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
+In de context van Bitcoin wordt entropie gebruikt om generate de seed te maken. Bij het creëren van een HD wallet, wordt de mnemonische zin geconstrueerd uit een willekeurig getal, zelf afgeleid van een entropiebron. De zin wordt dan gebruikt om meerdere privésleutels generate te maken, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
 
 
 ### Methoden voor het genereren van entropie
@@ -1891,10 +1891,10 @@ Deze lijst van 2048 woorden bestaat in verschillende talen. Dit zijn geen eenvou
 ### Welke lengte moet je kiezen voor je mnemonische zin?
 
 
-Om de optimale lengte van uw mnemonische zin te bepalen, moet u rekening houden met de werkelijke beveiliging die deze biedt. Een woordgroep van 12 woorden biedt 128 bits beveiliging, terwijl een woordgroep van 24 256 bits biedt.
+Om de optimale lengte van uw mnemonische zin te bepalen, moet je rekening houden met de werkelijke beveiliging die deze biedt. Een woordgroep van 12 woorden biedt 128 bits beveiliging, terwijl een woordgroep van 24 256 bits biedt.
 
 
-Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin-wallet, aangezien de private sleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin private sleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze private sleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische curves (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
+Dit verschil in beveiliging op zinsniveau verbetert echter niet de algemene veiligheid van een Bitcoin-wallet, aangezien de privésleutels die van deze zin zijn afgeleid slechts 128 bits veiligheid genieten. Inderdaad, zoals we eerder gezien hebben, worden Bitcoin privésleutels gegenereerd uit willekeurige getallen (of afgeleid van een willekeurige bron) variërend tussen $1$ en $n-1$, waarbij $n$ de orde van het generator punt $G$ van de secp256k1 curve voorstelt, een getal iets minder dan $2^{256}$. Men zou dus kunnen denken dat deze privésleutels 256 bits veiligheid bieden. Hun veiligheid ligt echter in de moeilijkheid om een privésleutel te vinden uit de bijbehorende publieke sleutel, een moeilijkheid die is vastgesteld door het wiskundige probleem van de discrete logaritme op elliptische curves (_ECDLP_). Tot nu toe is het bekendste algoritme om dit probleem op te lossen het rho-algoritme van Pollard, dat het aantal bewerkingen dat nodig is om een sleutel te kraken terugbrengt tot de vierkantswortel van de grootte.
 
 
 Voor 256-bits sleutels, zoals die gebruikt worden in Bitcoin, reduceert Pollard's rho algoritme de complexiteit dus tot $2^{128}$ operaties:
@@ -1939,7 +1939,7 @@ Zoals we net gezien hebben, worden HD-wallets gegenereerd uit een mnemonische zi
 ### Wat is een BIP39 passphrase?
 
 
-De passphrase is een optioneel wachtwoord, dat u vrij kunt kiezen, dat wordt toegevoegd aan de mnemonische zin in het sleutelafleidingsproces om de veiligheid van de wallet te verbeteren.
+De passphrase is een optioneel wachtwoord, dat je vrij kunt kiezen, dat wordt toegevoegd aan de mnemonische zin in het sleutelafleidingsproces om de veiligheid van de wallet te verbeteren.
 
 
 Let op, de passphrase mag niet verward worden met de PIN-code van je Hardware wallet of het wachtwoord dat gebruikt wordt om de toegang tot je wallet op je computer te ontgrendelen. In tegenstelling tot al deze Elements, speelt de passphrase een rol bij het afleiden van de sleutels van je wallet. **Dit betekent dat je zonder de passphrase nooit in staat zult zijn om je bitcoins terug te krijgen.**
@@ -2041,7 +2041,7 @@ Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin-
 Zodra de seed verkregen is, bestaat de volgende stap in het afleiden van een HD wallet uit het berekenen van de master private key en de master chain code, die diepte 0 van onze wallet zal vertegenwoordigen.
 
 
-Om de master private sleutel en de master chain code te verkrijgen, wordt de HMAC-SHA512 functie toegepast op de seed, met een vaste sleutel "_Bitcoin Seed_" die identiek is voor alle Bitcoin gebruikers. Deze constante is gekozen om ervoor te zorgen dat de sleutelafleidingen specifiek zijn voor Bitcoin. Hier zijn de Elements:
+Om de master privésleutel en de master chain code te verkrijgen, wordt de HMAC-SHA512 functie toegepast op de seed, met een vaste sleutel "_Bitcoin Seed_" die identiek is voor alle Bitcoin gebruikers. Deze constante is gekozen om ervoor te zorgen dat de sleutelafleidingen specifiek zijn voor Bitcoin. Hier zijn de Elements:
 
 
 
@@ -2085,7 +2085,7 @@ $$
 ### Rol van de hoofdsleutel en de chain code
 
 
-De master private sleutel wordt beschouwd als de oudersleutel, waarvan alle afgeleide private sleutels - kinderen, kleinkinderen, achterkleinkinderen, enz. Het vertegenwoordigt het nulniveau in de afleidingshiërarchie.
+De master privésleutel wordt beschouwd als de oudersleutel, waarvan alle afgeleide privésleutels - kinderen, kleinkinderen, achterkleinkinderen, enz. Het vertegenwoordigt het nulniveau in de afleidingshiërarchie.
 
 
 De master chain code, aan de andere kant, introduceert een extra bron van entropie in het sleutelafleidingsproces voor kinderen, om bepaalde potentiële aanvallen tegen te gaan. Bovendien is in de HD wallet aan elk sleutelpaar een unieke chain code gekoppeld, die ook gebruikt wordt om kindsleutels van dit paar af te leiden, maar dit zullen we in de komende hoofdstukken in meer detail bespreken.
@@ -2119,7 +2119,7 @@ De uitgebreide sleutel bestaat uit twee delen:
 Als de uitgebreide sleutel een privésleutel bevat, wordt het een uitgebreide privésleutel genoemd. Deze is te herkennen aan de prefix die de identificatie `prv` bevat. Naast de privésleutel bevat de uitgebreide privésleutel ook de bijbehorende chain code. Met dit type uitgebreide sleutel is het mogelijk om alle soorten kind-privésleutels af te leiden. Door het optellen en verdubbelen van punten op elliptische curves is het dus ook mogelijk om child public keys af te leiden.
 
 
-Als de uitgebreide sleutel geen privésleutel bevat, maar een openbare sleutel, wordt het een uitgebreide openbare sleutel genoemd. Deze wordt herkend aan de prefix die de identificatie `pub` bevat. Naast de sleutel bevat het uiteraard ook de bijbehorende chain code. In tegenstelling tot de uitgebreide private sleutel, kunnen met de uitgebreide publieke sleutel alleen "normale" child public keys worden afgeleid (wat betekent dat er geen "hardened" child keys kunnen worden afgeleid). We zullen in het volgende hoofdstuk zien wat deze "normale" en "geharde" kwalificaties betekenen.
+Als de uitgebreide sleutel geen privésleutel bevat, maar een openbare sleutel, wordt het een uitgebreide openbare sleutel genoemd. Deze wordt herkend aan de prefix die de identificatie `pub` bevat. Naast de sleutel bevat het uiteraard ook de bijbehorende chain code. In tegenstelling tot de uitgebreide privésleutel, kunnen met de uitgebreide publieke sleutel alleen "normale" child public keys worden afgeleid (wat betekent dat er geen "hardened" child keys kunnen worden afgeleid). We zullen in het volgende hoofdstuk zien wat deze "normale" en "geharde" kwalificaties betekenen.
 
 
 In ieder geval is het met de uitgebreide openbare sleutel niet mogelijk om privésleutels van kinderen af te leiden. Dus zelfs als iemand toegang heeft tot een `xpub`, kan hij de bijbehorende gelden niet uitgeven, omdat hij geen toegang heeft tot de bijbehorende privésleutels. Ze kunnen alleen publieke kindsleutels afleiden om de bijbehorende transacties te observeren.
@@ -2466,7 +2466,7 @@ K_{\text{CHD}}^n = \text{parse256}(h_1) \cdot G + K_{\text{PAR}}
 $$
 
 
-Als $K_{parse256}(h_1) \geq n$ (orde van de elliptische kromme) of als $K_{parse256}}^n$ het punt op oneindig is, is de afleiding ongeldig en moet een andere index gekozen worden.
+Als $K_{parse256}(h_1) \geq n$ (orde van de elliptische curve) of als $K_{parse256}}^n$ het punt op oneindig is, is de afleiding ongeldig en moet een andere index gekozen worden.
 
 
 In deze berekening interpreteert de bewerking ${parse256}(h_1)$ de eerste 32 bytes van de ${Hash}$ als een geheel getal van 256 bits. Dit getal wordt gebruikt om een punt op de elliptische curve te berekenen door optelling en verdubbeling vanaf het generatorpunt $G$. Dit punt wordt vervolgens toegevoegd aan de openbare sleutel van de ouder om de normale openbare sleutel van het kind te verkrijgen. Om een normale kind-openbare sleutel af te leiden, zijn dus alleen de ouder-openbare sleutel en de ouder-chain code nodig; de ouder-privésleutel komt nooit in dit proces voor, in tegenstelling tot de berekening van de kind-privésleutel die we eerder zagen.
@@ -2675,7 +2675,7 @@ Theoretisch zou het nodig zijn om niet alleen de mnemonische zinsnede van onze w
 De "*output script descriptors*", of eenvoudigweg "*descriptors*", zijn gestructureerde uitdrukkingen die een output script (*scriptPubKey*) volledig beschrijven en alle nodige informatie verschaffen om de transacties te volgen die met een bepaald script geassocieerd zijn. Ze vergemakkelijken het beheer van sleutels in HD-wallets door een gestandaardiseerde en volledige beschrijving te geven van de wallet structuur en de gebruikte adrestypes.
 
 
-Het belangrijkste voordeel van descriptoren ligt in hun vermogen om alle essentiële informatie om een wallet te herstellen in een enkele string in te kapselen (naast de herstelzin). Door een descriptor op te slaan met de bijbehorende mnemonische zinnen, wordt het mogelijk om de private sleutels te herstellen door precies hun positie in de hiërarchie te kennen. Voor Multisig wallets, waarvan de back-up in eerste instantie complexer was, bevat de descriptor de `xpub` van elke factor, waardoor het mogelijk wordt om de adressen te regenereren in geval van een probleem.
+Het belangrijkste voordeel van descriptoren ligt in hun vermogen om alle essentiële informatie om een wallet te herstellen in een enkele string in te kapselen (naast de herstelzin). Door een descriptor op te slaan met de bijbehorende mnemonische zinnen, wordt het mogelijk om de privésleutels te herstellen door precies hun positie in de hiërarchie te kennen. Voor Multisig wallets, waarvan de back-up in eerste instantie complexer was, bevat de descriptor de `xpub` van elke factor, waardoor het mogelijk wordt om de adressen te regenereren in geval van een probleem.
 
 
 ### Constructie van een descriptor
@@ -2844,7 +2844,7 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 ![CYP201](assets/en/067.webp)
 
 
-Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die Ownership van deze UTXO claimt en het wil uitgeven, inderdaad de private sleutel bezit die geassocieerd is met de ontvangstadres die gebruikt is tijdens het aanmaken van deze UTXO.
+Samengevat maakt dit script het dus mogelijk om met behulp van de digitale handtekening te verifiëren dat de gebruiker die Ownership van deze UTXO claimt en het wil uitgeven, inderdaad de privésleutel bezit die geassocieerd is met de ontvangstadres die gebruikt is tijdens het aanmaken van deze UTXO.
 
 
 ### De verschillende soorten Bitcoin adressen
@@ -3064,7 +3064,7 @@ HASH = 19 30 00 19 04 11 06 08 16 24 17 12 20 19 06 11 05 09 09 10 04 07 17 08 1
 ```
 
 
-Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of private sleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
+Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of privésleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
 
 
 Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
@@ -3233,7 +3233,7 @@ $$
 Waarbij $G$ de generator van de gebruikte elliptische curve is. Deze bewerking produceert een nieuwe openbare sleutel die is afgeleid van de originele sleutel, met behoud van de cryptografische eigenschappen die het gebruik ervan toestaan.
 
 
-Als u geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kunt u generate een Taproot Address opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een hashfunctie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
+Als je geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kun je generate een Taproot Address opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een hashfunctie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
 
 
 
