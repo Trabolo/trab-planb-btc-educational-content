@@ -881,7 +881,7 @@ HMAC wordt in Bitcoin met name gebruikt voor het afleiden van sleutels in HD (Hi
 PBKDF2 (_Password-Based Key Derivation Function 2_) is een sleutelafleidingsalgoritme dat is ontworpen om de veiligheid van wachtwoorden te verbeteren. Het algoritme past een pseudo-willekeurige functie toe (hier HMAC-SHA512) op een wachtwoord en een cryptografische salt en herhaalt deze bewerking een bepaald aantal keren om een outputsleutel te produceren.
 
 
-In Bitcoin wordt PBKDF2 gebruikt om de seed van een HD wallet te maken uit een mnemonische zin en een passphrase (maar daar zullen we in de komende hoofdstukken dieper op ingaan).
+In Bitcoin wordt PBKDF2 gebruikt om de seed van een HD-wallet te maken uit een mnemonische zin en een passphrase (maar daar zullen we in de komende hoofdstukken dieper op ingaan).
 
 
 Het PBKDF2 proces gaat als volgt, met:
@@ -1701,10 +1701,10 @@ De eerste wallets die in Bitcoin werden gebruikt,waren JBOK-wallets (_Just a Bun
 ![CYP201](assets/en/038.webp)
 
 
-Als men meerdere privésleutels wilde gebruiken, was het nodig om evenzoveel back-ups te maken om toegang tot fondsen te garanderen in geval van problemen met het apparaat waarop de wallet staat. Als men één enkele privésleutel gebruikt, kan deze wallet structuur volstaan, aangezien één back-up voldoende is. Dit levert echter een probleem op: in Bitcoin wordt het sterk afgeraden om steeds dezelfde privésleutel te gebruiken. Een privésleutel is namelijk geassocieerd met een unieke Address, en Bitcoin ontvangstadressen zijn normaal ontworpen voor eenmalig gebruik. Elke keer dat je geld ontvangt, moet je generate een nieuwe lege Address aanmaken.
+Als men verscheidene privésleutels wilde gebruiken, was het nodig om evenzoveel back-ups te maken om toegang tot de fondsen te garanderen in geval van problemen met het apparaat waarop de wallet is geïnstalleerd. Als men één enkele privésleutel gebruikt, kan deze walletstructuur volstaan, aangezien één back-up voldoende is. Dit levert echter een probleem op: in Bitcoin wordt het sterk afgeraden om steeds dezelfde privésleutel te gebruiken. Een privésleutel is namelijk geassocieerd met een uniek adres, en Bitcoin-ontvangstadressen zijn normaal ontworpen voor eenmalig gebruik. Elke keer dat je geld ontvangt, moet je een nieuwe leeg ontvangstadres aanmaken.
 
 
-Deze beperking komt voort uit het privacymodel van Bitcoin. Door dezelfde Address te hergebruiken, wordt het voor externe waarnemers gemakkelijker om Bitcoin transacties te traceren. Daarom wordt het hergebruiken van een ontvangstadres sterk afgeraden. Echter, om meerdere adressen te hebben en onze transacties publiekelijk te scheiden, is het noodzakelijk om meerdere privésleutels te beheren. In het geval van JBOK wallets betekent dit dat er evenveel back-ups moeten worden gemaakt als er nieuwe sleutelparen zijn, een taak die snel complex en moeilijk te onderhouden kan worden voor gebruikers.
+Deze beperking komt voort uit het privacymodel van Bitcoin. Door hetzelfde adres te hergebruiken, wordt het voor externe waarnemers gemakkelijker om bitcoin-transacties te traceren. Daarom wordt het hergebruiken van een ontvangstadres sterk afgeraden. Echter, om meerdere adressen te hebben en onze transacties publiekelijk te scheiden, is het noodzakelijk om meerdere privésleutels te beheren. In het geval van JBOK-wallets betekent dit dat er evenveel back-ups moeten worden gemaakt als er nieuwe sleutelparen zijn, een taak die snel complex en moeilijk te onderhouden kan worden voor gebruikers.
 
 
 Om meer te leren over het privacymodel van Bitcoin en methodes te ontdekken om je privacy te beschermen, raad ik je ook aan om mijn BTC204-cursus over Plan ₿ Academy te volgen:
@@ -1712,25 +1712,25 @@ Om meer te leren over het privacymodel van Bitcoin en methodes te ontdekken om j
 
 https://planb.academy/courses/65c138b0-4161-4958-bbe3-c12916bc959c
 
-### HD Portemonnees
+### HD-wallets (Hierarchical Deterministic)
 
 
-Om Address de beperking van JBOK wallets op te heffen, werd vervolgens een nieuwe wallet structuur gebruikt. In 2012 stelde Pieter Wuille een verbetering voor met BIP32, die HD (Hierarchical Deterministic) wallets introduceerde. Het principe van een HD wallet is om alle privésleutels af te leiden uit één enkele informatiebron, een seed genaamd, op een deterministische en hiërarchische manier. Deze seed wordt willekeurig gegenereerd wanneer de wallet wordt aangemaakt en vormt een unieke back-up waarmee alle privésleutels van de wallet opnieuw kunnen worden aangemaakt. De gebruiker kan dus generate een zeer groot aantal privésleutels aanmaken om Address hergebruik te voorkomen en zijn privacy te bewaren, terwijl hij slechts één back-up van zijn wallet hoeft te maken via de seed.
+Om de beperking van JBOK-wallets op te heffen, werd vervolgens een nieuwe wallet structuur gebruikt. In 2012 stelde Pieter Wuille een verbetering voor met BIP32, die HD (Hierarchical Deterministic) wallets introduceerde. Het principe van een HD-wallet is om alle privésleutels af te leiden uit één enkele informatiebron, een seed genaamd, op een deterministische en hiërarchische manier. Deze seed wordt willekeurig gegenereerd wanneer de wallet wordt aangemaakt en vormt een unieke back-up waarmee alle privésleutels van de wallet opnieuw kunnen worden gegenereerd. De gebruiker kan dus een zeer groot aantal privésleutels aanmaken om adres hergebruik te voorkomen en zijn privacy te bewaren, terwijl hij slechts één back-up van zijn wallet hoeft te maken via de seed.
 
 
 ![CYP201](assets/en/039.webp)
 
 
-In HD-wallets wordt de sleutelafleiding uitgevoerd volgens een hiërarchische structuur die het mogelijk maakt om sleutels te organiseren in afleidingsdeelruimten, waarbij elke deelruimte verder onderverdeeld kan worden, om het beheer van fondsen en de interoperabiliteit tussen verschillende wallet-software te vergemakkelijken. Tegenwoordig wordt deze standaard aangenomen door de overgrote meerderheid van de Bitcoin gebruikers. Daarom zullen we het in detail onderzoeken in de volgende hoofdstukken.
+In HD-wallets wordt de sleutelafleiding (key derivation) uitgevoerd volgens een hiërarchische structuur die het mogelijk maakt om sleutels te organiseren in afleidingsdeelruimten, waarbij elke deelruimte verder onderverdeeld kan worden, om het beheer van fondsen en de interoperabiliteit tussen verschillende wallet-software te vergemakkelijken. Tegenwoordig wordt deze standaard aangenomen door de overgrote meerderheid van de Bitcoin-gebruikers. Daarom zullen we deze in detail onderzoeken in de volgende hoofdstukken.
 
 
 ### De BIP39-standaard: De mnemonische zin
 
 
-In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een mnemonische zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De mnemonische zin, ook wel herstelfrase of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de wallet's seed veilig codeert.
+In aanvulling op BIP32, standaardiseert BIP39 het seed formaat als een mnemonische zin, om back-up en leesbaarheid voor gebruikers te vergemakkelijken. De mnemonische zin, ook wel herstelzin of 24-woord frase genoemd, is een reeks woorden uit een voorgedefinieerde lijst die de wallet's seed veilig codeert.
 
 
-De mnemonische zin vereenvoudigt het maken van back-ups voor de gebruiker enorm. In geval van verlies, beschadiging of diefstal van het apparaat waarop de wallet staat, kan de wallet eenvoudigweg worden hersteld met behulp van deze mnemonische zin en kan de toegang tot alle fondsen die erdoor zijn beveiligd, worden hersteld.
+De mnemonische zin vereenvoudigt het maken van back-ups voor de gebruiker enorm. In geval van verlies, beschadiging of diefstal van het apparaat waarop de wallet is geïnstalleerd, kan de wallet eenvoudigweg worden hersteld met behulp van deze mnemonische zin en kan de toegang tot alle fondsen die erdoor zijn beveiligd, worden hersteld.
 
 
 In de komende hoofdstukken zullen we de interne werking van HD-wallets onderzoeken, inclusief sleutelafleidingsmechanismen en de verschillende mogelijke hiërarchische structuren. Dit zal je toelaten om de cryptografische fundamenten waarop de veiligheid van fondsen in Bitcoin gebaseerd is, beter te begrijpen. En om te beginnen stel ik voor om in het volgende hoofdstuk de rol van entropie aan de basis van je wallet te ontdekken.
@@ -1743,36 +1743,36 @@ In de komende hoofdstukken zullen we de interne werking van HD-wallets onderzoek
 
 :::video id=4b6c3bd5-2d5c-42ff-8f47-141bd20569bd:::
 
-Moderne HD-wallets vertrouwen op een enkel initieel stukje informatie genaamd "entropie" om deterministisch generate de hele set wallet sleutels te maken. Deze entropie is een pseudo-willekeurig getal dat deels de veiligheid van de wallet bepaalt.
+Moderne HD-wallets vertrouwen op een enkel initieel stukje informatie genaamd "entropie" om deterministisch de hele set walletsleutels te genereren. Deze entropie is een pseudo-willekeurig getal dat deels de veiligheid van de wallet bepaalt.
 
 
 ### Definitie van Entropie
 
 
-Entropie, in de context van cryptografie en informatie, is een kwantitatieve maat voor de onzekerheid of onvoorspelbaarheid geassocieerd met een gegevensbron of een willekeurig proces. Entropie speelt een belangrijke rol in de veiligheid van cryptografische systemen, vooral bij het genereren van sleutels en willekeurige getallen. Een hoge entropie zorgt ervoor dat de gegenereerde sleutels voldoende onvoorspelbaar zijn en bestand tegen brute kracht aanvallen, waarbij een aanvaller alle mogelijke combinaties probeert om de sleutel te raden.
+Entropie, in de context van cryptografie en informatie, is een kwantitatieve maat voor de onzekerheid of onvoorspelbaarheid, geassocieerd met een gegevensbron of een willekeurig proces. Entropie speelt een belangrijke rol in de veiligheid van cryptografische systemen, vooral bij het genereren van sleutels en willekeurige getallen. Een hoge entropie zorgt ervoor dat de gegenereerde sleutels voldoende onvoorspelbaar zijn en bestand zijn tegen brute-krachtaanvallen, waarbij een aanvaller alle mogelijke combinaties probeert om de sleutel te raden.
 
 
-In de context van Bitcoin wordt entropie gebruikt om generate de seed te maken. Bij het creëren van een HD wallet, wordt de mnemonische zin geconstrueerd uit een willekeurig getal, zelf afgeleid van een entropiebron. De zin wordt dan gebruikt om meerdere privésleutels generate te maken, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
+In de context van Bitcoin wordt entropie gebruikt om de seed te genereren. Bij het creëren van een HD-wallet, wordt de mnemonische zin geconstrueerd uit een willekeurig getal, dat zelf afgeleid is van een entropiebron. De zin wordt dan gebruikt om meerdere privésleutels te genereren, op een deterministische en hiërarchische manier, om bestedingsvoorwaarden voor UTXO's te creëren.
 
 
 ### Methoden voor het genereren van entropie
 
 
-De initiële entropie die gebruikt wordt voor een HD wallet is over het algemeen 128 bits of 256 bits, waarbij:
+De initiële entropie die gebruikt wordt voor een HD-wallet is over het algemeen 128 bits of 256 bits, waarbij:
 
 
 
-- 128 bits entropie komen overeen met een mnemonische zin van **12 woorden**;
-- 256 bits entropie komen overeen met een mnemonische zin van **24 woorden**.
+- 128 bits entropie komt overeen met een mnemonische zin van **12 woorden**;
+- 256 bits entropie komt overeen met een mnemonische zin van **24 woorden**.
 
 
-In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door de wallet-software met behulp van een PRNG (_Pseudo-Random Number Generator_). PRNGs zijn een categorie algoritmes die gebruikt worden om generate getallenreeksen te genereren vanuit een initiële toestand, die kenmerken hebben die lijken op die van een willekeurig getal, zonder er daadwerkelijk één te zijn. Een goede PRNG moet eigenschappen hebben zoals eenvormige uitvoer, onvoorspelbaarheid en weerstand tegen voorspellende aanvallen. In tegenstelling tot True Random Number Generators (TRNGs), zijn PRNGs deterministisch en reproduceerbaar.
+In de meeste gevallen wordt dit willekeurige getal automatisch gegenereerd door de wallet-software met behulp van een PRNG (_Pseudo-Random Number Generator_). PRNGs zijn een categorie algoritmes die gebruikt worden om getallenreeksen te genereren vanuit een initiële toestand, die kenmerken hebben die lijken op die van een willekeurig getal, zonder er daadwerkelijk één te zijn. Een goede PRNG moet eigenschappen hebben zoals een eenvormige uitvoer, onvoorspelbaarheid en weerstand tegen voorspellende aanvallen. In tegenstelling tot True Random Number Generators (TRNGs), zijn PRNGs deterministisch en reproduceerbaar.
 
 
 ![CYP201](assets/en/040.webp)
 
 
-Een alternatief is om handmatig generate de entropie te genereren, wat een betere controle biedt, maar ook veel riskanter is. Ik raad ten zeerste af om zelf de entropie voor je HD wallet te genereren.
+Een alternatief is om handmatig de entropie te genereren, wat een betere controle biedt, maar ook veel riskanter is. Ik raad ten zeerste af om zelf de entropie voor je HD-wallet te genereren.
 
 
 In het volgende hoofdstuk zullen we zien hoe we van een willekeurig getal naar een mnemonische zin van 12 of 24 woorden gaan.
@@ -1785,7 +1785,7 @@ In het volgende hoofdstuk zullen we zien hoe we van een willekeurig getal naar e
 
 :::video id=6218472e-b965-484f-b56b-e363f65d2827:::
 
-De mnemonische zin, ook wel "seed frase", "herstelfrase", "geheime frase", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze generate alle private en publieke sleutels van de Bitcoin-wallet te recreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de mnemonische zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39 standaard.
+De mnemonische zin, ook wel "seed frase", "herstelzin", "geheime zin", of "24-woord frase" genoemd, is een reeks die meestal bestaat uit 12 of 24 woorden, die gegenereerd wordt uit entropie. Deze wordt gebruikt om deterministisch alle sleutels van een HD-wallet af te leiden. Dit betekent dat het mogelijk is om uit deze zin op deterministische wijze alle private en publieke sleutels van de Bitcoin-wallet te hercreëren en dus toegang te krijgen tot de fondsen die ermee beschermd zijn. Het doel van de mnemonische zin is om een veilige en gebruiksvriendelijke manier te bieden voor back-up en herstel van bitcoins. Het werd in 2013 geïntroduceerd met de BIP39-standaard.
 
 
 Laten we samen ontdekken hoe we van entropie naar een mnemonische zin kunnen gaan.
@@ -1959,7 +1959,7 @@ De passphrase is willekeurig en kan elke combinatie van tekens zijn die de gebru
 
 Vervolgens kan het strategisch gebruikt worden om een lok wallet te maken, om fysieke beperkingen het hoofd te bieden om je fondsen te stelen, zoals de beruchte "_$5 wrench attack_". In dit scenario is het idee om een wallet zonder passphrase te hebben, die slechts een kleine hoeveelheid bitcoins bevat, genoeg om een potentiële aanvaller tevreden te stellen, terwijl je een verborgen wallet hebt. Deze laatste gebruikt dezelfde mnemonische zin, maar is beveiligd met een extra passphrase.
 
-Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeurigheid van het genereren van de seed van de HD wallet wil controleren.
+Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeurigheid van het genereren van de seed van de HD-wallet wil controleren.
 
 
 ### Hoe kies je een goede passphrase?
@@ -1991,16 +1991,16 @@ In de volgende paragraaf zullen we ontdekken hoe deze twee elementen aan de basi
 :::video id=60e3ade6-501b-4e1e-a85e-59257ef12900:::
 
 
-Zodra de mnemonische zin en de optionele passphrase zijn gegenereerd, kan het proces van het afleiden van een Bitcoin HD wallet beginnen. De mnemonische zin wordt eerst omgezet in een seed, die de basis vormt voor alle sleutels van de wallet.
+Zodra de mnemonische zin en de optionele passphrase zijn gegenereerd, kan het proces van het afleiden van een Bitcoin HD-wallet beginnen. De mnemonische zin wordt eerst omgezet in een seed, die de basis vormt voor alle sleutels van de wallet.
 
 
 ![CYP201](assets/en/048.webp)
 
 
-### De seed van een HD wallet
+### De seed van een HD-wallet
 
 
-De BIP39 standaard definieert de seed als een 512-bit reeks, die dient als startpunt voor de afleiding van alle sleutels van een HD wallet. De seed wordt afgeleid van de mnemonische zin en de mogelijke passphrase met behulp van het **PBKDF2** algoritme (_Password-Based Key Derivation Function 2_), dat we al besproken hebben in hoofdstuk 3.3. In deze afleidingsfunctie gebruiken we de volgende parameters:
+De BIP39 standaard definieert de seed als een 512-bit reeks, die dient als startpunt voor de afleiding van alle sleutels van een HD-wallet. De seed wordt afgeleid van de mnemonische zin en de mogelijke passphrase met behulp van het **PBKDF2** algoritme (_Password-Based Key Derivation Function 2_), dat we al besproken hebben in hoofdstuk 3.3. In deze afleidingsfunctie gebruiken we de volgende parameters:
 
 
 
@@ -2038,7 +2038,7 @@ Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin-
 ### De hoofdsleutel en de chain code hoofdsleutel
 
 
-Zodra de seed verkregen is, bestaat de volgende stap in het afleiden van een HD wallet uit het berekenen van de master private key en de master chain code, die diepte 0 van onze wallet zal vertegenwoordigen.
+Zodra de seed verkregen is, bestaat de volgende stap in het afleiden van een HD-wallet uit het berekenen van de master private key en de master chain code, die diepte 0 van onze wallet zal vertegenwoordigen.
 
 
 Om de master privésleutel en de master chain code te verkrijgen, wordt de HMAC-SHA512 functie toegepast op de seed, met een vaste sleutel "_Bitcoin Seed_" die identiek is voor alle Bitcoin gebruikers. Deze constante is gekozen om ervoor te zorgen dat de sleutelafleidingen specifiek zijn voor Bitcoin. Hier zijn de Elements:
@@ -2088,10 +2088,10 @@ $$
 De master privésleutel wordt beschouwd als de oudersleutel, waarvan alle afgeleide privésleutels - kinderen, kleinkinderen, achterkleinkinderen, enz. Het vertegenwoordigt het nulniveau in de afleidingshiërarchie.
 
 
-De master chain code, aan de andere kant, introduceert een extra bron van entropie in het sleutelafleidingsproces voor kinderen, om bepaalde potentiële aanvallen tegen te gaan. Bovendien is in de HD wallet aan elk sleutelpaar een unieke chain code gekoppeld, die ook gebruikt wordt om kindsleutels van dit paar af te leiden, maar dit zullen we in de komende hoofdstukken in meer detail bespreken.
+De master chain code, aan de andere kant, introduceert een extra bron van entropie in het sleutelafleidingsproces voor kinderen, om bepaalde potentiële aanvallen tegen te gaan. Bovendien is in de HD-wallet aan elk sleutelpaar een unieke chain code gekoppeld, die ook gebruikt wordt om kindsleutels van dit paar af te leiden, maar dit zullen we in de komende hoofdstukken in meer detail bespreken.
 
 
-Voordat we verder gaan met de afleiding van de HD wallet met de volgende Elements, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin-wallet.
+Voordat we verder gaan met de afleiding van de HD-wallet met de volgende Elements, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin-wallet.
 
 
 ## Uitgebreide toetsen
@@ -2101,7 +2101,7 @@ Voordat we verder gaan met de afleiding van de HD wallet met de volgende Element
 :::video id=bbca9cca-62a0-4b4e-93d5-3757dc100123:::
 
 
-Een uitgebreide sleutel is eenvoudigweg de aaneenschakeling van een sleutel (privaat of publiek) en zijn geassocieerde chain code. Deze chain code is essentieel voor het afleiden van kindsleutels, omdat het zonder deze sleutel onmogelijk is om kindsleutels af te leiden van een oudersleutel. Deze uitgebreide sleutels maken het dus mogelijk om alle benodigde informatie te verzamelen om kindsleutels af te leiden, waardoor accountbeheer binnen een HD wallet vereenvoudigd wordt.
+Een uitgebreide sleutel is eenvoudigweg de aaneenschakeling van een sleutel (privaat of publiek) en zijn geassocieerde chain code. Deze chain code is essentieel voor het afleiden van kindsleutels, omdat het zonder deze sleutel onmogelijk is om kindsleutels af te leiden van een oudersleutel. Deze uitgebreide sleutels maken het dus mogelijk om alle benodigde informatie te verzamelen om kindsleutels af te leiden, waardoor accountbeheer binnen een HD-wallet vereenvoudigd wordt.
 
 
 ![CYP201](assets/en/051.webp)
@@ -2148,7 +2148,7 @@ Een uitgebreide sleutel is als volgt opgebouwd:
 
 
 - **Versie**: Versiecode om de aard van de sleutel te identificeren (`xprv`, `xpub`, `yprv`, `ypub`...). We zullen aan het eind van dit hoofdstuk zien waar de letters `x`, `y` en `z` mee corresponderen.
-- **Depth**: Hiërarchisch niveau in de HD wallet ten opzichte van de hoofdsleutel (0 voor de hoofdsleutel).
+- **Depth**: Hiërarchisch niveau in de HD-wallet ten opzichte van de hoofdsleutel (0 voor de hoofdsleutel).
 - **Parent Fingerprint**: De eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebruikt is om de sleutel in de payload af te leiden.
 - **Indexnummer**: Identificatiecode van het kind onder sibling-sleutels, dat wil zeggen, onder alle sleutels op hetzelfde afleidingsniveau die dezelfde oudersleutel hebben.
 - **chain code**: Een unieke code van 32 bytes voor het afleiden van kindsleutels.
@@ -2231,7 +2231,7 @@ De eerste 4 bytes zijn de versie. Hier komt het overeen met een uitgebreide publ
 2.**Diepte**: `03`
 
 
-Dit veld geeft het hiërarchische niveau van de sleutel binnen de HD wallet aan. In dit geval betekent een diepte van `03` dat deze sleutel drie afleidingsniveaus lager is dan de hoofdsleutel.
+Dit veld geeft het hiërarchische niveau van de sleutel binnen de HD-wallet aan. In dit geval betekent een diepte van `03` dat deze sleutel drie afleidingsniveaus lager is dan de hoofdsleutel.
 
 
 3.**Vaderlijke vingerafdruk**: `6D5601AD`
@@ -2519,7 +2519,7 @@ K_{\text{PAR}} \rightarrow K_{\text{CHD}} & K_{\text{PAR}} & K_{\text{CHD}}^n & 
 $$
 
 
-Tot nu toe heb je geleerd om de basis elementen van een HD wallet te maken: de mnemonische zin, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangstadressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
+Tot nu toe heb je geleerd om de basis elementen van een HD-wallet te maken: de mnemonische zin, de seed, en dan de master key en master chain code. Je hebt ook ontdekt hoe je kind sleutelparen kunt afleiden in dit hoofdstuk. In het volgende hoofdstuk zullen we onderzoeken hoe deze afleidingen georganiseerd zijn in Bitcoin-wallets en welke structuur gevolgd moet worden om concreet de ontvangstadressen en de sleutelparen te verkrijgen die gebruikt worden in het *scriptPubKey* en *scriptSig*.
 
 
 ## Wallet Structuur en afleidingstrajecten
@@ -2535,7 +2535,7 @@ De hiërarchische structuur van HD-wallets in Bitcoin maakt het mogelijk om sleu
 In de loop der tijd hebben verschillende BIP's standaarden geïntroduceerd voor deze afleidingspaden, met als doel het gebruik ervan te standaardiseren in verschillende software. In dit hoofdstuk zullen we de betekenis van elk afleidingsniveau in HD-wallets ontdekken, volgens deze standaarden.
 
 
-### De afleidingsdiepte van een HD wallet
+### De afleidingsdiepte van een HD-wallet
 
 
 Afleidingspaden zijn georganiseerd in lagen van diepte, variërend van diepte 0, die de hoofdsleutel en chain code vertegenwoordigt, tot lagen van subniveaus voor het afleiden van adressen die gebruikt worden om UTXO's te vergrendelen. De BIP's (*Bitcoin Improvement Proposals*) definiëren de standaarden voor elke Layer, wat helpt bij het harmoniseren van praktijken tussen verschillende wallet beheersoftware.
@@ -2553,7 +2553,7 @@ Deze diepte komt overeen met de master private key en master chain code van de w
 **Diepgang 1: Doel (BIP43)**
 
 
-Het doel bepaalt de logische structuur van de afleiding. Bijvoorbeeld, een P2WPKH Address zal $/84'/$ hebben op diepte 1 (volgens BIP84), terwijl een P2TR Address $/86'/$ zal hebben (volgens BIP86). Deze laag vergemakkelijkt de compatibiliteit tussen portemonnees door indexnummers aan te geven die overeenkomen met de BIP-nummers.
+Het doel bepaalt de logische structuur van de afleiding. Bijvoorbeeld, een P2WPKH adres zal $/84'/$ hebben op diepte 1 (volgens BIP84), terwijl een P2TR adres $/86'/$ zal hebben (volgens BIP86). Deze laag vergemakkelijkt de compatibiliteit tussen portemonnees door indexnummers aan te geven die overeenkomen met de BIP-nummers.
 
 
 Met andere woorden, zodra je de hoofdsleutel en de chain code hoofdsleutel hebt, dienen deze als ouder sleutelpaar om een kind sleutelpaar af te leiden. De index die gebruikt wordt in deze afleiding kan bijvoorbeeld $/84'/$ zijn als de wallet bedoeld is om SegWit v0 type scripts te gebruiken. Dit sleutelpaar bevindt zich dan op diepte 1. Zijn rol is niet om bitcoins te vergrendelen, maar gewoon om te dienen als een tussenpunt in de afleidingshiërarchie.
@@ -2591,11 +2591,11 @@ Deze scheiding in verschillende accounts is optioneel. Het is bedoeld om de orga
 Elke rekening die op diepte 3 wordt gedefinieerd, wordt vervolgens gestructureerd in twee ketens:
 
 
-- De **externe keten**: In deze keten worden zogenaamde "openbare" adressen afgeleid. Deze ontvangstadressen zijn bedoeld om UTXO's te blokkeren die afkomstig zijn van externe transacties (dat wil zeggen, die afkomstig zijn van de consumptie van UTXO's die niet van jou zijn). Simpel gezegd wordt deze externe keten gebruikt wanneer iemand bitcoins wil ontvangen. Wanneer je op "*ontvangen*" klikt in je wallet software, is het altijd een Address van de externe keten die je wordt aangeboden. Deze keten wordt vertegenwoordigd door een paar sleutels met de index $/0/$.
+- De **externe keten**: In deze keten worden zogenaamde "openbare" adressen afgeleid. Deze ontvangstadressen zijn bedoeld om UTXO's te blokkeren die afkomstig zijn van externe transacties (dat wil zeggen, die afkomstig zijn van de consumptie van UTXO's die niet van jou zijn). Simpel gezegd wordt deze externe keten gebruikt wanneer iemand bitcoins wil ontvangen. Wanneer je op "*ontvangen*" klikt in je wallet software, is het altijd een adres van de externe keten die je wordt aangeboden. Deze keten wordt vertegenwoordigd door een paar sleutels met de index $/0/$.
 - De interne keten (wissel): Deze keten is gereserveerd voor het ontvangen van adressen die bitcoins vergrendelen die afkomstig zijn van de consumptie van UTXO's die aan jou toebehoren, met andere woorden, wisseladressen. Het wordt geïdentificeerd door de index $/1/$.
 
 
-**Diepte 5: Address Index (BIP32)**
+**Diepte 5: adres Index (BIP32)**
 
 
 Diepte 5 tenslotte vertegenwoordigt de laatste afleidingsstap in de wallet. Hoewel het technisch mogelijk is om oneindig door te gaan, stoppen de huidige standaarden hier. Op deze laatste diepte worden de sleutelparen afgeleid die daadwerkelijk zullen worden gebruikt om de UTXO's te vergrendelen en te ontgrendelen. Elke index maakt het mogelijk een onderscheid te maken tussen broer-zus sleutelparen: de eerste ontvangstadres zal dus de index $/0/$ gebruiken, de tweede de index $/1/$, enzovoort.
@@ -2621,7 +2621,7 @@ $$
 In hexadecimaal is dit `0x8000002C`.
 
 
-Nu we de belangrijkste principes van afleidingspaden hebben begrepen, laten we een voorbeeld nemen! Hier is het afleidingspad voor een Bitcoin die Address ontvangt:
+Nu we de belangrijkste principes van afleidingspaden hebben begrepen, laten we een voorbeeld nemen! Hier is het afleidingspad voor een Bitcoin die adres ontvangt:
 
 
 
@@ -2638,8 +2638,8 @@ In dit voorbeeld:
 - $84'$ geeft de P2WPKH (SegWit v0) standaard aan;
 - $0'$ geeft de Bitcoin valuta aan op de Mainnet;
 - $1'$ komt overeen met de tweede rekening in de wallet;
-- $0$ geeft aan dat de Address zich op de externe keten bevindt;
-- $7$ geeft de 8e externe Address van dit account aan.
+- $0$ geeft aan dat de adres zich op de externe keten bevindt;
+- $7$ geeft de 8e externe adres van dit account aan.
 
 
 ### Samenvatting van de afleidingsstructuur
@@ -2652,7 +2652,7 @@ In dit voorbeeld:
 | 2     | Currency           | $/0'/$ (Bitcoin)                  |
 | 3     | Account            | $/0'/$ (First account)            |
 | 4     | Chain              | $/0/$ (external) or $/1/$ (change)|
-| 5     | Address Index      | $/0/$ (first address)             |
+| 5     | adres Index      | $/0/$ (first adres)             |
 
 In het volgende hoofdstuk zullen we ontdekken wat "*output script descriptors*" zijn, een recent geïntroduceerde innovatie in Bitcoin Core die de back-up van een Bitcoin-wallet vereenvoudigt.
 
@@ -2663,7 +2663,7 @@ In het volgende hoofdstuk zullen we ontdekken wat "*output script descriptors*" 
 
 :::video id=ce9d2c33-6a9d-451e-a2b4-41ef81cbfd71:::
 
-Er wordt vaak gezegd dat de mnemonische zin alleen voldoende is om toegang te krijgen tot een wallet. In werkelijkheid liggen de zaken iets ingewikkelder. In het vorige hoofdstuk hebben we gekeken naar de afleidingsstructuur van de HD wallet, en het is je misschien opgevallen dat dit proces behoorlijk complex is. Afleidingspaden vertellen software welke richting ze moet volgen om de sleutels van de gebruiker af te leiden. Echter, bij het herstellen van een Bitcoin-wallet, als men deze paden niet kent, is de mnemonische zin alleen niet genoeg. Het maakt het mogelijk om de hoofdsleutel en de hoofd chain code te verkrijgen, maar dan is het nodig om de indexen te kennen die gebruikt zijn om de kind sleutels te bereiken.
+Er wordt vaak gezegd dat de mnemonische zin alleen voldoende is om toegang te krijgen tot een wallet. In werkelijkheid liggen de zaken iets ingewikkelder. In het vorige hoofdstuk hebben we gekeken naar de afleidingsstructuur van de HD-wallet, en het is je misschien opgevallen dat dit proces behoorlijk complex is. Afleidingspaden vertellen software welke richting ze moet volgen om de sleutels van de gebruiker af te leiden. Echter, bij het herstellen van een Bitcoin-wallet, als men deze paden niet kent, is de mnemonische zin alleen niet genoeg. Het maakt het mogelijk om de hoofdsleutel en de hoofd chain code te verkrijgen, maar dan is het nodig om de indexen te kennen die gebruikt zijn om de kind sleutels te bereiken.
 
 
 Theoretisch zou het nodig zijn om niet alleen de mnemonische zinsnede van onze wallet op te slaan, maar ook de paden naar de accounts die we gebruiken. In de praktijk is het vaak mogelijk om zonder deze informatie weer toegang te krijgen tot de kind sleutels, mits de standaarden zijn gevolgd. Door elke standaard één voor één te testen, is het over het algemeen mogelijk om weer toegang te krijgen tot de bitcoins. Dit is echter niet gegarandeerd en het is vooral ingewikkeld voor beginners. Met de diversificatie van scripttypen en de opkomst van complexere configuraties kan deze informatie bovendien moeilijk te extrapoleren zijn, waardoor deze gegevens privé-informatie worden en moeilijk te achterhalen zijn met brute kracht. Daarom is er onlangs een innovatie geïntroduceerd die nu in uw favoriete wallet-software geïntegreerd begint te worden: de *output script descriptors*.
@@ -2731,7 +2731,7 @@ U weet nu alles over de werking van HD-wallets in Bitcoin en het proces van het 
 :::video id=4113aebf-c850-4ebc-90a8-a3b599de4453:::
 
 
-Ontvangstadressen zijn stukjes informatie die in *scriptPubKey* zijn ingesloten om nieuw aangemaakte UTXO's te vergrendelen. Simpel gezegd dient een Address om bitcoins te ontvangen. Laten we eens kijken hoe ze werken in samenhang met wat we in de vorige hoofdstukken hebben bestudeerd.
+Ontvangstadressen zijn stukjes informatie die in *scriptPubKey* zijn ingesloten om nieuw aangemaakte UTXO's te vergrendelen. Simpel gezegd dient een adres om bitcoins te ontvangen. Laten we eens kijken hoe ze werken in samenhang met wat we in de vorige hoofdstukken hebben bestudeerd.
 
 
 ### De rol van Bitcoin-adressen in scripts
@@ -2817,7 +2817,7 @@ De uitvoering van het script dat ik net als voorbeeld gaf, volgt dit proces:
 
 
 
-- `OP_PUSHBYTES_20 <pubKeyHash>` duwt de Bitcoin Address die in de *scriptPubKey* staat op de stack:
+- `OP_PUSHBYTES_20 <pubKeyHash>` duwt de Bitcoin adres die in de *scriptPubKey* staat op de stack:
 
 
 ![CYP201](assets/en/064.webp)
@@ -2910,26 +2910,26 @@ P2TR biedt dus een grote flexibiliteit, omdat bitcoins kunnen worden vergrendeld
 P2TR komt overeen met versie 1 SegWit outputs, wat betekent dat de handtekeningen voor P2TR inputs worden opgeslagen in de *Witness* sectie van de transactie, en niet in de *scriptSig*. P2TR adressen gebruiken de *bech32m* codering en beginnen met `bc1p`, maar ze zijn vrij uniek omdat ze geen hashfunctie gebruiken voor hun constructie. Ze vertegenwoordigen namelijk direct de publieke sleutel $Q$ die eenvoudigweg geformatteerd is met metadata. Het is daarom een scriptmodel dat dicht in de buurt komt van P2PK.
 
 
-Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgende hoofdstuk stel ik voor om zowel een SegWit v0 Address als een SegWit v1 Address af te leiden uit een paar sleutels.
+Nu we de theorie behandeld hebben, gaan we over naar de praktijk! In het volgende hoofdstuk stel ik voor om zowel een SegWit v0 adres als een SegWit v1 adres af te leiden uit een paar sleutels.
 
 
-## Address Afleiding
+## adres Afleiding
 
 <chapterId>3ebdc750-4135-4881-b07e-08965941b93e</chapterId>
 
 :::video id=1517c0fd-d31b-426b-b99e-e4eb19635415:::
 
 
-Laten we samen onderzoeken hoe we generate een ontvangstadres kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD wallet bevinden. Deze Address kan dan gebruikt worden in een wallet-software om een UTXO te vergrendelen.
+Laten we samen onderzoeken hoe we generate een ontvangstadres kunnen maken van een paar sleutels die zich bijvoorbeeld op diepte 5 van een HD-wallet bevinden. Deze adres kan dan gebruikt worden in een wallet-software om een UTXO te vergrendelen.
 
 
-Aangezien het genereren van een Address afhankelijk is van het gebruikte scriptmodel, concentreren we ons op twee specifieke gevallen: het genereren van een SegWit v0 Address in P2WPKH en een SegWit v1 Address in P2TR. Deze twee soorten adressen dekken de overgrote meerderheid van het huidige gebruik.
+Aangezien het genereren van een adres afhankelijk is van het gebruikte scriptmodel, concentreren we ons op twee specifieke gevallen: het genereren van een SegWit v0 adres in P2WPKH en een SegWit v1 adres in P2TR. Deze twee soorten adressen dekken de overgrote meerderheid van het huidige gebruik.
 
 
 ### Openbare sleutel compressie
 
 
-Na het uitvoeren van alle afleidingsstappen van de hoofdsleutel tot diepte 5 met behulp van de juiste indexen, verkrijgen we een sleutelpaar ($k$, $K$) met $K = k cdot G$. Hoewel het mogelijk is om deze publieke sleutel te gebruiken om fondsen te vergrendelen met de P2PK standaard, is dat hier niet ons doel. In plaats daarvan willen we in eerste instantie een Address maken in P2WPKH, en daarna in P2TR voor een ander voorbeeld.
+Na het uitvoeren van alle afleidingsstappen van de hoofdsleutel tot diepte 5 met behulp van de juiste indexen, verkrijgen we een sleutelpaar ($k$, $K$) met $K = k cdot G$. Hoewel het mogelijk is om deze publieke sleutel te gebruiken om fondsen te vergrendelen met de P2PK standaard, is dat hier niet ons doel. In plaats daarvan willen we in eerste instantie een adres maken in P2WPKH, en daarna in P2TR voor een ander voorbeeld.
 
 
 De eerste stap is het comprimeren van de openbare sleutel $K$. Om dit proces goed te begrijpen, herinneren we ons eerst enkele basisprincipes uit deel 3.
@@ -2973,10 +2973,10 @@ K = 03678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb6
 
 Deze bewerking geldt voor alle scriptmodellen die gebaseerd zijn op ECDSA, dat wil zeggen, alle behalve P2TR die Schnorr gebruikt. In het geval van Schnorr, zoals uitgelegd in deel 3, behouden we alleen de waarde van $x$, zonder een prefix toe te voegen om de pariteit van $y$ aan te geven, in tegenstelling tot ECDSA. Dit wordt mogelijk gemaakt door het feit dat een unieke pariteit willekeurig wordt gekozen voor alle sleutels. Hierdoor is er iets minder opslagruimte nodig voor openbare sleutels.
 
-### Afleiding van een SegWit v0 (bech32) Address
+### Afleiding van een SegWit v0 (bech32) adres
 
 
-Nu we onze gecomprimeerde publieke sleutel hebben, kunnen we hieruit een SegWit v0 afleiden die Address ontvangt.
+Nu we onze gecomprimeerde publieke sleutel hebben, kunnen we hieruit een SegWit v0 afleiden die adres ontvangt.
 
 
 De eerste stap is het toepassen van de HASH160 hashfunctie op de gecomprimeerde openbare sleutel. HASH160 is een samenstelling van twee opeenvolgende hashfuncties: SHA256, gevolgd door RIPEMD160:
@@ -3006,7 +3006,7 @@ RIPEMD160(SHA256(K)) = 9F81322CC88622CA4CCB2A52A21E2888727AA535
 ```
 
 
-We hebben een 160-bit hash van de publieke sleutel verkregen, die de zogenaamde payload van de Address vormt. Deze payload vertegenwoordigt het centrale en belangrijkste deel van de Address. Het wordt ook gebruikt in het *scriptPubKey* om de UTXO's te vergrendelen.
+We hebben een 160-bit hash van de publieke sleutel verkregen, die de zogenaamde payload van de adres vormt. Deze payload vertegenwoordigt het centrale en belangrijkste deel van de adres. Het wordt ook gebruikt in het *scriptPubKey* om de UTXO's te vergrendelen.
 
 
 Om deze payload echter gemakkelijker bruikbaar te maken voor mensen, wordt er metadata aan toegevoegd. De volgende stap is het coderen van deze hash in groepen van 5 bits in decimaal. Deze decimale transformatie zal nuttig zijn voor de conversie naar *bech32*, gebruikt door post-SegWit adressen. De 160-bits binaire hash wordt dus verdeeld in 32 groepen van 5 bits:
@@ -3064,13 +3064,13 @@ HASH = 19 30 00 19 04 11 06 08 16 24 17 12 20 19 06 11 05 09 09 10 04 07 17 08 1
 ```
 
 
-Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de Address toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de Address niet is gewijzigd tijdens opslag of verzending. Zo kan een wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen Address. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde Address kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of privésleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
+Nadat de hash in groepen van 5 bits is gecodeerd, wordt een controlesom aan de adres toegevoegd. Deze controlesom wordt gebruikt om te controleren of de payload van de adres niet is gewijzigd tijdens opslag of verzending. Zo kan een wallet-software bijvoorbeeld controleren of je geen typefout hebt gemaakt bij het invoeren van een ontvangen adres. Zonder deze verificatie zou je per ongeluk bitcoins naar een verkeerde adres kunnen sturen, wat resulteert in een permanent verlies van fondsen, omdat je niet de eigenaar bent van de bijbehorende publieke of privésleutel. Daarom is de controlesom een bescherming tegen menselijke fouten.
 
 
-Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de Address hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
+Voor de oude Bitcoin *Legacy* adressen werd de controlesom eenvoudig berekend vanaf het begin van de adres hash met de HASH256 functie. Met de introductie van SegWit en het *bech32* formaat, worden nu BCH codes (*Bose, Ray-Chaudhuri en Hocquenghem*) gebruikt. Deze foutcorrigerende codes worden gebruikt om fouten in gegevensreeksen op te sporen en te corrigeren. Ze zorgen ervoor dat de verzonden informatie intact aankomt op de bestemming, zelfs in het geval van kleine wijzigingen. BCH-codes worden op veel gebieden gebruikt, zoals SSD's, dvd's en QR-codes. Dankzij deze BCH-codes kan bijvoorbeeld een gedeeltelijk verborgen QR-code nog steeds worden gelezen en gedecodeerd.
 
 
-In de context van Bitcoin bieden BCH-codes een beter compromis tussen grootte en foutdetectiecapaciteit vergeleken met de eenvoudige hashfuncties die gebruikt worden voor *Legacy* adressen. In Bitcoin worden BCH-codes echter alleen gebruikt voor foutdetectie, niet voor correctie. Dus, wallet-software zal een onjuist ontvangen Address signaleren, maar niet automatisch corrigeren. Deze beperking is opzettelijk: het toestaan van automatische correctie zou de foutdetectiecapaciteit verminderen.
+In de context van Bitcoin bieden BCH-codes een beter compromis tussen grootte en foutdetectiecapaciteit vergeleken met de eenvoudige hashfuncties die gebruikt worden voor *Legacy* adressen. In Bitcoin worden BCH-codes echter alleen gebruikt voor foutdetectie, niet voor correctie. Dus, wallet-software zal een onjuist ontvangen adres signaleren, maar niet automatisch corrigeren. Deze beperking is opzettelijk: het toestaan van automatische correctie zou de foutdetectiecapaciteit verminderen.
 
 
 Om de checksum met BCH-codes te berekenen, moeten we verschillende elementen voorbereiden.
@@ -3175,7 +3175,7 @@ $$
 Om een waarde om te zetten in een _bech32_ teken met behulp van deze tabel, zoek je gewoon de waarden in de eerste kolom en de eerste rij die, wanneer ze bij elkaar opgeteld worden, het gewenste resultaat opleveren. Haal dan het corresponderende teken op. Bijvoorbeeld, het decimale getal `19` wordt omgezet in de letter `n`, omdat $19 = 16 + 3$.
 
 
-Door al onze waarden in kaart te brengen, krijgen we de volgende Address:
+Door al onze waarden in kaart te brengen, krijgen we de volgende adres:
 
 
 ```
@@ -3183,7 +3183,7 @@ qn7qnytxgsc3v5nxt9ff2y83g3pe84ff42stydj
 ```
 
 
-Alles wat overblijft is het toevoegen van de HRP `bc`, die aangeeft dat het een Address is voor de Bitcoin Mainnet, en het scheidingsteken `1`, om de volledige ontvangstadres te krijgen:
+Alles wat overblijft is het toevoegen van de HRP `bc`, die aangeeft dat het een adres is voor de Bitcoin Mainnet, en het scheidingsteken `1`, om de volledige ontvangstadres te krijgen:
 
 
 ```
@@ -3200,10 +3200,10 @@ Samengevat is dit het afleidingsproces:
 ![CYP201](assets/en/070.webp)
 
 
-Dit is hoe je een P2WPKH (SegWit v0) die Address ontvangt, kunt afleiden uit een paar sleutels. Laten we nu verder gaan met P2TR (SegWit v1 / Taproot) adressen en hun generatieproces ontdekken.
+Dit is hoe je een P2WPKH (SegWit v0) die adres ontvangt, kunt afleiden uit een paar sleutels. Laten we nu verder gaan met P2TR (SegWit v1 / Taproot) adressen en hun generatieproces ontdekken.
 
 
-### Afleiding van een SegWit v1 (bech32m) Address
+### Afleiding van een SegWit v1 (bech32m) adres
 
 
 Voor Taproot adressen verschilt het generatieproces enigszins. Laten we hier samen naar kijken!
@@ -3233,7 +3233,7 @@ $$
 Waarbij $G$ de generator van de gebruikte elliptische curve is. Deze bewerking produceert een nieuwe openbare sleutel die is afgeleid van de originele sleutel, met behoud van de cryptografische eigenschappen die het gebruik ervan toestaan.
 
 
-Als je geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kun je generate een Taproot Address opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een hashfunctie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
+Als je geen alternatieve scripts hoeft toe te voegen (uitsluitend uitgeven via het _sleutelpad_), kun je generate een Taproot adres opzetten, die uitsluitend gebaseerd is op de publieke sleutel die op diepte 5 van uw wallet aanwezig is. In dit geval is het nodig om een niet-uitgeefbaar script te maken voor het _scriptpad_, om aan de eisen van de structuur te voldoen. De tweak $t$ wordt dan berekend door een hashfunctie, **`TapTweak`**, toe te passen op de interne publieke sleutel $P$:
 
 
 
@@ -3263,13 +3263,13 @@ Q = P + t \cdot G
 $$
 
 
-Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangstadres. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de Address geplaatst, op een onbewerkte manier.
+Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overeenkomstige ontvangstadres. In tegenstelling tot andere formaten, worden Taproot-adressen niet vastgelegd op een hash van de openbare sleutel. Daarom wordt de sleutel $Q$ direct in de adres geplaatst, op een onbewerkte manier.
 
 
-Om te beginnen extraheren we de $x$ coördinaat van het punt $Q$ om een gecomprimeerde publieke sleutel te verkrijgen. Op deze payload wordt een checksum berekend met BCH codes, net als bij SegWit v0 adressen. Het programma dat gebruikt wordt voor Taproot adressen verschilt echter enigszins. Na de introductie van het _bech32_ formaat met SegWit werd namelijk een bug ontdekt: wanneer het laatste teken van een Address een `p` is, maakt het invoegen of verwijderen van `q`s vlak voor deze `p` de controlesom niet ongeldig. Hoewel deze bug geen gevolgen heeft voor SegWit v0 (dankzij een beperking in grootte), zou het in de toekomst een probleem kunnen vormen. Deze bug is daarom gecorrigeerd voor Taproot adressen, en het nieuwe gecorrigeerde formaat heet "_bech32m_".
+Om te beginnen extraheren we de $x$ coördinaat van het punt $Q$ om een gecomprimeerde publieke sleutel te verkrijgen. Op deze payload wordt een checksum berekend met BCH codes, net als bij SegWit v0 adressen. Het programma dat gebruikt wordt voor Taproot adressen verschilt echter enigszins. Na de introductie van het _bech32_ formaat met SegWit werd namelijk een bug ontdekt: wanneer het laatste teken van een adres een `p` is, maakt het invoegen of verwijderen van `q`s vlak voor deze `p` de controlesom niet ongeldig. Hoewel deze bug geen gevolgen heeft voor SegWit v0 (dankzij een beperking in grootte), zou het in de toekomst een probleem kunnen vormen. Deze bug is daarom gecorrigeerd voor Taproot adressen, en het nieuwe gecorrigeerde formaat heet "_bech32m_".
 
 
-De Taproot Address wordt gegenereerd door de $x$ coördinaat van $Q$ te coderen in het _bech32m_ formaat, met de volgende Elements:
+De Taproot adres wordt gegenereerd door de $x$ coördinaat van $Q$ te coderen in het _bech32m_ formaat, met de volgende Elements:
 
 
 
@@ -3278,7 +3278,7 @@ De Taproot Address wordt gegenereerd door de $x$ coördinaat van $Q$ te coderen 
 - De controlesom.
 
 
-De uiteindelijke Address zal daarom het formaat hebben:
+De uiteindelijke adres zal daarom het formaat hebben:
 
 
 ```
@@ -3345,7 +3345,7 @@ Q = P + t \cdot G
 
 $$
 
-Daarna volgt het genereren van de Address hetzelfde proces, met de ruwe publieke sleutel $Q$ als payload, vergezeld van wat extra metadata.
+Daarna volgt het genereren van de adres hetzelfde proces, met de ruwe publieke sleutel $Q$ als payload, vergezeld van wat extra metadata.
 
 
 En daar heb je het! We zijn aan het einde gekomen van deze CYP201 cursus. Als je deze cursus nuttig vond, zou ik je erg dankbaar zijn als je even de tijd neemt om de cursus een goede beoordeling te geven in het volgende evaluatiehoofdstuk. Voel je vrij om het ook te delen met je dierbaren of op je sociale netwerken. Tot slot, als je je diploma voor deze cursus wilt behalen, kun je direct na het evaluatiehoofdstuk het eindexamen doen.
