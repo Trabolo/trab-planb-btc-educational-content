@@ -1794,10 +1794,10 @@ Laten we samen ontdekken hoe we van entropie naar een mnemonische zin kunnen gaa
 ### De controlesom
 
 
-Om entropie om te zetten in een mnemonische zin, moet men eerst een controlesom (of "controlesom") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
+Om entropie om te zetten in een mnemonische zin, moet men eerst een controlesom (of "checksum") toevoegen aan het einde van de entropie. Deze controlesom is een korte reeks bits die de integriteit van de gegevens garandeert door te verifiëren dat er geen toevallige wijzigingen zijn aangebracht.
 
 
-Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256 hash wordt gebruikt in plaats van een dubbele hash). Deze bewerking produceert een 256-bit hash. De controlesom bestaat uit de eerste bits van deze hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
+Om de controlesom te berekenen wordt de SHA256-hashfunctie toegepast op de entropie (slechts één keer; dit is één van de zeldzame gevallen in Bitcoin waar een enkele SHA256-hash wordt gebruikt in plaats van een dubbele hash). Deze bewerking produceert een 256-bit hash. De controlesom bestaat uit de eerste bits van deze hash, en de lengte hangt af van die van de entropie, volgens de volgende formule:
 
 
 $$
@@ -1816,13 +1816,13 @@ $$
 $$
 
 
-Nadat de controlesom is berekend, wordt deze samengevoegd met de entropie om een uitgebreide bitreeks te verkrijgen die wordt aangeduid met ${ENT} \Vert \text{CS}$ ("aaneenschakelen" betekent aaneenschakelen).
+Nadat de controlesom is berekend, wordt deze samengevoegd met de entropie om een uitgebreide bitreeks te verkrijgen die wordt aangeduid met ${ENT} \Vert \text{CS}$.
 
 
 ![CYP201](assets/en/041.webp)
 
 
-### Correspondentie tussen de Entropie en de mnemonische zin
+### Relatie tussen de entropie en de mnemonische zin
 
 
 Het aantal woorden in de mnemonische zin hangt af van de grootte van de initiële entropie, zoals geïllustreerd in de volgende tabel met:
@@ -1917,7 +1917,7 @@ Het kiezen van een woordgroep van 24 woorden biedt dus geen extra bescherming vo
 Een zin van 12 woorden, die ook 128 bits veiligheid biedt, is daarom momenteel voldoende om je bitcoins te beschermen tegen elke poging tot diefstal. Zolang het algoritme voor digitale handtekeningen niet verandert om grotere sleutels te gebruiken of om te vertrouwen op een ander wiskundig probleem dan de ECDLP, blijft een zin van 24 woorden overbodig. Bovendien verhoogt een langere zin het risico op verlies tijdens de back-up: een back-up die twee keer zo kort is, is altijd gemakkelijker te beheren.
 
 
-Om verder te gaan en concreet te leren hoe je handmatig generate een test mnemonische zin kunt maken, raad ik je aan deze tutorial te ontdekken:
+Om verder te gaan en concreet te leren hoe je handmatig een test-mnemonische zin kunt maken, raad ik je aan deze tutorial te ontdekken:
 
 
 https://planb.academy/tutorials/wallet/backup/generate-mnemonic-phrase-47507d90-e6af-4cac-b01b-01a14d7a8228
@@ -1933,19 +1933,19 @@ Voordat we verder gaan met de afleiding van de wallet uit deze mnemonische zin, 
 :::video id=59f8a63e-56af-4937-a1d1-3314b3934048:::
 
 
-Zoals we net gezien hebben, worden HD-wallets gegenereerd uit een mnemonische zin die meestal uit 12 of 24 woorden bestaat. Deze zin is erg belangrijk, omdat het de mogelijkheid biedt om alle sleutels van een wallet te herstellen in het geval dat het fysieke apparaat (zoals een Hardware wallet, bijvoorbeeld) verloren gaat. Het is echter een enkelvoudig faalpunt, want als het gecompromitteerd wordt, kan een aanvaller alle bitcoins stelen. Dit is waar de BIP39 passphrase om de hoek komt kijken.
+Zoals we net gezien hebben, worden HD-wallets gegenereerd uit een mnemonische zin die meestal uit 12 of 24 woorden bestaat. Deze zin is erg belangrijk, omdat het de mogelijkheid biedt om alle sleutels van een wallet te herstellen in het geval dat het fysieke apparaat (zoals een hardware wallet, bijvoorbeeld) verloren gaat. Het is echter een enkelvoudig faalpunt, want als het gecompromitteerd wordt, kan een aanvaller alle bitcoins stelen. Dit is waar de BIP39-passphrase om de hoek komt kijken.
 
 
-### Wat is een BIP39 passphrase?
+### Wat is een BIP39-passphrase?
 
 
 De passphrase is een optioneel wachtwoord, dat je vrij kunt kiezen, dat wordt toegevoegd aan de mnemonische zin in het sleutelafleidingsproces om de veiligheid van de wallet te verbeteren.
 
 
-Let op, de passphrase mag niet verward worden met de PIN-code van je Hardware wallet of het wachtwoord dat gebruikt wordt om de toegang tot je wallet op je computer te ontgrendelen. In tegenstelling tot al deze Elements, speelt de passphrase een rol bij het afleiden van de sleutels van je wallet. **Dit betekent dat je zonder de passphrase nooit in staat zult zijn om je bitcoins terug te krijgen.**
+Let op, de passphrase mag niet verward worden met de PIN-code van je hardware wallet of het wachtwoord dat gebruikt wordt om de toegang tot je wallet op je computer te ontgrendelen. In tegenstelling tot al deze elementen, speelt de passphrase een rol bij het afleiden van de sleutels van je wallet. **Dit betekent dat je zonder de passphrase nooit in staat zult zijn om je bitcoins terug te krijgen.**
 
 
-De passphrase werkt samen met de mnemonische zin en wijzigt de seed waaruit de sleutels worden gegenereerd. Dus zelfs als iemand uw 12- of 24-woordzin bemachtigt, heeft hij zonder de passphrase geen toegang tot uw fondsen. Het gebruik van een passphrase creëert in wezen een nieuwe wallet met verschillende sleutels. Als je de passphrase (zelfs maar een beetje) wijzigt, ontstaat er een andere wallet.
+De passphrase werkt samen met de mnemonische zin en wijzigt de seed waaruit de sleutels worden gegenereerd. Dus zelfs als iemand je 12- of 24-woordzin bemachtigt, heeft hij zonder de passphrase geen toegang tot je fondsen. Het gebruik van een passphrase creëert in wezen een nieuwe wallet met verschillende sleutels. Als je de passphrase (zelfs maar een beetje) wijzigt, ontstaat er een andere wallet.
 
 
 ![CYP201](assets/en/046.webp)
@@ -1957,7 +1957,7 @@ De passphrase werkt samen met de mnemonische zin en wijzigt de seed waaruit de s
 De passphrase is willekeurig en kan elke combinatie van tekens zijn die de gebruiker kiest. Het gebruik van een passphrase biedt dus verschillende voordelen. Ten eerste vermindert het alle risico's die gepaard gaan met het compromitteren van de mnemonische zin door een tweede factor nodig te hebben om toegang te krijgen tot de fondsen (inbraak, toegang tot je huis, enz.).
 
 
-Vervolgens kan het strategisch gebruikt worden om een lok wallet te maken, om fysieke beperkingen het hoofd te bieden om je fondsen te stelen, zoals de beruchte "_$5 wrench attack_". In dit scenario is het idee om een wallet zonder passphrase te hebben, die slechts een kleine hoeveelheid bitcoins bevat, genoeg om een potentiële aanvaller tevreden te stellen, terwijl je een verborgen wallet hebt. Deze laatste gebruikt dezelfde mnemonische zin, maar is beveiligd met een extra passphrase.
+Vervolgens kan het strategisch gebruikt worden om een lok-wallet te maken, om fysieke dreigingen het hoofd te bieden die gericht zijn op het stelen van je fondsen, zoals de beruchte "_$5 wrench attack_". In dit scenario is het idee om een wallet zonder passphrase te hebben, die slechts een kleine hoeveelheid bitcoins bevat, genoeg om een potentiële aanvaller tevreden te stellen, terwijl je een verborgen wallet hebt. Deze laatste gebruikt dezelfde mnemonische zin, maar is beveiligd met een extra passphrase.
 
 Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeurigheid van het genereren van de seed van de HD-wallet wil controleren.
 
@@ -1965,10 +1965,10 @@ Tenslotte is het gebruik van een passphrase interessant wanneer men de willekeur
 ### Hoe kies je een goede passphrase?
 
 
-Om de passphrase effectief te laten zijn, moet deze lang en willekeurig genoeg zijn. Net als bij een sterk wachtwoord, raad ik aan een passphrase te kiezen die zo lang en willekeurig mogelijk is, met een verscheidenheid aan letters, cijfers en symbolen om een brute force aanval onmogelijk te maken.
+Om de passphrase effectief te laten zijn, moet deze lang en willekeurig genoeg zijn. Net als bij een sterk wachtwoord, raad ik aan een passphrase te kiezen dat zo lang en willekeurig mogelijk is, met een verscheidenheid aan letters, cijfers en symbolen om een brute force aanval onmogelijk te maken.
 
 
-Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier als de mnemonische zin. **Verlies betekent verlies van toegang tot je bitcoins**. Ik raad sterk af om het alleen uit het hoofd te onthouden, omdat dit het risico op verlies onredelijk vergroot. Het ideale is om het op te schrijven op een fysieke drager (papier of metaal), los van de mnemonische zin. Deze back-up moet uiteraard op een andere plaats bewaard worden dan waar uw mnemonische zin is opgeslagen om te voorkomen dat beide tegelijkertijd gecompromitteerd worden.
+Het is ook belangrijk om deze passphrase goed op te slaan, op dezelfde manier als de mnemonische zin. **Verlies betekent verlies van toegang tot je bitcoins**. Ik raad sterk af om het alleen uit het hoofd te onthouden, omdat dit het risico op verlies onredelijk vergroot. Het ideale is om het op te schrijven op een fysieke drager (papier of metaal), los van de mnemonische zin. Deze back-up moet uiteraard op een andere plaats bewaard worden dan waar je mnemonische zin is opgeslagen om te voorkomen dat beide tegelijkertijd gecompromitteerd worden.
 
 
 ![CYP201](assets/en/047.webp)
@@ -2012,7 +2012,7 @@ De BIP39 standaard definieert de seed als een 512-bit reeks, die dient als start
 Ongeacht de gekozen zinslengte van de Mnemonic (132 bits of 264 bits), zal de PBKDF2-functie altijd een 512-bits uitvoer produceren en de seed zal daarom altijd deze grootte hebben.
 
 
-### seed Afleidingsschema met PBKDF2
+### seed afleidingsschema met PBKDF2
 
 
 De volgende vergelijking illustreert de afleiding van de seed uit de mnemonische zin en de passphrase:
@@ -2029,19 +2029,19 @@ $$
 De waarde van de seed wordt dus beïnvloed door de waarde van de mnemonische zin en de passphrase. Door de passphrase te veranderen, wordt een andere seed verkregen. Echter, met dezelfde mnemonische zin en passphrase, wordt altijd dezelfde seed gegenereerd, omdat PBKDF2 een deterministische functie is. Dit zorgt ervoor dat dezelfde sleutelparen teruggehaald kunnen worden via onze back-ups.
 
 
-**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de mnemonische zin. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van portemonnees, de seed en de mnemonische zin inderdaad twee verschillende Elements.
+**Noot:** In het gewone taalgebruik verwijst de term "seed" vaak, door verkeerd taalgebruik, naar de mnemonische zin. Bij afwezigheid van een passphrase is de ene gewoon de codering van de andere. Zoals we echter gezien hebben, zijn in de technische realiteit van wallets, de seed en de mnemonische zin inderdaad twee verschillende elementen.
 
 
 Nu we onze seed hebben, kunnen we verder gaan met de afleiding van onze Bitcoin-wallet.
 
 
-### De hoofdsleutel en de chain code hoofdsleutel
+### De hoofdsleutel en de chain code hoofdsleutel (master chain code)
 
 
 Zodra de seed verkregen is, bestaat de volgende stap in het afleiden van een HD-wallet uit het berekenen van de master private key en de master chain code, die diepte 0 van onze wallet zal vertegenwoordigen.
 
 
-Om de master privésleutel en de master chain code te verkrijgen, wordt de HMAC-SHA512 functie toegepast op de seed, met een vaste sleutel "_Bitcoin Seed_" die identiek is voor alle Bitcoin gebruikers. Deze constante is gekozen om ervoor te zorgen dat de sleutelafleidingen specifiek zijn voor Bitcoin. Hier zijn de Elements:
+Om de master privésleutel en de master chain code te verkrijgen, wordt de HMAC-SHA512 functie toegepast op de seed, met een vaste sleutel "_Bitcoin Seed_" die identiek is voor alle Bitcoin gebruikers. Deze constante is gekozen om ervoor te zorgen dat de sleutelafleidingen specifiek zijn voor Bitcoin. Hier zijn de elementen:
 
 
 
@@ -2058,7 +2058,7 @@ $$
 $$
 
 
-De uitgang van deze functie is dus 512 bits. Deze wordt vervolgens opgedeeld in 2 delen:
+De output van deze functie is dus 512 bits. Deze wordt vervolgens opgedeeld in 2 delen:
 
 
 
@@ -2091,10 +2091,10 @@ De master privésleutel wordt beschouwd als de oudersleutel, waarvan alle afgele
 De master chain code, aan de andere kant, introduceert een extra bron van entropie in het sleutelafleidingsproces voor kinderen, om bepaalde potentiële aanvallen tegen te gaan. Bovendien is in de HD-wallet aan elk sleutelpaar een unieke chain code gekoppeld, die ook gebruikt wordt om kindsleutels van dit paar af te leiden, maar dit zullen we in de komende hoofdstukken in meer detail bespreken.
 
 
-Voordat we verder gaan met de afleiding van de HD-wallet met de volgende Elements, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin-wallet.
+Voordat we verder gaan met de afleiding van de HD-wallet met de volgende elementen, wil ik in het volgende hoofdstuk de uitgebreide sleutels introduceren, die vaak verward worden met de hoofdsleutel. We zullen zien hoe ze zijn opgebouwd en welke rol ze spelen in de Bitcoin-wallet.
 
 
-## Uitgebreide toetsen
+## Uitgebreide sleutels
 
 <chapterId>8dcffce1-31bd-5e0b-965b-735f5f9e4602</chapterId>
 
