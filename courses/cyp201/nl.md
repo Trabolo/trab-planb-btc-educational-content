@@ -1667,7 +1667,7 @@ In het volgende deel stel ik voor om te ontdekken hoe de mnemonische zin aan de 
 <partId>4070af16-c8a2-58b5-9871-a22c86c07458</partId>
 
 
-## Evolutie van Bitcoin-portefeuilles
+## Evolutie van Bitcoin-wallets
 
 
 <chapterId>9d9acd5d-a0e5-5dfd-b544-f043fae8840f</chapterId>
@@ -1675,27 +1675,27 @@ In het volgende deel stel ik voor om te ontdekken hoe de mnemonische zin aan de 
 :::video id=024fb46f-aece-414f-818b-4762e77953b9:::
 
 
-Nu we de werking van hashfuncties en digitale handtekeningen hebben onderzocht, kunnen we bestuderen hoe Bitcoin-wallets functioneren. Het doel is te beschrijven hoe een wallet in Bitcoin opgebouwd is, hoe het gedecomponeerd is en waar de verschillende stukjes informatie waaruit het bestaat voor gebruikt worden. Dit begrip van de wallet mechanismen zal je in staat stellen om je gebruik van Bitcoin te verbeteren op het gebied van veiligheid en privacy.
+Nu we de werking van hashfuncties en digitale handtekeningen hebben onderzocht, kunnen we bestuderen hoe Bitcoin-wallets functioneren. Het doel is te beschrijven hoe een wallet in Bitcoin opgebouwd is, hoe deze is opgedeeld en waar de verschillende stukjes informatie waaruit deze bestaat voor worden gebruikt. Dit begrip van de mechanismen van de wallet zal je in staat stellen om je gebruik van Bitcoin te verbeteren op het gebied van veiligheid en privacy.
 
 
-Voordat we in de technische details duiken, is het essentieel om te verduidelijken wat bedoeld wordt met "Bitcoin Wallet" en om het nut ervan te begrijpen.
+Voordat we in de technische details duiken, is het essentieel om te verduidelijken wat bedoeld wordt met "Bitcoin-wallet" en om het nut ervan te begrijpen.
 
 
 ### Wat is een Bitcoin-wallet?
 
 
-In tegenstelling tot traditionele portemonnees, die het mogelijk maken om fysieke biljetten en munten op te slaan, "bevat" een Bitcoin-wallet niet per se bitcoins. Bitcoins bestaan namelijk niet in een fysieke of digitale vorm die kan worden opgeslagen, maar worden vertegenwoordigd door rekeneenheden die in het Bitcoin systeem worden weergegeven in de vorm van **UTXO's** (_Unspent Transaction Outputs_).
+In tegenstelling tot traditionele portemonnees, die het mogelijk maken om fysieke biljetten en munten op te slaan, "bevat" een Bitcoin-wallet niet per se bitcoins. Bitcoins bestaan namelijk niet in een fysieke of digitale vorm die kan worden opgeslagen, maar worden vertegenwoordigd door rekeneenheden (units of account) die in het Bitcoin systeem worden weergegeven in de vorm van **UTXO's** (_Unspent Transaction Outputs_).
 
 
-UTXO's vertegenwoordigen dus fragmenten van bitcoins, van verschillende groottes, die kunnen worden uitgegeven op voorwaarde dat aan hun _scriptPubKey_ is voldaan. Om zijn bitcoins uit te geven, moet een gebruiker een _scriptSig_ leveren die de _scriptPubKey_ ontsluit die geassocieerd is met zijn UTXO. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening, gegenereerd uit de privésleutel die overeenkomt met de publieke sleutel in de _scriptPubKey_. Het cruciale element dat de gebruiker moet beveiligen is dus de privésleutel.
+UTXO's vertegenwoordigen dus fragmenten van bitcoins, van verschillende groottes, die kunnen worden uitgegeven op voorwaarde dat aan hun _scriptPubKey_ is voldaan. Om zijn bitcoins uit te geven, moet een gebruiker een _scriptSig_ leveren die de _scriptPubKey_ ontsluit die geassocieerd is met zijn UTXO. Dit bewijs wordt meestal geleverd door middel van een digitale handtekening, gegenereerd uit de privésleutel die overeenkomt met de publieke sleutel in de _scriptPubKey_. Het cruciale element dat de gebruiker moet beveiligen is dus de privésleutel.
 
 De rol van een Bitcoin-wallet is juist om deze privésleutels veilig te beheren. In werkelijkheid lijkt zijn rol meer op die van een sleutelhanger dan op die van een wallet in de traditionele zin.
 
 
-### JBOK Portemonnees
+### JBOK-wallets
 
 
-De eerste wallets die gebruikt werden in Bitcoin waren JBOK (_Just a Bunch Of Keys_) wallets, die privésleutels groepeerden die onafhankelijk van elkaar gegenereerd waren, zonder enig verband ertussen. Deze wallets werkten volgens een eenvoudig model waarbij elke privésleutel een unieke Bitcoin kon ontgrendelen die Address ontving.
+De eerste wallets die in Bitcoin werden gebruikt,waren JBOK-wallets (_Just a Bunch Of Keys_), die privésleutels groepeerden die onafhankelijk van elkaar waren gegenereerd, zonder enig verband ertussen. Deze wallets werkten volgens een eenvoudig model waarbij elke privésleutel een uniek bitcoin ontvangstadres kon ontsluiten.
 
 
 ![CYP201](assets/en/038.webp)
