@@ -2132,9 +2132,9 @@ Verderop gebruiken we de volgende notatie:
 - $k_{\text{PAR}}$: een privésleutel van de ouder;
 - $C_{\text{PAR}}$: een ouder chain code;
 - $C_{CHD}}$: een kind chain code;
-- $K_{\text{CHD}}^n$: een normale openbare kindersleutel;
+- $K_{\text{CHD}}^n$: een normale openbare kindsleutel;
 - $k_{CHD}}^n$: een normale kind-privésleutel;
-- $K_{\text{CHD}}^h$: een geharde openbare kindersleutel;
+- $K_{\text{CHD}}^h$: een geharde openbare kindsleutel;
 - $k_{CHD}}^h$: een geharde kind-privésleutel.
 
 
@@ -2262,7 +2262,7 @@ In dit hoofdstuk ontdekten we dat er twee verschillende soorten kindsleutels zij
 
 
 
-## Afleiding van kindersleutelparen
+## Afleiding van kindsleutelparen
 
 <chapterId>61c0807c-845b-5076-ad06-7f395b36adfd</chapterId>
 
@@ -2297,11 +2297,11 @@ Elk sleutelpaar wordt geïdentificeerd door een 32-bits **index** ($i$ genoemd i
 ### Afleidingsproces met HMAC-SHA512
 
 
-De afleiding van elke kindsleutel is gebaseerd op de HMAC-SHA512 functie, die we bespraken in Sectie 2 over hashfuncties. Deze heeft twee inputs: de ouder chain code $C_{\text{PAR}}$ en de aaneenschakeling van de oudersleutel (de publieke sleutel $K_{\text{PAR}}$ of de privésleutel $k_{\text{PAR}}$, afhankelijk van het gewenste type kindsleutel) met de index. De uitvoer van HMAC-SHA512 is een reeks van 512 bits, verdeeld in twee delen:
+De afleiding van elke kindsleutel is gebaseerd op de HMAC-SHA512 functie, die we bespraken in sectie 2 over hashfuncties. Deze heeft twee inputs: de ouder chain code $C_{\text{PAR}}$ en de aaneenschakeling van de oudersleutel (de publieke sleutel $K_{\text{PAR}}$ of de privésleutel $k_{\text{PAR}}$, afhankelijk van het gewenste type kindsleutel) met de index. De uitvoer van HMAC-SHA512 is een reeks van 512 bits, verdeeld in twee delen:
 
 
-- De eerste **32 bytes** (of $h_1$) worden gebruikt om het nieuwe kindpaar te berekenen.
-- De laatste 32 bytes (of $h_2$) dienen als de nieuwe chain code $C_{{CHD}}$ voor het kindpaar.
+- **De eerste 32 bytes** (of $h_1$) worden gebruikt om het nieuwe kindpaar te berekenen.
+- **De laatste 32 bytes** (of $h_2$) dienen als de nieuwe chain code $C_{{CHD}}$ voor het kindpaar.
 
 
 In al onze berekeningen zal ik de uitvoer van de HMAC-SHA512-functie aanduiden als ${Hash}$.
@@ -2310,13 +2310,13 @@ In al onze berekeningen zal ik de uitvoer van de HMAC-SHA512-functie aanduiden a
 ![CYP201](assets/en/054.webp)
 
 
-#### Afleiden van een Kind-Privésleutel van een Ouder-Privésleutel
+#### Afleiden van een kind-privésleutel van een ouder-privésleutel
 
 
 Om een kind-privésleutel $k_{\text{CHD}}$ af te leiden uit een ouder-privésleutel $k_{\text{PAR}}$ zijn twee scenario's mogelijk, afhankelijk van of een geharde of normale sleutel gewenst is.
 
 
-Voor een **normale kindersleutel** ($i < 2^{31}$) is de berekening van $text{Hash}$ als volgt:
+Voor een **normale kindsleutel** ($i < 2^{31}$) is de berekening van $text{Hash}$ als volgt:
 
 
 $$
@@ -2371,7 +2371,7 @@ Hier volgt een schematische voorstelling van de algemene afleiding:
 ![CYP201](assets/en/055.webp)
 
 
-Voor een **geharde kindersleutel** ($i \geq 2^{31}$) is de berekening van de $tekst{Hash}$ als volgt:
+Voor een **geharde kindsleutel** ($i \geq 2^{31}$) is de berekening van de $tekst{Hash}$ als volgt:
 
 
 
@@ -2380,7 +2380,7 @@ $$
 $$
 
 
-In deze berekening zien we dat onze HMAC-functie twee inputs nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de privésleutel van de ouder. De privésleutel van de ouder wordt hier gebruikt omdat we een geharde kindersleutel willen afleiden. Bovendien wordt een byte gelijk aan `0x00` toegevoegd aan het begin van de sleutel. Deze bewerking maakt de lengte gelijk aan die van een gecomprimeerde openbare sleutel.
+In deze berekening zien we dat onze HMAC-functie twee inputs nodig heeft: eerst de chain code van de ouder en dan de aaneenschakeling van de index met de privésleutel van de ouder. De privésleutel van de ouder wordt hier gebruikt omdat we een geharde kindsleutel willen afleiden. Bovendien wordt een byte gelijk aan `0x00` toegevoegd aan het begin van de sleutel. Deze bewerking maakt de lengte gelijk aan die van een gecomprimeerde openbare sleutel.
 
 We hebben nu dus een $tekst{Hash}$ van 64 bytes die we opsplitsen in 2 delen van elk 32 bytes, $h_1$ en $h_2$:
 
@@ -2405,7 +2405,7 @@ k_{\text{CHD}}^h = \text{parse256}(h_1) + k_{\text{PAR}} \mod n
 $$
 
 
-Vervolgens interpreteren we simpelweg het tweede deel van de $W-407}$ als zijnde de chain code voor het paar kindersleutels dat we zojuist hebben afgeleid:
+Vervolgens interpreteren we simpelweg het tweede deel van de $W-407}$ als zijnde de chain code voor het paar kindsleutels dat we zojuist hebben afgeleid:
 
 
 $$
@@ -2458,7 +2458,7 @@ h_1 = \text{hash}[:32] \quad, \quad h_2 = \text{hash}[32:]
 $$
 
 
-De openbare kindersleutel $K_{{CHD}}^n$ wordt dan als volgt berekend:
+De openbare kindsleutel $K_{{CHD}}^n$ wordt dan als volgt berekend:
 
 
 $$
@@ -2486,7 +2486,7 @@ Hier volgt een schematische voorstelling van de algemene afleiding:
 ![CYP201](assets/en/057.webp)
 
 
-### Correspondentie tussen openbare en privésleutels van kinderen
+### Relatie tussen openbare en privésleutels van kinderen
 
 
 Een vraag die kan opkomen is hoe een normale kind-privésleutel die is afgeleid van een ouder-privésleutel kan corresponderen met een normale kind-privésleutel die is afgeleid van de corresponderende ouder-privésleutel. Dit verband wordt precies gegarandeerd door de eigenschappen van elliptische curves. Om een normale kind-publieke sleutel af te leiden, wordt HMAC-SHA512 op dezelfde manier toegepast, maar de uitvoer wordt anders gebruikt:
@@ -2607,7 +2607,7 @@ Diepte 5 tenslotte vertegenwoordigt de laatste afleidingsstap in de wallet. Hoew
 ### Notatie van afleidingspaden
 
 
-Het afleidingspad wordt geschreven door elk niveau te scheiden met een schuine streep ($/$). Elke schuine streep geeft dus een afleiding aan van een ouder sleutelpaar ($k_{\text{PAR}}$, $K_{\text{PAR}}$, $C_{\text{PAR}}$) naar een kindersleutelpaar ($k_{\text{CHD}}$, $K_{\text{CHD}}$, $C_{\text{CHD}}$). Het nummer op elke diepte komt overeen met de index die is gebruikt om deze sleutel van de ouders af te leiden. De apostrof ($'$) die soms rechts van de index staat, geeft een verharde afleiding aan ($k_{\text{CHD}}^h$, $K_{\text{CHD}}^h$). Soms wordt deze apostrof vervangen door een $h$. Zonder apostrof of $h$ is het dus een normale afleiding ($k_{text{CHD}}^n$, $K_{\text{CHD}}^n$).
+Het afleidingspad wordt geschreven door elk niveau te scheiden met een schuine streep ($/$). Elke schuine streep geeft dus een afleiding aan van een ouder sleutelpaar ($k_{\text{PAR}}$, $K_{\text{PAR}}$, $C_{\text{PAR}}$) naar een kindsleutelpaar ($k_{\text{CHD}}$, $K_{\text{CHD}}$, $C_{\text{CHD}}$). Het nummer op elke diepte komt overeen met de index die is gebruikt om deze sleutel van de ouders af te leiden. De apostrof ($'$) die soms rechts van de index staat, geeft een verharde afleiding aan ($k_{\text{CHD}}^h$, $K_{\text{CHD}}^h$). Soms wordt deze apostrof vervangen door een $h$. Zonder apostrof of $h$ is het dus een normale afleiding ($k_{text{CHD}}^n$, $K_{\text{CHD}}^n$).
 
 Zoals we in de vorige hoofdstukken hebben gezien, beginnen geharde sleutelindexen vanaf $2^{31}$, of `0x80000000` in hexadecimaal. Daarom moet, wanneer een index wordt gevolgd door een apostrof in een afleidingspad, $2^{31}$ worden opgeteld bij het aangegeven getal om de werkelijke waarde te verkrijgen die wordt gebruikt in de HMAC-SHA512-functie. Als het afleidingspad bijvoorbeeld $/44'/$ specificeert, is de werkelijke index:
 
