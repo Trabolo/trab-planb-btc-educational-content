@@ -2101,7 +2101,7 @@ Voordat we verder gaan met de afleiding van de HD-wallet met de volgende element
 :::video id=bbca9cca-62a0-4b4e-93d5-3757dc100123:::
 
 
-Een uitgebreide sleutel is eenvoudigweg de aaneenschakeling van een sleutel (privaat of publiek) en zijn geassocieerde chain code. Deze chain code is essentieel voor het afleiden van kindsleutels, omdat het zonder deze sleutel onmogelijk is om kindsleutels af te leiden van een oudersleutel. Deze uitgebreide sleutels maken het dus mogelijk om alle benodigde informatie te verzamelen om kindsleutels af te leiden, waardoor accountbeheer binnen een HD-wallet vereenvoudigd wordt.
+Een uitgebreide sleutel is eenvoudigweg de aaneenschakeling van een sleutel (privaat of publiek) en zijn geassocieerde chain code. Deze chain code is essentieel voor het afleiden van kindsleutels, omdat het zonder deze sleutel onmogelijk is om kindsleutels af te leiden van een oudersleutel. Deze uitgebreide sleutels maken het dus mogelijk om alle benodigde informatie te verzamelen om kindsleutels af te leiden, waardoor accountbeheer binnen een HD-wallet wordt vereenvoudigd.
 
 
 ![CYP201](assets/en/051.webp)
@@ -2111,21 +2111,21 @@ De uitgebreide sleutel bestaat uit twee delen:
 
 
 - De payload, die de private of publieke sleutel en de bijbehorende chain code bevat;
-- De metadata zijn verschillende stukjes informatie om de interoperabiliteit tussen software te vergemakkelijken en het begrip voor de gebruiker te verbeteren.
+- De metadata, die verschillende stukjes informatie bevat om de interoperabiliteit tussen software te vergemakkelijken en het begrip voor de gebruiker te verbeteren.
 
 
-### Hoe uitgebreide toetsen werken
+### Hoe uitgebreide sleutels werken
 
 Als de uitgebreide sleutel een privésleutel bevat, wordt het een uitgebreide privésleutel genoemd. Deze is te herkennen aan de prefix die de identificatie `prv` bevat. Naast de privésleutel bevat de uitgebreide privésleutel ook de bijbehorende chain code. Met dit type uitgebreide sleutel is het mogelijk om alle soorten kind-privésleutels af te leiden. Door het optellen en verdubbelen van punten op elliptische curves is het dus ook mogelijk om child public keys af te leiden.
 
 
-Als de uitgebreide sleutel geen privésleutel bevat, maar een openbare sleutel, wordt het een uitgebreide openbare sleutel genoemd. Deze wordt herkend aan de prefix die de identificatie `pub` bevat. Naast de sleutel bevat het uiteraard ook de bijbehorende chain code. In tegenstelling tot de uitgebreide privésleutel, kunnen met de uitgebreide publieke sleutel alleen "normale" child public keys worden afgeleid (wat betekent dat er geen "hardened" child keys kunnen worden afgeleid). We zullen in het volgende hoofdstuk zien wat deze "normale" en "geharde" kwalificaties betekenen.
+Als de uitgebreide sleutel geen privésleutel bevat, maar een openbare sleutel, wordt het een uitgebreide openbare sleutel genoemd. Deze wordt herkend aan de prefix die de identificatie `pub` bevat. Naast de sleutel bevat het uiteraard ook de bijbehorende chain code. In tegenstelling tot de uitgebreide privésleutel, kunnen met de uitgebreide publieke sleutel alleen "normale" child public keys worden afgeleid (wat betekent dat er geen "hardened" kindsleutels kunnen worden afgeleid). We zullen in het volgende hoofdstuk zien wat deze "normale" en "geharde" kwalificaties betekenen.
 
 
 In ieder geval is het met de uitgebreide openbare sleutel niet mogelijk om privésleutels van kinderen af te leiden. Dus zelfs als iemand toegang heeft tot een `xpub`, kan hij de bijbehorende gelden niet uitgeven, omdat hij geen toegang heeft tot de bijbehorende privésleutels. Ze kunnen alleen publieke kindsleutels afleiden om de bijbehorende transacties te observeren.
 
 
-In het volgende gebruiken we de volgende notatie:
+Verderop gebruiken we de volgende notatie:
 
 
 - $K_{\text{PAR}}$: een openbare sleutel van een ouder;
@@ -2149,9 +2149,9 @@ Een uitgebreide sleutel is als volgt opgebouwd:
 
 - **Versie**: Versiecode om de aard van de sleutel te identificeren (`xprv`, `xpub`, `yprv`, `ypub`...). We zullen aan het eind van dit hoofdstuk zien waar de letters `x`, `y` en `z` mee corresponderen.
 - **Depth**: Hiërarchisch niveau in de HD-wallet ten opzichte van de hoofdsleutel (0 voor de hoofdsleutel).
-- **Parent Fingerprint**: De eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebruikt is om de sleutel in de payload af te leiden.
+- **Parent Fingerprint**: De eerste 4 bytes van de HASH160-hash van de openbare sleutel die gebruikt is om de sleutel in de payload af te leiden.
 - **Indexnummer**: Identificatiecode van het kind onder sibling-sleutels, dat wil zeggen, onder alle sleutels op hetzelfde afleidingsniveau die dezelfde oudersleutel hebben.
-- **chain code**: Een unieke code van 32 bytes voor het afleiden van kindsleutels.
+- **Chain Code**: Een unieke code van 32 bytes voor het afleiden van kindsleutels.
 - **Sleutel**: De privésleutel (voorafgegaan door 1 byte voor de grootte) of de openbare sleutel.
 - **Controlesom**: Een controlesom berekend met de functie HASH256 (dubbele SHA256) is ook toegevoegd, waarmee de integriteit van de uitgebreide sleutel kan worden geverifieerd tijdens de overdracht of opslag.
 
@@ -2161,13 +2161,13 @@ Het volledige formaat van een uitgebreide sleutel is daarom 78 bytes zonder de c
 
 | Element           | Description                                                                                                        | Size      |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------ | --------- |
-| Version           | Indicates whether the key is public (`xpub`, `ypub`) or private (`xprv`, `zprv`), as well as the version of the extended key | 4 bytes   |
-| Depth             | Level in the hierarchy relative to the master key                                                                  | 1 byte    |
-| Parent Fingerprint| The first 4 bytes of HASH160 of the parent public key                                                              | 4 bytes   |
-| Index Number      | Position of the key in the order of children                                                                       | 4 bytes   |
-| Chain Code        | Used to derive child keys                                                                                          | 32 bytes  |
-| Key               | The private key (with a 1-byte prefix) or the public key                                                          | 33 bytes  |
-| Checksum          | Checksum to verify integrity                                                                                       | 4 bytes   |
+| Version           | Geeft aan of de sleutel publiek (`xpub`, `ypub`) of privé (`xprv`, `zprv`) is, evenals de versie van de uitgebreide sleutel. | 4 bytes   |
+| Depth             | Niveau in de hiërarchie ten opzichte van de mastersleutel                                                                  | 1 byte    |
+| Parent Fingerprint| De eerste 4 bytes van de HASH160 van de publieke oudersleutel                                                              | 4 bytes   |
+| Index Number      | Positie van de sleutel in de volgorde van de kinderen                                                                       | 4 bytes   |
+| Chain Code        | Gebruikt om kindsleutels af te leiden                                                                                          | 32 bytes  |
+| Key               | De privésleutel (met een 1-byte prefix) of de publieke sleutel                                                          | 33 bytes  |
+| Checksum          | Controlesom om de integriteit te verifiëren                                                                                       | 4 bytes   |
 
 Als er één byte wordt toegevoegd aan alleen de privésleutel, dan is dat omdat de gecomprimeerde openbare sleutel één byte langer is dan de privésleutel. Deze extra byte, toegevoegd aan het begin van de privésleutel als `0x00`, maakt hun grootte gelijk en zorgt ervoor dat de payload van de uitgebreide sleutel even lang is, of het nu een publieke of een privésleutel is.
 
@@ -2179,26 +2179,26 @@ Zoals we zojuist hebben gezien, bevatten uitgebreide sleutels een voorvoegsel da
 Hier volgt een overzicht van de gebruikte voorvoegsels en hun betekenis:
 
 
-| Base 58 Prefix  | Base 16 Prefix  | Network | Purpose             | Associated Scripts  | Derivation            | Key Type     |
+| Base 58 Prefix  | Base 16 Prefix  | Netwerk | Doel             | Associated Scripts  | Afleiding            | Sleutel Type     |
 | --------------- | --------------- | ------- | ------------------- | ------------------- | --------------------- | ------------ |
-| `xpub`          | `0488b21e`      | Mainnet | Legacy and SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/0'`, `m/86'/0'` | public       |
-| `xprv`          | `0488ade4`      | Mainnet | Legacy and SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/0'`, `m/86'/0'` | private      |
-| `tpub`          | `043587cf`      | Testnet | Legacy and SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/1'`, `m/86'/1'` | public       |
-| `tprv`          | `04358394`      | Testnet | Legacy and SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/1'`, `m/86'/1'` | private      |
-| `ypub`          | `049d7cb2`      | Mainnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/0'`             | public       |
-| `yprv`          | `049d7878`      | Mainnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/0'`             | private      |
-| `upub`          | `049d7cb2`      | Testnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/1'`             | public       |
-| `uprv`          | `044a4e28`      | Testnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/1'`             | private      |
-| `zpub`          | `04b24746`      | Mainnet | SegWit V0           | P2WPKH              | `m/84'/0'`             | public       |
-| `zprv`          | `04b2430c`      | Mainnet | SegWit V0           | P2WPKH              | `m/84'/0'`             | private      |
-| `vpub`          | `045f1cf6`      | Testnet | SegWit V0           | P2WPKH              | `m/84'/1'`             | public       |
-| `vprv`          | `045f18bc`      | Testnet | SegWit V0           | P2WPKH              | `m/84'/1'`             | private      |
+| `xpub`          | `0488b21e`      | Mainnet | Legacy en SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/0'`, `m/86'/0'` | publiek       |
+| `xprv`          | `0488ade4`      | Mainnet | Legacy en SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/0'`, `m/86'/0'` | privaat      |
+| `tpub`          | `043587cf`      | Testnet | Legacy en SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/1'`, `m/86'/1'` | publiek       |
+| `tprv`          | `04358394`      | Testnet | Legacy en SegWit V1 | P2PK / P2PKH / P2TR | `m/44'/1'`, `m/86'/1'` | privaat      |
+| `ypub`          | `049d7cb2`      | Mainnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/0'`             | publiek       |
+| `yprv`          | `049d7878`      | Mainnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/0'`             | privaat      |
+| `upub`          | `049d7cb2`      | Testnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/1'`             | publiek       |
+| `uprv`          | `044a4e28`      | Testnet | Nested SegWit       | P2WPKH in P2SH      | `m/49'/1'`             | privaat      |
+| `zpub`          | `04b24746`      | Mainnet | SegWit V0           | P2WPKH              | `m/84'/0'`             | publiek       |
+| `zprv`          | `04b2430c`      | Mainnet | SegWit V0           | P2WPKH              | `m/84'/0'`             | privaat      |
+| `vpub`          | `045f1cf6`      | Testnet | SegWit V0           | P2WPKH              | `m/84'/1'`             | publiek       |
+| `vprv`          | `045f18bc`      | Testnet | SegWit V0           | P2WPKH              | `m/84'/1'`             | privaat      |
 
 
-### Details van een Extended Key's Elements
+### Element details van een uitgebreide sleutel
 
 
-Om de interne structuur van een uitgebreide sleutel beter te begrijpen, nemen we er een als voorbeeld en breken we hem af. Hier is een uitgebreide sleutel:
+Om de interne structuur van een uitgebreide sleutel beter te begrijpen, nemen we er een als voorbeeld en ontleden we hem. Hier is een uitgebreide sleutel:
 
 
 
@@ -2211,7 +2211,7 @@ xpub6CTNzMUkzpurBWaT4HQoYzLP4uBbGJuWY358Rj7rauiw4rMHCyq3Rfy9w4kyJXJzeFfyrKLUar2r
 
 
 
-- In hexadecimaal:
+- In **hexadecimaal**:
 
 
 ```text
@@ -2219,7 +2219,7 @@ xpub6CTNzMUkzpurBWaT4HQoYzLP4uBbGJuWY358Rj7rauiw4rMHCyq3Rfy9w4kyJXJzeFfyrKLUar2r
 ```
 
 
-Deze uitgebreide sleutel valt uiteen in verschillende Elements:
+Deze uitgebreide sleutel valt uiteen in verschillende elementen:
 
 
 1.**Versie**: `0488B21E`
@@ -2234,7 +2234,7 @@ De eerste 4 bytes zijn de versie. Hier komt het overeen met een uitgebreide publ
 Dit veld geeft het hiërarchische niveau van de sleutel binnen de HD-wallet aan. In dit geval betekent een diepte van `03` dat deze sleutel drie afleidingsniveaus lager is dan de hoofdsleutel.
 
 
-3.**Vaderlijke vingerafdruk**: `6D5601AD`
+3.**Ouderlijke vingerafdruk (parent fingerprint)**: `6D5601AD`
 
 
 Dit zijn de eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebruikt is om deze `xpub` af te leiden.
@@ -2246,7 +2246,7 @@ Dit zijn de eerste 4 bytes van de HASH160 hash van de openbare sleutel die gebru
 Deze index geeft de positie van de sleutel aan tussen de kinderen van zijn ouder. Het `0x80` voorvoegsel geeft aan dat de sleutel is afgeleid op een verharde manier en aangezien de rest is gevuld met nullen, geeft het aan dat deze sleutel de eerste is onder zijn mogelijke broers en zussen.
 
 
-5.**chain code**: `C605DF9FBD77FD6965BD02B77831EC5C78646AD3ACA14DC3984186F72633A893`
+5.**Chain Code**: `C605DF9FBD77FD6965BD02B77831EC5C78646AD3ACA14DC3984186F72633A893`
 
 
 6.**Publieke sleutel**: `03772CCB99F4EF346078D167065404EED8A58787DED31BFA479244824DF5065805`
@@ -2255,10 +2255,10 @@ Deze index geeft de positie van de sleutel aan tussen de kinderen van zijn ouder
 7.**Checksum**: `1F067C3A`
 
 
-De controlesom komt overeen met de eerste 4 bytes van de hash (dubbele SHA256) van al het andere.
+De controlesom komt overeen met de eerste 4 bytes van de hash (dubbele SHA256) van al de rest.
 
 
-In dit hoofdstuk ontdekten we dat er twee verschillende soorten kind sleutels zijn. We hebben ook geleerd dat voor het afleiden van deze kindsleutels een sleutel (privé of publiek) en zijn chain code nodig zijn. In het volgende hoofdstuk zullen we in detail ingaan op de aard van deze verschillende typen sleutels en hoe we ze kunnen afleiden van hun oudersleutel en chain code.
+In dit hoofdstuk ontdekten we dat er twee verschillende soorten kindsleutels zijn. We hebben ook geleerd dat voor het afleiden van deze kindsleutels een sleutel (privé of publiek) en zijn chain code nodig zijn. In het volgende hoofdstuk zullen we in detail ingaan op de aard van deze verschillende typen sleutels en hoe we ze kunnen afleiden van hun oudersleutel en chain code.
 
 
 
@@ -2269,10 +2269,10 @@ In dit hoofdstuk ontdekten we dat er twee verschillende soorten kind sleutels zi
 :::video id=80387fa0-bee8-4aac-9eac-93e90e55a1cb:::
 
 
-De afleiding van kind-sleutelparen in Bitcoin HD-wallets is gebaseerd op een hiërarchische structuur die het mogelijk maakt een groot aantal sleutels te genereren, terwijl deze paren in verschillende groepen worden georganiseerd via takken. Elk kindpaar dat is afgeleid van een ouderpaar kan direct worden gebruikt in een *scriptPubKey* om bitcoins te vergrendelen, of als een startpunt voor generate meer kind sleutels, enzovoort, om een boom van sleutels te creëren.
+De afleiding van kindsleutelparen in Bitcoin HD-wallets is gebaseerd op een hiërarchische structuur die het mogelijk maakt een groot aantal sleutels te genereren, terwijl deze paren in verschillende groepen worden georganiseerd via takken. Elk kindpaar dat is afgeleid van een ouderpaar kan direct worden gebruikt in een *scriptPubKey* om bitcoins te vergrendelen, of als een startpunt om meer kindsleutels te genereren, enzovoort, om een boom van sleutels te creëren.
 
 
-Al deze afleidingen beginnen met de hoofdsleutel en de hoofd chain code, die de eerste ouders zijn op diepteniveau 0. Zij zijn, in zekere zin, de Adam en Eva van jouw wallet sleutels, gemeenschappelijke voorouders van alle afgeleide sleutels. Zij zijn in zekere zin de Adam en Eva van jouw wallet sleutels, gemeenschappelijke voorouders van alle afgeleide sleutels.
+Al deze afleidingen beginnen met de hoofdsleutel en de master chain code, die de eerste ouders zijn op diepteniveau 0. Zij zijn, in zekere zin, de Adam en Eva van jouw walletsleutels, gemeenschappelijke voorouders van alle afgeleide sleutels. 
 
 
 ![CYP201](assets/en/053.webp)
@@ -2281,10 +2281,10 @@ Al deze afleidingen beginnen met de hoofdsleutel en de hoofd chain code, die de 
 Laten we eens kijken hoe deze deterministische afleiding werkt.
 
 
-### De verschillende soorten afleidingen van kindersleutels
+### De verschillende soorten afleidingen van kindsleutels
 
 
-Zoals we in het vorige hoofdstuk al kort aanstipten, zijn kindersleutels onderverdeeld in twee hoofdtypen.
+Zoals we in het vorige hoofdstuk al kort aanstipten, zijn kindsleutels onderverdeeld in twee hoofdtypen.
 
 
 - **Normale kindsleutels** ($k_{\text{CHD}}^n, K_{\text{CHD}}^n$): Deze worden afgeleid van de uitgebreide openbare sleutel ($K_{\text{PAR}}$), of de uitgebreide privésleutel ($k_{\text{PAR}}$), door eerst de openbare sleutel af te leiden.
@@ -2681,7 +2681,7 @@ Het belangrijkste voordeel van descriptoren ligt in hun vermogen om alle essenti
 ### Constructie van een descriptor
 
 
-Een descriptor bestaat uit verschillende Elements:
+Een descriptor bestaat uit verschillende elementen:
 
 
 - Script functies zoals `pk` (*Pay-to-PubKey*), `pkh` (*Pay-to-PubKey-Hash*), `wpkh` (*Pay-to-Witness-PubKey-Hash*), `sh` (*Pay-to-Script-Hash*), `wsh` (*Pay-to-Witness-Script-Hash*), `tr` (*Pay-to-Taproot*), `multi` (*Multisignature*) en `sortedmulti` (*Multisignature met gesorteerde sleutels*);
@@ -3269,7 +3269,7 @@ Zodra de Taproot publieke sleutel $Q$ verkregen is, kunnen we generate de overee
 Om te beginnen extraheren we de $x$ coördinaat van het punt $Q$ om een gecomprimeerde publieke sleutel te verkrijgen. Op deze payload wordt een checksum berekend met BCH codes, net als bij SegWit v0 adressen. Het programma dat gebruikt wordt voor Taproot adressen verschilt echter enigszins. Na de introductie van het _bech32_ formaat met SegWit werd namelijk een bug ontdekt: wanneer het laatste teken van een adres een `p` is, maakt het invoegen of verwijderen van `q`s vlak voor deze `p` de controlesom niet ongeldig. Hoewel deze bug geen gevolgen heeft voor SegWit v0 (dankzij een beperking in grootte), zou het in de toekomst een probleem kunnen vormen. Deze bug is daarom gecorrigeerd voor Taproot adressen, en het nieuwe gecorrigeerde formaat heet "_bech32m_".
 
 
-De Taproot adres wordt gegenereerd door de $x$ coördinaat van $Q$ te coderen in het _bech32m_ formaat, met de volgende Elements:
+De Taproot adres wordt gegenereerd door de $x$ coördinaat van $Q$ te coderen in het _bech32m_ formaat, met de volgende elementen:
 
 
 
